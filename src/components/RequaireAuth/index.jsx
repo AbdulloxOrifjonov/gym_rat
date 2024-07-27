@@ -1,9 +1,7 @@
-/** @format */
-
 import React from "react";
 
 function RequaireAuth({ allowedRole }) {
-  return <div>index</div>;
+  return <div>Hello world</div>;
 }
 
 export default RequaireAuth;
