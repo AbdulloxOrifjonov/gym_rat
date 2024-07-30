@@ -14,10 +14,13 @@ import {
 
 function BasicLayout() {
   return (
-    <div>
-      <div className="h-screen bg-slate-400">
-        <Sidebar className="bg-slate-400" aria-label="Sidebar with multi-level dropdown example">
-          <Sidebar.Items>
+    <div className="flex items-center">
+      <div className="h-screen bg-green-900">
+        <Sidebar
+          className="h-screen bg-green-900"
+          aria-label="Sidebar with multi-level dropdown example"
+        >
+          <Sidebar.Items className="bg-green-900">
             <Sidebar.ItemGroup>
               <Sidebar.Item href="#" icon={HiChartPie}>
                 Dashboard
@@ -47,7 +50,7 @@ function BasicLayout() {
           </Sidebar.Items>
         </Sidebar>
       </div>
-      <div>
+      <div className="w-screen">
         <Outlet />
       </div>
     </div>
