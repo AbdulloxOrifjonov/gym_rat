@@ -5,7 +5,7 @@ import React from "react";
 function AdminDashboard() {
   return (
     <div>
-      <h1>AdminDashboard</h1>
+      <h1>Admin Dashboard</h1>
     </div>
   );
 }
