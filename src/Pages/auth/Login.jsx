@@ -1,7 +1,6 @@
-/** @format */
-
 import React from "react";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 function Login() {
   return (
@@ -30,7 +29,9 @@ function Login() {
             <Checkbox id="remember" />
             <Label htmlFor="remember">Remember me</Label>
           </div>
-          <Button type="submit">Submit</Button>
+          <Link to={"/gym"}>
+            <Button type="submit">Submit</Button>
+          </Link>
         </form>
       </div>
     </div>

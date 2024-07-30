@@ -10,6 +10,8 @@ import RequaireAuth from "./components/RequaireAuth";
 import MemberDashboard from "./Pages/member/MemberDashboard";
 import Dashboard from "./Pages/common/Dashboard";
 import BasicLayout from "./MainLayout/BasicLayout";
+import CheckIn from "./Pages/common/CheckIn";
+import Members from "./Pages/common/Members";
 
 function App() {
   return (
@@ -18,7 +20,7 @@ function App() {
         <Route path="/" element={<Login />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/member/login" element={<MemberLogin />} />
-        <Route path="/gym" element={<BasicLayout />}>
+        <Route element={<BasicLayout />}>
           <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>
             <Route path="dashboard" element={<AdminDashboard />} />
           </Route>
@@ -27,9 +29,13 @@ function App() {
           </Route>
           <Route path="owner" element={<RequaireAuth allowedRole={"owner"} />}>
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="checkIn" element={<CheckIn />} />
+            <Route path="members" element={<Members />} />
           </Route>
           <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="checkIn" element={<CheckIn />} />
+            <Route path="members" element={<Members />} />
           </Route>
         </Route>
       </Routes>
