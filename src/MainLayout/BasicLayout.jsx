@@ -1,5 +1,7 @@
+/** @format */
+
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Sidebar } from "flowbite-react";
 import { HiChartPie, HiInbox, HiShoppingBag } from "react-icons/hi";
 
@@ -10,39 +12,38 @@ function BasicLayout() {
         <Sidebar className="h-screen " aria-label="Sidebar with multi-level dropdown example">
           <Sidebar.Items>
             <Sidebar.ItemGroup>
-              <Sidebar.Item href="#" icon={HiChartPie}>
-                Dashboard
-              </Sidebar.Item>
+              <Sidebar.Item icon={HiChartPie}>Dashboard</Sidebar.Item>
               <Sidebar.Collapse icon={HiShoppingBag} label="Members">
-                <Sidebar.Item href="#">Check-in</Sidebar.Item>
-                <Sidebar.Item href="#">Attendance</Sidebar.Item>
-                <Sidebar.Item href="#">Memberships</Sidebar.Item>
-                <Sidebar.Item href="#">Rosters</Sidebar.Item>
-                <Sidebar.Item href="#">Documents</Sidebar.Item>
-                <Sidebar.Item href="#">Content</Sidebar.Item>
-                <Sidebar.Item href="#">Growth</Sidebar.Item>
-                <Sidebar.Item href="#">Settings</Sidebar.Item>
+                <Link to="/owner/members">
+                  <Sidebar.Item>Members</Sidebar.Item>
+                </Link>
+                <Sidebar.Item>Check-in</Sidebar.Item>
+                <Sidebar.Item>Attendance</Sidebar.Item>
+                <Sidebar.Item>Memberships</Sidebar.Item>
+                <Sidebar.Item>Rosters</Sidebar.Item>
+                <Sidebar.Item>Documents</Sidebar.Item>
+                <Sidebar.Item>Content</Sidebar.Item>
+                <Sidebar.Item>Growth</Sidebar.Item>
+                <Sidebar.Item>Settings</Sidebar.Item>
               </Sidebar.Collapse>
-              <Sidebar.Item href="#" icon={HiInbox}>
-                Inbox
-              </Sidebar.Item>
-              {/* <Sidebar.Item href="#" icon={HiUser}>
+              <Sidebar.Item icon={HiInbox}>Inbox</Sidebar.Item>
+              {/* <Sidebar.Item  icon={HiUser}>
                 Users
               </Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiShoppingBag}>
+              <Sidebar.Item  icon={HiShoppingBag}>
                 Products
               </Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiArrowSmRight}>
+              <Sidebar.Item  icon={HiArrowSmRight}>
                 Sign In
               </Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiTable}>
+              <Sidebar.Item  icon={HiTable}>
                 Sign Up
               </Sidebar.Item> */}
             </Sidebar.ItemGroup>
           </Sidebar.Items>
         </Sidebar>
       </div>
-      <div className="w-screen">
+      <div className="w-full p-5">
         <Outlet />
       </div>
     </div>
