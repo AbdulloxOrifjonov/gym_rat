@@ -11,8 +11,8 @@ import MemberDashboard from "./Pages/member/MemberDashboard";
 import Dashboard from "./Pages/common/Dashboard";
 import BasicLayout from "./MainLayout/BasicLayout";
 import CheckIn from "./Pages/common/CheckIn";
-import Members from "./Pages/common/Members";
-import AddMember from "./Pages/common/AddMember";
+import Members from "./Pages/member/Members";
+import AddMember from "./Pages/member/AddMember";
 
 function App() {
   return (
