@@ -17,7 +17,12 @@ function BasicLayout() {
                 <Link to="/owner/members">
                   <Sidebar.Item>Members</Sidebar.Item>
                 </Link>
-                <Sidebar.Item>Check-in</Sidebar.Item>
+                <Link to="/owner/checkIn">
+                  <Sidebar.Item>Check-in</Sidebar.Item>
+                </Link>
+                <Link to="/owner/add/member">
+                  <Sidebar.Item>Add Member</Sidebar.Item>
+                </Link>
                 <Sidebar.Item>Attendance</Sidebar.Item>
                 <Sidebar.Item>Memberships</Sidebar.Item>
                 <Sidebar.Item>Rosters</Sidebar.Item>
@@ -27,18 +32,6 @@ function BasicLayout() {
                 <Sidebar.Item>Settings</Sidebar.Item>
               </Sidebar.Collapse>
               <Sidebar.Item icon={HiInbox}>Inbox</Sidebar.Item>
-              {/* <Sidebar.Item  icon={HiUser}>
-                Users
-              </Sidebar.Item>
-              <Sidebar.Item  icon={HiShoppingBag}>
-                Products
-              </Sidebar.Item>
-              <Sidebar.Item  icon={HiArrowSmRight}>
-                Sign In
-              </Sidebar.Item>
-              <Sidebar.Item  icon={HiTable}>
-                Sign Up
-              </Sidebar.Item> */}
             </Sidebar.ItemGroup>
           </Sidebar.Items>
         </Sidebar>
