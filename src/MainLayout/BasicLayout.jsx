@@ -7,9 +7,9 @@ import { HiChartPie, HiInbox, HiShoppingBag } from "react-icons/hi";
 
 function BasicLayout() {
   return (
-    <div className="flex items-start">
+    <div className="flex items-start justify-between">
       <div className="h-screen">
-        <Sidebar className="h-screen " aria-label="Sidebar with multi-level dropdown example">
+        <Sidebar className="h-screen" aria-label="Sidebar with multi-level dropdown example">
           <Sidebar.Items>
             <Sidebar.ItemGroup>
               <Sidebar.Item icon={HiChartPie}>Dashboard</Sidebar.Item>
