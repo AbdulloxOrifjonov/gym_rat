@@ -1,53 +1,49 @@
 /** @format */
 
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import { Sidebar } from "flowbite-react";
-import {
-  HiArrowSmRight,
-  HiChartPie,
-  HiInbox,
-  HiShoppingBag,
-  HiTable,
-  HiUser,
-} from "react-icons/hi";
+import { HiChartPie, HiInbox, HiShoppingBag } from "react-icons/hi";
 
 function BasicLayout() {
   return (
-    <div>
-      <div className="h-screen bg-slate-400">
-        <Sidebar className="bg-slate-400" aria-label="Sidebar with multi-level dropdown example">
+    <div className="flex items-start">
+      <div className="h-screen">
+        <Sidebar className="h-screen " aria-label="Sidebar with multi-level dropdown example">
           <Sidebar.Items>
             <Sidebar.ItemGroup>
-              <Sidebar.Item href="#" icon={HiChartPie}>
-                Dashboard
-              </Sidebar.Item>
-              <Sidebar.Collapse icon={HiShoppingBag} label="E-commerce">
-                <Sidebar.Item href="#">Products</Sidebar.Item>
-                <Sidebar.Item href="#">Sales</Sidebar.Item>
-                <Sidebar.Item href="#">Refunds</Sidebar.Item>
-                <Sidebar.Item href="#">Shipping</Sidebar.Item>
+              <Sidebar.Item icon={HiChartPie}>Dashboard</Sidebar.Item>
+              <Sidebar.Collapse icon={HiShoppingBag} label="Members">
+                <Link to="/owner/members">
+                  <Sidebar.Item>Members</Sidebar.Item>
+                </Link>
+                <Sidebar.Item>Check-in</Sidebar.Item>
+                <Sidebar.Item>Attendance</Sidebar.Item>
+                <Sidebar.Item>Memberships</Sidebar.Item>
+                <Sidebar.Item>Rosters</Sidebar.Item>
+                <Sidebar.Item>Documents</Sidebar.Item>
+                <Sidebar.Item>Content</Sidebar.Item>
+                <Sidebar.Item>Growth</Sidebar.Item>
+                <Sidebar.Item>Settings</Sidebar.Item>
               </Sidebar.Collapse>
-              <Sidebar.Item href="#" icon={HiInbox}>
-                Inbox
-              </Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiUser}>
+              <Sidebar.Item icon={HiInbox}>Inbox</Sidebar.Item>
+              {/* <Sidebar.Item  icon={HiUser}>
                 Users
               </Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiShoppingBag}>
+              <Sidebar.Item  icon={HiShoppingBag}>
                 Products
               </Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiArrowSmRight}>
+              <Sidebar.Item  icon={HiArrowSmRight}>
                 Sign In
               </Sidebar.Item>
-              <Sidebar.Item href="#" icon={HiTable}>
+              <Sidebar.Item  icon={HiTable}>
                 Sign Up
-              </Sidebar.Item>
+              </Sidebar.Item> */}
             </Sidebar.ItemGroup>
           </Sidebar.Items>
         </Sidebar>
       </div>
-      <div>
+      <div className="w-full p-5">
         <Outlet />
       </div>
     </div>
