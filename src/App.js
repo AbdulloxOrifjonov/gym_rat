@@ -15,7 +15,6 @@ import AddMember from "./Pages/common/AddMember";
 function App() {
   return (
     <div className="App">
-      <h1>heLLO world</h1>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/admin/login" element={<AdminLogin />} />
