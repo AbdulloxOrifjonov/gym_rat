@@ -4,9 +4,14 @@ import React, { useState } from "react";
 
 function CheckIn() {
   const [inputValue, setInputValue] = useState("");
+  const [table, setTable] = useState(0);
 
   const handleClick = (number) => {
     setInputValue((prevValue) => prevValue + number);
+  };
+
+  const handleClear = () => {
+    setInputValue("");
   };
 
   return (
@@ -26,44 +31,80 @@ function CheckIn() {
           </button>
         </div>
 
-        <div className="bg-teal-800 p-6  rounded-lg shadow-md flex flex-col items-center justify-center">
+        <div className="bg-teal-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center">
           <h1>
-            <span className="text-white cursor-pointer hover:text-teal-300 hover:underline">
+            <button
+              onClick={() => setTable(0)}
+              className="text-white cursor-pointer hover:text-teal-300 hover:underline"
+            >
               Enter Code
-            </span>{" "}
-            <span className="text-white hover:text-teal-300 hover:underline ml-2">Name Search</span>
+            </button>{" "}
+            <button
+              onClick={() => setTable(1)}
+              className="text-white hover:text-teal-300 hover:underline ml-2"
+            >
+              Name Search
+            </button>
           </h1>
           <h2 className="text-2xl mt-2 font-semibold text-white mb-4">Check-In</h2>
-          <input
-            type="text"
-            value={inputValue}
-            readOnly
-            placeholder="Enter check-in code..."
-            className="text-lg p-2 w-72 text-center border border-gray-300 rounded"
-          />
-          <div className="grid grid-cols-3 gap-2 mb-4 mt-4">
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9, "x", 0, "✓"]?.map((number, index) => (
-              <div key={index}>
-                <button
-                  key={index}
-                  onClick={() => handleClick(number)}
-                  className="bg-teal-500 px-7 py-5 text-white rounded-full text-lg"
-                >
-                  {number}
-                </button>
-              </div>
-            ))}
-          </div>
-          <button className="bg-green-500 text-white px-4 py-2 rounded">Check In</button>
-        </div>
 
+          {table === 0 ? (
+            <div>
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Enter check-in code..."
+                className="text-lg p-2 w-72 text-center border border-gray-300 rounded"
+              />
+              <div className="grid grid-cols-3 gap-2 mb-4 mt-4">
+                {Array.from({ length: 9 }, (_, i) => (
+                  <button
+                    key={i + 1}
+                    onClick={() => handleClick((i + 1).toString())}
+                    className="bg-teal-500 py-5 text-white rounded-full text-lg"
+                  >
+                    {i + 1}
+                  </button>
+                ))}
+                <button
+                  onClick={handleClear}
+                  className="bg-red-500 py-5 text-white rounded-full text-lg"
+                >
+                  X
+                </button>
+                <button
+                  onClick={() => handleClick("0")}
+                  className="bg-teal-500 py-5 text-white rounded-full text-lg"
+                >
+                  0
+                </button>
+                <button className="bg-gray-500 py-5 text-white rounded-full text-lg">✓</button>
+                <div className="text-center justify-center items-center col-span-3">
+                  <button className="bg-green-500 text-white px-4 py-2 rounded">Check In</button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <input
+                type="text"
+                placeholder="Enter Name Search"
+                className="text-lg p-2 w-72 text-center border border-gray-300 rounded"
+              />
+              <button className="bg-green-500 text-white px-4 py-2 rounded">Check In</button>
+            </div>
+          )}
+        </div>
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Recent Check-ins</h2>
           <p className="text-gray-500">No check-ins yet today</p>
+
           <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded">All Check-ins</button>
         </div>
       </div>
     </div>
   );
 }
+
 export default CheckIn;
