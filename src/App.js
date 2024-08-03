@@ -18,6 +18,7 @@ import Staff from "./Pages/owner/Staff";
 function App() {
   return (
     <div className="App">
+      <h1>Hello world</h1>
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/admin/login" element={<AdminLogin />} />
