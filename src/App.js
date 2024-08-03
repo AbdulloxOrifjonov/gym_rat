@@ -1,3 +1,5 @@
+/** @format */
+
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Login from "./Pages/auth/Login";
@@ -11,6 +13,7 @@ import BasicLayout from "./MainLayout/BasicLayout";
 import CheckIn from "./Pages/common/CheckIn";
 import Members from "./Pages/common/Members";
 import AddMember from "./Pages/common/AddMember";
+import Staff from "./Pages/owner/Staff";
 
 function App() {
   return (
@@ -31,6 +34,7 @@ function App() {
             <Route path="checkIn" element={<CheckIn />} />
             <Route path="members" element={<Members />} />
             <Route path="add/member" element={<AddMember />} />
+            <Route path="staff" element={<Staff />} />
           </Route>
           <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
             <Route path="dashboard" element={<Dashboard />} />
