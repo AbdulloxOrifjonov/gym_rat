@@ -13,10 +13,7 @@ function Saidbar({ allowedRole }) {
   console.log("user", user);
   return (
     <>
-      <Sidebar
-        className="h-screen"
-        aria-label="Sidebar with multi-level dropdown example"
-      >
+      <Sidebar className="h-screen" aria-label="Sidebar with multi-level dropdown example">
         <Sidebar.Items>
           {user === "owner" ? (
             <Sidebar.ItemGroup>
@@ -52,11 +49,15 @@ function Saidbar({ allowedRole }) {
                 </Sidebar.Collapse>
 
                 <Sidebar.Collapse icon={HiUserCircle} label="Memberships">
-                  <Sidebar.Item>Add Membership</Sidebar.Item>
+                  <Link to={"add/membership"}>
+                    <Sidebar.Item>Add Membership</Sidebar.Item>
+                  </Link>
                   <Sidebar.Item>Memberships List</Sidebar.Item>
                 </Sidebar.Collapse>
 
-                <Sidebar.Collapse icon={HiUserCircle} label="Memberships"></Sidebar.Collapse>
+                {/* <Sidebar.Collapse icon={HiUserCircle} label="Memberships">
+                  <Sidebar.Item></Sidebar.Item>
+                </Sidebar.Collapse> */}
 
                 {/* <Link to="/owner/members">
                   <Sidebar.Item>Members</Sidebar.Item>
