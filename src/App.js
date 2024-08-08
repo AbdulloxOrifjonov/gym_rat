@@ -15,12 +15,14 @@ import Members from "./Pages/common/Members";
 import AddMember from "./Pages/common/AddMember";
 import Staff from "./Pages/owner/Staff";
 import Market from "./Pages/common/Bar";
+import Register from "./Pages/auth/Register";
 
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/member/login" element={<MemberLogin />} />
         <Route element={<BasicLayout />}>
