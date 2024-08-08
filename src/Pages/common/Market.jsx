@@ -1,14 +1,11 @@
 import React from "react";
 import ProductCard from "../../components/Card";
-import IconCart from "../../icons/IconCart";
+import CartQuantity from "../../components/Cart/CartQuantity";
 
 function Market() {
   return (
-    <div>
-      <div className="relative">
-        <IconCart/>
-        {/* <p className="absolute top-[-15px] left-0">0</p> */}
-      </div>
+    <div className="flex flex-col">
+      <CartQuantity/>
       <h1>Market</h1>
       <ProductCard />
     </div>
