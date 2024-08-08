@@ -18,7 +18,7 @@ import Market from "./Pages/common/Market";
 import Cart from "./Pages/common/Cart";
 import AddMembership from "./Pages/common/AddMembership";
 import Register from "./Pages/auth/Register";
-
+import CardPage from "./Pages/common/CardPage";
 
 function App() {
   return (
@@ -48,6 +48,7 @@ function App() {
             <Route path="market" element={<Market />} />
             <Route path="cart" element={<Cart />} />
             <Route path="add/membership" element={<AddMembership />} />
+            <Route path="product/:id" element={<CardPage />} />
           </Route>
         </Route>
         <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>

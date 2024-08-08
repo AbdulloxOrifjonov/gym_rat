@@ -1,6 +1,9 @@
+/** @format */
+
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import CardPage from "../Pages/common/CardPage";
 
 export default function ProductCard() {
   // eslint-disable-next-line
@@ -65,8 +68,9 @@ export default function ProductCard() {
 
   return (
     <div className="flex gap-2 flex-wrap justify-center">
+      {/* <CardPage product={products} />; */}
       {products.map((product) => (
-        <Link key={product.id} to={`/product/${product.id}`}>
+        <Link key={product.id} to={`/owner/product/${product.id}`}>
           <div className="card h-[250px] w-60 p-3 rounded-lg flex flex-col justify-between">
             <img
               className="h-[100px] w-fit bg-center self-center"
@@ -83,9 +87,7 @@ export default function ProductCard() {
                 handleAddToCart(product);
               }}
             >
-              {checkedProducts.some((p) => p.id === product.id)
-                ? "Go to cart"
-                : "Add to cart"}
+              {checkedProducts.some((p) => p.id === product.id) ? "Go to cart" : "Add to cart"}
             </Button>
           </div>
         </Link>
