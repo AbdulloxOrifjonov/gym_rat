@@ -19,6 +19,7 @@ import Cart from "./Pages/common/Cart";
 import AddMembership from "./Pages/common/AddMembership";
 import Register from "./Pages/auth/Register";
 
+
 function App() {
   return (
     <div className="App">
