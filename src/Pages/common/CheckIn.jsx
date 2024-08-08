@@ -11,7 +11,7 @@ function CheckIn() {
   };
 
   const handleClear = () => {
-    setInputValue("");
+    setInputValue(inputValue.substring(0, inputValue.length - 1));
   };
 
   return (
@@ -30,7 +30,6 @@ function CheckIn() {
             Add Unscheduled Session
           </button>
         </div>
-
         <div className="bg-teal-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center">
           <h1>
             <button
@@ -46,7 +45,9 @@ function CheckIn() {
               Name Search
             </button>
           </h1>
-          <h2 className="text-2xl mt-2 font-semibold text-white mb-4">Check-In</h2>
+          <h2 className="text-2xl mt-2 font-semibold text-white mb-4">
+            Check-In
+          </h2>
 
           {table === 0 ? (
             <div>
@@ -79,9 +80,13 @@ function CheckIn() {
                 >
                   0
                 </button>
-                <button className="bg-gray-500 py-5 text-white rounded-full text-lg">✓</button>
+                <button className="bg-gray-500 py-5 text-white rounded-full text-lg">
+                  ✓
+                </button>
                 <div className="text-center justify-center items-center col-span-3">
-                  <button className="bg-green-500 text-white px-4 py-2 rounded">Check In</button>
+                  <button className="bg-green-500 text-white px-4 py-2 rounded">
+                    Check In
+                  </button>
                 </div>
               </div>
             </div>
@@ -92,15 +97,18 @@ function CheckIn() {
                 placeholder="Enter Name Search"
                 className="text-lg p-2 w-72 text-center border border-gray-300 rounded"
               />
-              <button className="bg-green-500 text-white px-4 py-2 rounded">Check In</button>
+              <button className="bg-green-500 text-white px-4 py-2 rounded">
+                Check In
+              </button>
             </div>
           )}
         </div>
         <div className="bg-white p-4 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Recent Check-ins</h2>
           <p className="text-gray-500">No check-ins yet today</p>
-
-          <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded">All Check-ins</button>
+          <button className="mt-4 bg-green-500 text-white px-4 py-2 rounded">
+            All Check-install
+          </button>
         </div>
       </div>
     </div>
