@@ -14,8 +14,9 @@ import CheckIn from "./Pages/common/CheckIn";
 import Members from "./Pages/common/Members";
 import AddMember from "./Pages/common/AddMember";
 import Staff from "./Pages/owner/Staff";
-import Market from "./Pages/common/Bar";
-import Register from "./Pages/auth/Register";
+import Market from "./Pages/common/Market";
+import Cart from "./Pages/common/Cart";
+
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         </Route>
         <Route path="member" element={<RequaireAuth allowedRole={"member"} />}>
           <Route element={<BasicLayout allowedRole={"member"} />}>
+
             <Route path="dashboard" element={<MemberDashboard />} />
           </Route>
         </Route>
@@ -41,8 +43,11 @@ function App() {
             <Route path="checkIn" element={<CheckIn />} />
             <Route path="members" element={<Members />} />
             <Route path="add/member" element={<AddMember />} />
+
             <Route path="staffs" element={<Staff />} />
-            <Route path="bar" element={<Market />} />
+            <Route path="market" element={<Market/>} />
+            <Route path="cart" element={<Cart/>}/>
+
           </Route>
         </Route>
         <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
@@ -51,9 +56,10 @@ function App() {
             <Route path="checkIn" element={<CheckIn />} />
             <Route path="members" element={<Members />} />
             <Route path="add/member" element={<AddMember />} />
-            <Route path="bar" element={<Market />} />
+            <Route path="market" element={<Market />} />
           </Route>
         </Route>
+        <Route path="*" element={<div>Page not found</div>} />
       </Routes>
     </div>
   );

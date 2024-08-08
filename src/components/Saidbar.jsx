@@ -3,6 +3,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Sidebar } from "flowbite-react";
+
 import { HiChartPie, HiShoppingBag } from "react-icons/hi";
 import { HiUserCircle } from "react-icons/hi";
 //HiAdjustments, HiCloudDownload,
@@ -12,7 +13,10 @@ function Saidbar({ allowedRole }) {
   console.log("user", user);
   return (
     <>
-      <Sidebar className="h-screen" aria-label="Sidebar with multi-level dropdown example">
+      <Sidebar
+        className="h-screen"
+        aria-label="Sidebar with multi-level dropdown example"
+      >
         <Sidebar.Items>
           {user === "owner" ? (
             <Sidebar.ItemGroup>
@@ -76,7 +80,7 @@ function Saidbar({ allowedRole }) {
           )}
           {/* <Sidebar.ItemGroup>
             <Sidebar.Item icon={HiChartPie}>Dashboard</Sidebar.Item>
-            <Sidebar.Collapse icon={HiShoppingBag} label="Members">
+            <Sidebar.Collapse icon={HiUser} label="Members">
               <Link to="/owner/members">
                 <Sidebar.Item>Members</Sidebar.Item>
               </Link>
@@ -95,6 +99,13 @@ function Saidbar({ allowedRole }) {
               <Sidebar.Item>Content</Sidebar.Item>
               <Sidebar.Item>Growth</Sidebar.Item>
               <Sidebar.Item>Settings</Sidebar.Item>
+            </Sidebar.Collapse>
+            <Sidebar.Collapse icon={HiShoppingBag} label="Bar">
+              <Link to="/owner/market">
+                <Sidebar.Item>Market</Sidebar.Item>
+              </Link>
+              <Sidebar.Item>Products</Sidebar.Item>
+              <Sidebar.Item>Product Categories</Sidebar.Item>
             </Sidebar.Collapse>
             <Sidebar.Item icon={HiInbox}>Inbox</Sidebar.Item>
           </Sidebar.ItemGroup> */}
