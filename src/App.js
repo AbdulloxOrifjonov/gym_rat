@@ -25,22 +25,28 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/member/login" element={<MemberLogin />} />
-        <Route element={<BasicLayout />}>
-          <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>
+        <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>
+          <Route element={<BasicLayout allowedRole={"admin"} />}>
             <Route path="dashboard" element={<AdminDashboard />} />
           </Route>
-          <Route path="member" element={<RequaireAuth allowedRole={"member"} />}>
+        </Route>
+        <Route path="member" element={<RequaireAuth allowedRole={"member"} />}>
+          <Route element={<BasicLayout allowedRole={"member"} />}>
             <Route path="dashboard" element={<MemberDashboard />} />
           </Route>
-          <Route path="owner" element={<RequaireAuth allowedRole={"owner"} />}>
+        </Route>
+        <Route path="owner" element={<RequaireAuth allowedRole={"owner"} />}>
+          <Route element={<BasicLayout allowedRole={"owner"} />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="checkIn" element={<CheckIn />} />
             <Route path="members" element={<Members />} />
             <Route path="add/member" element={<AddMember />} />
-            <Route path="staff" element={<Staff />} />
+            <Route path="staffs" element={<Staff />} />
             <Route path="bar" element={<Market />} />
           </Route>
-          <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
+        </Route>
+        <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
+          <Route element={<BasicLayout allowedRole={"staff"} />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="checkIn" element={<CheckIn />} />
             <Route path="members" element={<Members />} />
