@@ -16,6 +16,7 @@ import AddMember from "./Pages/common/AddMember";
 import Staff from "./Pages/owner/Staff";
 import Market from "./Pages/common/Market";
 import Cart from "./Pages/common/Cart";
+import Register from "./Pages/auth/Register";
 
 
 function App() {
