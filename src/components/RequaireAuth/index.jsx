@@ -1,11 +1,12 @@
+/** @format */
+
 import React from "react";
 import { Outlet } from "react-router-dom";
 
 function RequaireAuth({ allowedRole }) {
+  const user = "owner";
 
-  // const user =
-
-  if (true) {
+  if (user === allowedRole) {
     return <Outlet />;
   } else {
     return <h1>Not Found</h1>;
