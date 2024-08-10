@@ -68,7 +68,6 @@ export default function ProductCard() {
 
   return (
     <div className="flex gap-2 flex-wrap justify-center">
-      {/* <CardPage product={products} />; */}
       {products.map((product) => (
         <Link key={product.id} to={`/owner/product/${product.id}`}>
           <div className="card h-[250px] w-60 p-3 rounded-lg flex flex-col justify-between">
@@ -87,11 +86,14 @@ export default function ProductCard() {
                 handleAddToCart(product);
               }}
             >
-              {checkedProducts.some((p) => p.id === product.id) ? "Go to cart" : "Add to cart"}
+              {checkedProducts.some((p) => p.id === product.id)
+                ? "Go to cart"
+                : "Add to cart"}
             </Button>
           </div>
         </Link>
       ))}
+      <CardPage products={products} />
     </div>
   );
 }

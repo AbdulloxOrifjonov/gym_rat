@@ -1,5 +1,3 @@
-/** @format */
-
 import React from "react";
 import { useParams } from "react-router-dom";
 
@@ -57,13 +55,17 @@ function CardPage() {
   console.log(products);
   console.log(cardId);
 
-  return (
-    <div>
-      {filteredCard?.map((card) => (
-        <h2>{card.name}</h2>
-      ))}
-    </div>
+  const filteredProduct = products?.filter(
+    (product) => productId === product.id
   );
+  return <>
+    {filteredProduct?.map((product) => (
+      <div>
+        <h2>{product.name}</h2>
+        <h2>{product.cost}</h2>
+      </div>
+    ))}
+  </>
 }
 
 export default CardPage;
