@@ -17,12 +17,14 @@ function Saidbar({ allowedRole }) {
         <Sidebar.Items>
           {user === "owner" ? (
             <Sidebar.ItemGroup>
-              <Sidebar.Item icon={HiChartPie}>Dashboard</Sidebar.Item>
+              <Sidebar.Item icon={HiChartPie}>Owner</Sidebar.Item>
               <Sidebar.Item>Dashboard</Sidebar.Item>
               <Link to="/owner/market">
                 <Sidebar.Item>Bar</Sidebar.Item>
               </Link>
-              <Sidebar.Item>Payments</Sidebar.Item>
+              <Link to={"/owner/payment"}>
+                <Sidebar.Item>Payments</Sidebar.Item>
+              </Link>
               <Sidebar.Item>Gyms</Sidebar.Item>
               <Sidebar.Item>Settings</Sidebar.Item>
               {/* <Sidebar.Item>Profile options with rounded image</Sidebar.Item> */}
@@ -42,7 +44,10 @@ function Saidbar({ allowedRole }) {
 
                 <Sidebar.Collapse icon={HiShoppingBag} label="Staff">
                   <Link to={"/owner/staffs"}>
-                    <Sidebar.Item>staffs</Sidebar.Item>
+                    <Sidebar.Item>Staffs</Sidebar.Item>
+                  </Link>
+                  <Link to={"/owner/add/staff"}>
+                    <Sidebar.Item>Add Staff</Sidebar.Item>
                   </Link>
                 </Sidebar.Collapse>
               </Sidebar.Collapse>
@@ -51,7 +56,9 @@ function Saidbar({ allowedRole }) {
                 <Link to={"add/membership"}>
                   <Sidebar.Item>Add Membership</Sidebar.Item>
                 </Link>
-                <Sidebar.Item>Memberships List</Sidebar.Item>
+                <Link to={"memberships"}>
+                  <Sidebar.Item>Memberships List</Sidebar.Item>
+                </Link>
               </Sidebar.Collapse>
 
               {/* <Sidebar.Collapse icon={HiUserCircle} label="Memberships">
