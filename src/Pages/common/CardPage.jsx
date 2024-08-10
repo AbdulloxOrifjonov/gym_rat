@@ -1,23 +1,22 @@
-/** @format */
-
 import React from "react";
 import { useParams } from "react-router-dom";
 
 function CardPage({ products }) {
-  console.log(products);
-  const cardId = useParams();
-  const filteredCard = products?.filter((prod) => cardId.id === prod.id);
+  const productId = useParams();
+  console.log(productId);
 
-  console.log(cardId);
-  console.log(filteredCard);
 
-  return (
-    <div>
-      {filteredCard?.map((card) => (
-        <h2>{card.name}</h2>
-      ))}
-    </div>
+  const filteredProduct = products?.filter(
+    (product) => productId === product.id
   );
+  return <>
+    {filteredProduct?.map((product) => (
+      <div>
+        <h2>{product.name}</h2>
+        <h2>{product.cost}</h2>
+      </div>
+    ))}
+  </>
 }
 
 export default CardPage;
