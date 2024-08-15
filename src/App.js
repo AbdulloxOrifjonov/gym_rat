@@ -16,36 +16,71 @@ import AddMember from "./Pages/common/AddMember";
 import Staff from "./Pages/owner/Staff";
 import Market from "./Pages/common/Market";
 
+import Cart from "./Pages/common/Cart";
+import AddMembership from "./Pages/common/AddMembership";
+import Register from "./Pages/auth/Register";
+import CardPage from "./Pages/common/CardPage";
+import AddStaff from "./Pages/owner/AddStaff";
+import Memberships from "./Pages/common/Memberships";
+import Payment from "./Pages/common/Payment";
+
+
 function App() {
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/member/login" element={<MemberLogin />} />
-        <Route element={<BasicLayout />}>
-          <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>
+        <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>
+          <Route element={<BasicLayout allowedRole={"admin"} />}>
             <Route path="dashboard" element={<AdminDashboard />} />
           </Route>
-          <Route path="member" element={<RequaireAuth allowedRole={"member"} />}>
+        </Route>
+        <Route path="member" element={<RequaireAuth allowedRole={"member"} />}>
+          <Route element={<BasicLayout allowedRole={"member"} />}>
             <Route path="dashboard" element={<MemberDashboard />} />
           </Route>
-          <Route path="owner" element={<RequaireAuth allowedRole={"owner"} />}>
+        </Route>
+        <Route path="owner" element={<RequaireAuth allowedRole={"owner"} />}>
+          <Route element={<BasicLayout allowedRole={"owner"} />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="checkIn" element={<CheckIn />} />
             <Route path="members" element={<Members />} />
             <Route path="add/member" element={<AddMember />} />
+
             <Route path="staff" element={<Staff />} />
             <Route path="market" element={<Market/>} />
+
+            <Route path="staffs" element={<Staff />} />
+            <Route path="add/staff" element={<AddStaff />} />
+            <Route path="market" element={<Market />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="add/membership" element={<AddMembership />} />
+            <Route path="product/:id" element={<CardPage />} />
+            <Route path="memberships" element={<Memberships />} />
+            <Route path="payment" element={<Payment />} />
+
           </Route>
-          <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
+        </Route>
+        <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
+          <Route element={<BasicLayout allowedRole={"staff"} />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="checkIn" element={<CheckIn />} />
             <Route path="members" element={<Members />} />
             <Route path="add/member" element={<AddMember />} />
+
             <Route path="market" element={<Market/>}/>
+
+            <Route path="market" element={<Market />} />
+            <Route path="add/membership" element={<AddMembership />} />
+            <Route path="memberships" element={<Memberships />} />
+            <Route path="payment" element={<Payment />} />
+
           </Route>
         </Route>
+        <Route path="*" element={<div>Page not found</div>} />
       </Routes>
     </div>
   );
