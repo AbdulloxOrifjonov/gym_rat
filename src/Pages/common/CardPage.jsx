@@ -48,16 +48,13 @@ function CardPage() {
   const { id } = useParams();
   const cardId = Number(id);
 
-  const filteredProduct = products.filter((product) => cardId === product.id);
-
+  const filteredProduct = products?.filter((product) => cardId === product.id);
   return (
     <>
-      {filteredProduct.map((product) => (
-        <div key={product.id}>
+      {filteredProduct?.map((product) => (
+        <div>
           <h2>{product.name}</h2>
-          <h3>Cost: ${product.cost}</h3>
-          <img src={product.img} alt={product.name} />
-          <p>{product.description}</p>
+          <h2>{product.cost}</h2>
         </div>
       ))}
     </>

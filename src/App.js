@@ -19,6 +19,9 @@ import Cart from "./Pages/common/Cart";
 import AddMembership from "./Pages/common/AddMembership";
 import Register from "./Pages/auth/Register";
 import CardPage from "./Pages/common/CardPage";
+import Memberships from "./Pages/common/Memberships";
+import Payment from "./Pages/common/Payment";
+import Profile from "./Pages/common/Profile";
 
 function App() {
   return (
@@ -44,11 +47,16 @@ function App() {
             <Route path="checkIn" element={<CheckIn />} />
             <Route path="members" element={<Members />} />
             <Route path="add/member" element={<AddMember />} />
+            <Route path="staff" element={<Staff />} />
+            <Route path="market" element={<Market/>} />
             <Route path="staffs" element={<Staff />} />
             <Route path="market" element={<Market />} />
             <Route path="cart" element={<Cart />} />
             <Route path="add/membership" element={<AddMembership />} />
             <Route path="product/:id" element={<CardPage />} />
+            <Route path="memberships" element={<Memberships />} />
+            <Route path="payment" element={<Payment />} />
+            <Route path="profile" element={<Profile />} />
           </Route>
         </Route>
         <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
@@ -59,6 +67,8 @@ function App() {
             <Route path="add/member" element={<AddMember />} />
             <Route path="market" element={<Market />} />
             <Route path="add/membership" element={<AddMembership />} />
+            <Route path="memberships" element={<Memberships />} />
+            <Route path="`payment`" element={<Payment />} />
           </Route>
         </Route>
         <Route path="*" element={<div>Page not found</div>} />
