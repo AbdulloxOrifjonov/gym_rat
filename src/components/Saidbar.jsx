@@ -25,6 +25,9 @@ function Saidbar({ allowedRole }) {
               <Link to={"/owner/payment"}>
                 <Sidebar.Item>Payments</Sidebar.Item>
               </Link>
+              <Link to={"/owner/profile"}>
+                <Sidebar.Item>Profile</Sidebar.Item>
+              </Link>
               <Sidebar.Item>Gyms</Sidebar.Item>
               <Sidebar.Item>Settings</Sidebar.Item>
               {/* <Sidebar.Item>Profile options with rounded image</Sidebar.Item> */}

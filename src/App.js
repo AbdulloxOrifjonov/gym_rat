@@ -28,7 +28,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/owner/register" element={<Register />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/member/login" element={<MemberLogin />} />
         <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>

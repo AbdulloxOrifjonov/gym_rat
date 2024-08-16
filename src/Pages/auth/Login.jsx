@@ -35,9 +35,10 @@ function Login() {
             <Link to={"/gym"}>
               <Button type="submit">Submit</Button>
             </Link>
-            <Link className="text-blue-500" to={"/register"}>
+            {/* // Admin Qoshadigan joyi bu  */}
+            {/* <Link className="text-blue-500" to={"/register"}>
               Register
-            </Link>
+            </Link> */}
           </div>
         </form>
       </div>
