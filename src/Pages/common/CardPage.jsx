@@ -1,5 +1,3 @@
-/** @format */
-
 import React from "react";
 import { useParams } from "react-router-dom";
 
@@ -47,15 +45,8 @@ function CardPage() {
     },
   ];
 
-  const cardId = useParams();
-  // eslint-disable-next-line
-  const filteredCard = products?.filter((prod) => cardId.id == prod.id);
-
-  console.dir(filteredCard);
-
-  console.log(filteredCard);
-  console.log(products);
-  console.log(cardId);
+  const { id } = useParams();
+  const cardId = Number(id);
 
   const filteredProduct = products?.filter((product) => cardId === product.id);
   return (
