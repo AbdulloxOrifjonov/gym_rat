@@ -8,6 +8,7 @@ import { HiChartPie, HiShoppingBag } from "react-icons/hi";
 import { HiUserCircle } from "react-icons/hi";
 //HiAdjustments, HiCloudDownload,
 function Saidbar({ allowedRole }) {
+  console.dir(allowedRole);
   const user = allowedRole.allowedRole;
 
   console.log("user", user);
@@ -84,6 +85,15 @@ function Saidbar({ allowedRole }) {
                 <Sidebar.Item>Settings</Sidebar.Item> */}
 
               {/* <Sidebar.Item icon={HiInbox}>Inbox</Sidebar.Item> */}
+            </Sidebar.ItemGroup>
+          ) : user === "admin" ? (
+            <Sidebar.ItemGroup>
+              <Link to="/admin/dashboard">
+                <Sidebar.Item icon={HiChartPie}>Admin</Sidebar.Item>
+              </Link>
+              <Link to="admin/add/owner">
+                <Sidebar.Item icon={HiUserCircle}>Add Owner</Sidebar.Item>
+              </Link>
             </Sidebar.ItemGroup>
           ) : (
             ""

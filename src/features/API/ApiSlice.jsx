@@ -1,9 +1,11 @@
+/** @format */
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const loginApi = createApi({
   reducerPath: "login",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://028f-178-218-201-17.ngrok-free.app",
+    baseUrl: "https://5b12-178-218-201-17.ngrok-free.app",
   }),
   tagTypes: ["admin"],
   endpoints: (builder) => ({
@@ -14,8 +16,10 @@ export const loginApi = createApi({
         body: login,
       }),
     }),
+    getLogin: builder.query({
+      query: () => "/"
+    })
   }),
 });
 
-
-export const { useAddLoginMutation} = loginApi;
+export const { useAddLoginMutation } = loginApi;

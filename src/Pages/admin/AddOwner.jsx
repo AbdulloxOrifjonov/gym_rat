@@ -6,7 +6,7 @@ import { Progress } from "flowbite-react";
 import TimezoneSelect from "react-timezone-select";
 import { Select } from "flowbite-react";
 
-function Register() {
+function AddOwner() {
   const [step, setStep] = useState("first");
   const [selectedTimezone, setSelectedTimezone] = useState({});
   const [hour, setHour] = useState("12");
@@ -316,4 +316,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default AddOwner;

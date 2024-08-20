@@ -22,6 +22,7 @@ import CardPage from "./Pages/common/CardPage";
 import Memberships from "./Pages/common/Memberships";
 import Payment from "./Pages/common/Payment";
 import Profile from "./Pages/common/Profile";
+import AddOwner from "./Pages/admin/AddOwner";
 
 function App() {
   return (
@@ -31,10 +32,9 @@ function App() {
         <Route path="/owner/register" element={<Register />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/member/login" element={<MemberLogin />} />
-        <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>
-          <Route element={<BasicLayout allowedRole={"admin"} />}>
-            <Route path="dashboard" element={<AdminDashboard />} />
-          </Route>
+        <Route element={<BasicLayout allowedRole={"admin"} />}>
+          <Route path="admin/dashboard" element={<AdminDashboard />} />
+          <Route path="admin/add/owner" element={<AddOwner/>} />
         </Route>
         <Route path="member" element={<RequaireAuth allowedRole={"member"} />}>
           <Route element={<BasicLayout allowedRole={"member"} />}>
@@ -48,7 +48,7 @@ function App() {
             <Route path="members" element={<Members />} />
             <Route path="add/member" element={<AddMember />} />
             <Route path="staff" element={<Staff />} />
-            <Route path="market" element={<Market/>} />
+            <Route path="market" element={<Market />} />
             <Route path="staffs" element={<Staff />} />
             <Route path="market" element={<Market />} />
             <Route path="cart" element={<Cart />} />
