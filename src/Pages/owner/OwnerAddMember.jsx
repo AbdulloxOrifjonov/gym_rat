@@ -1,13 +1,21 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Label, TextInput } from "flowbite-react";
 import { FileInput } from "flowbite-react";
 
 import { Datepicker } from "flowbite-react";
 import { Dropdown } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 function AddMember() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token_owner")) {
+      navigate("/");
+    }
+  }, [navigate]);
   return (
     <div className="flex justify-center items-center">
       <form className="w-maxflex flex-col items-center justify-center">

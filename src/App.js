@@ -8,20 +8,20 @@ import MemberLogin from "./Pages/auth/MemberLogin";
 import AdminDashboard from "./Pages/admin/AdminDashboard";
 import RequaireAuth from "./components/RequaireAuth";
 import MemberDashboard from "./Pages/member/MemberDashboard";
-import Dashboard from "./Pages/common/Dashboard";
+import Dashboard from "./Pages/owner/OwnerDashboard";
 import BasicLayout from "./MainLayout/BasicLayout";
-import CheckIn from "./Pages/common/CheckIn";
-import Members from "./Pages/common/Members";
-import AddMember from "./Pages/common/AddMember";
+import CheckIn from "./Pages/owner/OwnerCheckIn";
+import Members from "./Pages/owner/OwnerMembers";
+import AddMember from "./Pages/owner/OwnerAddMember";
 import Staff from "./Pages/owner/Staff";
-import Market from "./Pages/common/Market";
-import Cart from "./Pages/common/Cart";
-import AddMembership from "./Pages/common/AddMembership";
+import Market from "./Pages/owner/OwnerMarket";
+import Cart from "./Pages/owner/OwnerCart";
+import AddMembership from "./Pages/owner/OwnerAddMembership";
 import Register from "./Pages/auth/Register";
-import CardPage from "./Pages/common/CardPage";
-import Memberships from "./Pages/common/Memberships";
-import Payment from "./Pages/common/Payment";
-import Profile from "./Pages/common/Profile";
+import CardPage from "./Pages/owner/OwnerCardPage";
+import Memberships from "./Pages/owner/OwnerMemberships";
+import Payment from "./Pages/owner/OwnerPayment";
+import Profile from "./Pages/owner/OwnerProfile";
 import AddOwner from "./Pages/admin/AddOwner";
 
 function App() {
@@ -34,14 +34,14 @@ function App() {
         <Route path="/member/login" element={<MemberLogin />} />
         <Route element={<BasicLayout allowedRole={"admin"} />}>
           <Route path="admin/dashboard" element={<AdminDashboard />} />
-          <Route path="admin/add/owner" element={<AddOwner/>} />
+          <Route path="admin/add/owner" element={<AddOwner />} />
         </Route>
         <Route path="member" element={<RequaireAuth allowedRole={"member"} />}>
           <Route element={<BasicLayout allowedRole={"member"} />}>
             <Route path="dashboard" element={<MemberDashboard />} />
           </Route>
         </Route>
-        <Route path="owner" element={<RequaireAuth allowedRole={"owner"} />}>
+        <Route path="owner">
           <Route element={<BasicLayout allowedRole={"owner"} />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="checkIn" element={<CheckIn />} />

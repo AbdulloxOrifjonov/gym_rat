@@ -3,32 +3,38 @@
 import React, { useEffect, useState } from "react";
 import { Table, Pagination } from "flowbite-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function AdminDashboard() {
   const [owners, setOwners] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchOwners = async () => {
-      try {
-        const response = await axios.get(
-          `https://gymrat.uz/api/v1/employer/pagination?page=${currentPage}&pageSize=10`,
-          {
-            headers: {
-              authorization: localStorage.getItem("token"),
+    if (!localStorage.getItem("token")) {
+      navigate("/admin/login");
+    } else {
+      const fetchOwners = async () => {
+        try {
+          const response = await axios.get(
+            `https://gymrat.uz/api/v1/employer/pagination?page=${currentPage}&pageSize=10`,
+            {
+              headers: {
+                authorization: localStorage.getItem("token"),
+              },
             },
-          },
-        );
-        console.log(response.data.data);
-        setOwners(response.data.data);
-        setTotalPages(response.data.employersCount); // API dan totalPages ni oling
-      } catch (error) {
-        console.error("Error fetching owners:", error);
-      }
-    };
+          );
+          console.log(response.data.data);
+          setOwners(response.data.data);
+          setTotalPages(response.data.employersCount); // API dan totalPages ni oling
+        } catch (error) {
+          console.error("Error fetching owners:", error);
+        }
+      };
 
-    fetchOwners();
+      fetchOwners();
+    }
   }, [currentPage]);
 
   const onPageChange = (page) => {

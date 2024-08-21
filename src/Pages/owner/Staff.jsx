@@ -1,13 +1,22 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "flowbite-react";
 import { Table } from "flowbite-react";
 import { HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
-import { Button,  Label, TextInput } from "flowbite-react";
+import { Button, Label, TextInput } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 function Staff() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token_owner")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   return (
     <div>
       <Tabs aria-label="Tabs with underline" variant="underline">

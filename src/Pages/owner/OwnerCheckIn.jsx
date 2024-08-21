@@ -1,8 +1,16 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function CheckIn() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token_owner")) {
+      navigate("/");
+    }
+  }, [navigate]);
   const [inputValue, setInputValue] = useState("");
   const [table, setTable] = useState(0);
 
