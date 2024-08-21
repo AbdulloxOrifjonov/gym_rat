@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
@@ -11,6 +11,14 @@ function AdminLogin() {
   const navigate = useNavigate();
   const { register, reset, handleSubmit } = useForm();
   const [responseData, setResponseData] = useState("");
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/admin/login");
+    } else {
+      navigate("/admin/dashboard");
+    }
+  }, []);
 
   const onSubmit = async (data) => {
     console.log(data);

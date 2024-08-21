@@ -19,6 +19,7 @@ function Saidbar({ allowedRole }) {
           {user === "owner" ? (
             <Sidebar.ItemGroup>
               <Sidebar.Item icon={HiChartPie}>Owner</Sidebar.Item>
+              <Link to="/owner/dashboard"></Link>
               <Sidebar.Item>Dashboard</Sidebar.Item>
               <Link to="/owner/market">
                 <Sidebar.Item>Bar</Sidebar.Item>
@@ -32,28 +33,23 @@ function Saidbar({ allowedRole }) {
               <Sidebar.Item>Gyms</Sidebar.Item>
               <Sidebar.Item>Settings</Sidebar.Item>
               {/* <Sidebar.Item>Profile options with rounded image</Sidebar.Item> */}
-              <Sidebar.Collapse icon={HiUserCircle} label="People">
-                {/* <Sidebar.Item>Members</Sidebar.Item> */}
-                <Sidebar.Collapse icon={HiShoppingBag} label="Members">
-                  <Link to="/owner/add/member">
-                    <Sidebar.Item>Add Member</Sidebar.Item>
-                  </Link>
-                  <Link to="/owner/members">
-                    <Sidebar.Item>Members</Sidebar.Item>
-                  </Link>
-                  <Link to="/owner/checkIn">
-                    <Sidebar.Item>Check-in</Sidebar.Item>
-                  </Link>
-                </Sidebar.Collapse>
+              {/* <Sidebar.Item>Members</Sidebar.Item> */}
+              <Sidebar.Collapse icon={HiShoppingBag} label="Members">
+                <Link to="/owner/add/member">
+                  <Sidebar.Item>Add Member</Sidebar.Item>
+                </Link>
+                <Link to="/owner/members">
+                  <Sidebar.Item>Members</Sidebar.Item>
+                </Link>
+                <Link to="/owner/checkIn">
+                  <Sidebar.Item>Check-in</Sidebar.Item>
+                </Link>
+              </Sidebar.Collapse>
 
-                <Sidebar.Collapse icon={HiShoppingBag} label="Staff">
-                  <Link to={"/owner/staffs"}>
-                    <Sidebar.Item>Staffs</Sidebar.Item>
-                  </Link>
-                  <Link to={"/owner/add/staff"}>
-                    <Sidebar.Item>Add Staff</Sidebar.Item>
-                  </Link>
-                </Sidebar.Collapse>
+              <Sidebar.Collapse icon={HiShoppingBag} label="Staff">
+                <Link to={"/owner/staffs"}>
+                  <Sidebar.Item>Staffs</Sidebar.Item>
+                </Link>
               </Sidebar.Collapse>
 
               <Sidebar.Collapse icon={HiUserCircle} label="Memberships">

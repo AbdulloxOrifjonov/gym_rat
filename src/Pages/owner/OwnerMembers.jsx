@@ -1,11 +1,19 @@
 /** @format */
 
-import React from "react";
+import React, { useEffect } from "react";
 import { Label, TextInput } from "flowbite-react";
 import { Button } from "flowbite-react";
 import { Table } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 function Members() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token_owner")) {
+      navigate("/");
+    }
+  }, [navigate]);
   return (
     <div className="w-full p-3 rounded-xl bg-slate-200">
       <div className="flex flex-col gap-4 w-full p-3 ">

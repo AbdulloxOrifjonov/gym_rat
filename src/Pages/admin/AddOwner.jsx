@@ -1,13 +1,22 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Label, TextInput, Select } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function AddOwner() {
+  const navigate = useNavigate();
+
   const [step, setStep] = useState("first");
   const { register, handleSubmit } = useForm();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/admin/login");
+    }
+  }, []);
 
   const onSubmit = async (data) => {
     console.log(data);

@@ -1,8 +1,8 @@
 import { Button } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import CardPage from "../Pages/common/CardPage";
-import Cart from "../Pages/common/Cart";
+import CardPage from "../Pages/owner/OwnerCardPage";
+import Cart from "../Pages/owner/OwnerCart";
 
 export default function ProductCard() {
   const [checkedProducts, setCheckedProducts] = useState([]);

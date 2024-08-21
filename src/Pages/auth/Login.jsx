@@ -1,14 +1,40 @@
 /** @format */
 
-import React from "react";
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Button, Label, TextInput } from "flowbite-react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
+  const navigate = useNavigate();
+  const { register, reset, handleSubmit } = useForm();
+
+  useEffect(() => {
+    if (localStorage.getItem("token_owner")) {
+      navigate("/owner/dashboard");
+    }
+  }, []);
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      const response = await axios.post("https://gymrat.uz/api/v1/employer/login", data, {
+        headers: "application/json",
+      });
+      console.log(response.data);
+      localStorage.setItem("token_owner", response.data.token);
+      navigate("/owner/dashboard");
+      reset();
+    } catch (error) {
+      alert("ERROR Fetch", error);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center">
       <div className="mt-10">
-        <form className="flex max-w-md flex-col gap-4">
+        <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <div className="mb-2 block">
               <Label htmlFor="email1" value="Your phone number" />
@@ -16,29 +42,20 @@ function Login() {
             <TextInput
               className="w-[440px]"
               id="email1"
-              type="number"
+              type="tel"
               placeholder="+998-33-011-99-01"
               required
+              {...register("phone")}
             />
           </div>
           <div>
             <div className="mb-2 block">
               <Label htmlFor="password1" value="Your password" />
             </div>
-            <TextInput id="password1" type="password" required />
-          </div>
-          <div className="flex items-center gap-2">
-            <Checkbox id="remember" />
-            <Label htmlFor="remember">Remember me</Label>
+            <TextInput {...register("password")} id="password1" type="password" required />
           </div>
           <div className="flex items-center justify-between">
-            <Link to={"/gym"}>
-              <Button type="submit">Submit</Button>
-            </Link>
-            {/* // Admin Qoshadigan joyi bu  */}
-            {/* <Link className="text-blue-500" to={"/register"}>
-              Register
-            </Link> */}
+            <Button type="submit">Submit</Button>
           </div>
         </form>
       </div>

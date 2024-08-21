@@ -3,10 +3,17 @@
 import { Button, Table, TableHead, Tabs, TextInput } from "flowbite-react";
 import { HiUserCircle } from "react-icons/hi";
 import { HiMiniLockClosed } from "react-icons/hi2";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Profile = () => {
+function Profile() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token_owner")) {
+      navigate("/");
+    }
+  }, [navigate]);
   return (
     <div>
       <Tabs aria-label="Tabs with underline" variant="underline">
@@ -183,5 +190,5 @@ const Profile = () => {
       </Tabs>
     </div>
   );
-};
+}
 export default Profile;

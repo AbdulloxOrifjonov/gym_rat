@@ -1,16 +1,30 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
 import { HiUserCircle } from "react-icons/hi";
-import { Label, TextInput } from "flowbite-react";
+import { TextInput } from "flowbite-react";
 import { Select } from "flowbite-react";
 import { Datepicker } from "flowbite-react";
-
-// import { MdDashboard } from "react-icons/md";
-// HiAdjustments, HiClipboardList,
+import { useNavigate } from "react-router-dom";
+import { AutoComplete } from "primereact/autocomplete";
 
 function AddMembership() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token_owner")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  const [value, setValue] = useState("");
+  const [items, setItems] = useState([]);
+
+  const search = (event) => {
+    setItems([...Array(10).keys()].map((item) => event.query + "-" + item));
+  };
+
   //   const [m, setM] = useState(false);
   //   const [t, setT] = useState(false);
   //   const [w, setW] = useState(false);
@@ -33,17 +47,6 @@ function AddMembership() {
               <form className="flex items-start flex-col justify-center w-full gap-4">
                 <div className="flex items-start justify-center w-full gap-4">
                   <div className="w-[426px]">
-                    <div className="w-[340px]">
-                      <div className="mb-2 block">
-                        <Label htmlFor="search" value="Search Member" />
-                      </div>
-                      <TextInput
-                        id="search"
-                        type="text"
-                        // placeholder="Enter membership title . . ."
-                        required
-                      />
-                    </div>
                     <div className="w-full">
                       <h2 className="text-lg font-bold">Limit:</h2>
                       <div className="flex items-center justify-start gap-[10px] w-[340px] flex-col">
@@ -144,7 +147,20 @@ function AddMembership() {
                     />
                   </div>
                 </div>
-                {/* <Button type="submit">Submit</Button> */}
+                <div className="w-full flex items-center justify-between">
+                  <div className="card w-[200px] flex justify-center items-center">
+                    <AutoComplete
+                      value={value}
+                      suggestions={items}
+                      completeMethod={search}
+                      onChange={(e) => setValue(e.value)}
+                      className="z-50 bg-white"
+                    />
+                  </div>
+                  <button type="submit" className="w-28 h-11 rounded-xl text-white bg-blue-700">
+                    Submit
+                  </button>
+                </div>
               </form>
             </div>
           </div>
