@@ -35,7 +35,7 @@ function AdminDashboard() {
 
       fetchOwners();
     }
-  }, [currentPage]);
+  }, [currentPage, navigate]);
 
   const onPageChange = (page) => {
     if (page >= 1 && page <= totalPages) {

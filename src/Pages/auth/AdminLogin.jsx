@@ -18,7 +18,7 @@ function AdminLogin() {
     } else {
       navigate("/admin/dashboard");
     }
-  }, []);
+  }, [navigate]);
 
   const onSubmit = async (data) => {
     console.log(data);

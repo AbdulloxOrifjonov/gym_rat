@@ -13,7 +13,7 @@ import BasicLayout from "./MainLayout/BasicLayout";
 import CheckIn from "./Pages/owner/OwnerCheckIn";
 import Members from "./Pages/owner/OwnerMembers";
 import AddMember from "./Pages/owner/OwnerAddMember";
-import Staff from "./Pages/owner/Staff";
+import Staff from "./Pages/owner/OwnerStaff";
 import Market from "./Pages/owner/OwnerMarket";
 import Cart from "./Pages/owner/OwnerCart";
 import AddMembership from "./Pages/owner/OwnerAddMembership";
@@ -23,6 +23,7 @@ import Memberships from "./Pages/owner/OwnerMemberships";
 import Payment from "./Pages/owner/OwnerPayment";
 import Profile from "./Pages/owner/OwnerProfile";
 import AddOwner from "./Pages/admin/AddOwner";
+import OwnerGyms from "./Pages/owner/OwnerGyms";
 
 function App() {
   return (
@@ -57,6 +58,7 @@ function App() {
             <Route path="memberships" element={<Memberships />} />
             <Route path="payment" element={<Payment />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="gyms" element={<OwnerGyms />} />
           </Route>
         </Route>
         <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
