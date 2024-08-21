@@ -14,7 +14,7 @@ function Login() {
     if (localStorage.getItem("token_owner")) {
       navigate("/owner/dashboard");
     }
-  }, []);
+  }, [navigate]);
 
   const onSubmit = async (data) => {
     console.log(data);

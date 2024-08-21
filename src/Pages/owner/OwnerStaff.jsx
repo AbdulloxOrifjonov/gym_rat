@@ -7,6 +7,7 @@ import { HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import { Button, Label, TextInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 function Staff() {
   const navigate = useNavigate();
@@ -16,6 +17,13 @@ function Staff() {
       navigate("/");
     }
   }, [navigate]);
+
+  const { register, reset, handleSubmit } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+    reset();
+  };
 
   return (
     <div>
@@ -87,19 +95,31 @@ function Staff() {
         </Tabs.Item>
         <Tabs.Item title="Add Staff" icon={MdDashboard}>
           <div className="flex items-center justify-center w-full mt-10">
-            <form className="flex max-w-md flex-col gap-4 w-full">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex max-w-md flex-col gap-4 w-full">
               <div className="flex items-center justify-between">
                 <div className="w-[48%]">
                   <div className="mb-2 block">
-                    <Label htmlFor="firstname" value="Firstname" />
+                    <Label htmlFor="employerId" value="EmployerId" />
                   </div>
-                  <TextInput id="firstname" type="text" placeholder="Firstname" required />
+                  <TextInput
+                    {...register("employerId")}
+                    id="employerId"
+                    type="text"
+                    placeholder="EmployerId"
+                    required
+                  />
                 </div>
                 <div className="w-[48%]">
                   <div className="mb-2 block">
-                    <Label htmlFor="lastname" value="Lastname" />
+                    <Label htmlFor="fullname" value="Fullname" />
                   </div>
-                  <TextInput id="lastname" type="text" placeholder="Lastname" required />
+                  <TextInput
+                    {...register("fullname")}
+                    id="fullname"
+                    type="text"
+                    placeholder="Fullname"
+                    required
+                  />
                 </div>
               </div>
               <div className="flex items-center justify-between">
@@ -107,13 +127,25 @@ function Staff() {
                   <div className="mb-2 block">
                     <Label htmlFor="phone" value="Phone number" />
                   </div>
-                  <TextInput id="phone" type="text" placeholder="Phone number" required />
+                  <TextInput
+                    {...register("phone")}
+                    id="phone"
+                    type="text"
+                    placeholder="Phone number"
+                    required
+                  />
                 </div>
                 <div className="w-[48%]">
                   <div className="mb-2 block">
-                    <Label htmlFor="gender" value="Gender" />
+                    <Label htmlFor="gymIds" value="GymIds" />
                   </div>
-                  <TextInput id="gender" type="text" placeholder="Gender" required />
+                  <TextInput
+                    {...register("gymIds")}
+                    id="gymIds"
+                    type="text"
+                    placeholder="GymIds"
+                    required
+                  />
                 </div>
               </div>
               <div className="flex items-center justify-between">
@@ -121,16 +153,23 @@ function Staff() {
                   <div className="mb-2 block">
                     <Label htmlFor="password1" value="Password" />
                   </div>
-                  <TextInput id="password1" type="password" placeholder="Password" required />
+                  <TextInput
+                    {...register("password")}
+                    id="password1"
+                    type="password"
+                    placeholder="Password"
+                    required
+                  />
                 </div>
                 <div className="w-[48%]">
                   <div className="mb-2 block">
-                    <Label htmlFor="password2" value="Confirm password" />
+                    <Label htmlFor="email1" value="Email" />
                   </div>
                   <TextInput
-                    id="passwor2"
-                    type="password"
-                    placeholder="Confirm password"
+                    id="email1"
+                    type="email"
+                    placeholder="Email"
+                    {...register("email")}
                     required
                   />
                 </div>

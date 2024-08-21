@@ -16,7 +16,7 @@ function AddOwner() {
     if (!localStorage.getItem("token")) {
       navigate("/admin/login");
     }
-  }, []);
+  }, [navigate]);
 
   const onSubmit = async (data) => {
     console.log(data);
