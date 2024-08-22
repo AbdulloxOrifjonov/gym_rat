@@ -1,103 +1,179 @@
 /** @format */
 
-import { Table, Tabs, FileInput, Label, Button } from "flowbite-react";
-import React, { useEffect } from "react";
+import axios from "axios";
+import { Tabs, FileInput, Label, Button, Card } from "flowbite-react";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function OwnerGyms() {
-  const navigate = useNavigate();
+  const [img, setImg] = useState(null); // Faylni saqlash uchun `null` dan boshlash
+  const [gyms, setGyms] = useState(null);
 
+  const navigate = useNavigate();
   useEffect(() => {
     if (!localStorage.getItem("token_owner")) {
       navigate("/");
+    } else {
+      const getGyms = async () => {
+        try {
+          const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
+            headers: {
+              Authorization: `${localStorage.getItem("token_owner")}`,
+              "Content-Type": "application/json",
+            },
+          });
+          setGyms(response.data.data);
+        } catch (error) {
+          console.log(error.response.data);
+        }
+      };
+      getGyms();
     }
-  }, [navigate]);
+  }, [navigate, img]);
+
+  const { reset, register, handleSubmit } = useForm();
+
+  const onSubmit = async (data) => {
+    const formData = new FormData();
+    formData.append("employerId", data.employerId);
+    formData.append("name", data.name);
+    formData.append("phone", data.phone);
+    formData.append("country", data.country);
+    formData.append("city", data.city);
+    formData.append("address", data.address);
+    formData.append("timeZone", data.timeZone);
+    if (img) {
+      formData.append("logo", img);
+    }
+    try {
+      const response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
+        headers: { Authorization: localStorage.getItem("token_owner") },
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <form>
-      <Tabs aria-label="Tabs with underline" variant="underline">
-        <Tabs.Item active title="Gyms" icon={HiUserCircle}>
-          <div>
-            <Table>
-              <Table.Head>
-                <Table.HeadCell>Owner</Table.HeadCell>
-                <Table.HeadCell>Gym Name</Table.HeadCell>
-                <Table.HeadCell>Created at</Table.HeadCell>
-                <Table.HeadCell>Status</Table.HeadCell>
-                <Table.HeadCell>DELETE VS EDIT</Table.HeadCell>
-              </Table.Head>
-              <Table.Body className="divide-y">
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <img
-                    src="data:image/png;base64,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"
-                    alt=""
-                  />
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {"Abdullox"}
-                  </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    16/08/2024
-                  </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {"Active"}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <div className="flex items-center gap-2">
-                      <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                        Edit
-                      </button>
-                      <button className="font-medium text-red-600 hover:underline dark:text-red-500">
-                        Delete
-                      </button>
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-            </Table>
+    <Tabs aria-label="Tabs with underline" variant="underline">
+      <Tabs.Item active title="Gyms" icon={HiUserCircle}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {gyms ? (
+            gyms.map((gym) => (
+              <Card key={gym._id} className="max-w-sm">
+                <img
+                  src={gym.logo || "https://via.placeholder.com/150"}
+                  alt={`${gym.name} logo`}
+                  className="rounded-t-lg"
+                />
+                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                  {gym.name}
+                </h5>
+                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
+                <p className="text-gray-700 dark:text-gray-400">
+                  {gym.city}, {gym.country}
+                </p>
+                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
+                <div className="flex justify-between mt-4">
+                  <Link className="text-blue-600 dark:text-blue-400" to={`/edit/${gym._id}`}>
+                    Edit
+                  </Link>
+                  {/* <Button color="failure" onClick={() => handleDelete(gym._id)}>
+                    Delete
+                  </Button> */}
+                </div>
+              </Card>
+            ))
+          ) : (
+            <div className="w-full pl-5 pb-5 pt-4">
+              <h1 className="text-[30px] text-black">Loading . . .</h1>
+            </div>
+          )}
+        </div>
+      </Tabs.Item>
+      <Tabs.Item active title="Add Gyms" icon={HiUserCircle}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="mb-2 block">
+            <Label htmlFor="address" value="Address" />
           </div>
-        </Tabs.Item>
-        <Tabs.Item active title="Add Gyms" icon={HiUserCircle}>
-          <div>
-            <Table>
-              <Table.Head>
-                <Table.HeadCell>Gym name</Table.HeadCell>
-                <Table.HeadCell>Gym logo image</Table.HeadCell>
-                <Table.HeadCell>Phone number</Table.HeadCell>
-              </Table.Head>
-              <Table.Body>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    <input type="text" placeholder="gym name" />
-                  </Table.Cell>
-                  <div className="">
-                    <Label htmlFor="file-upload" value="" />
-                  </div>
-                  <FileInput id="file-upload" />
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    <input type="number" placeholder="your phone number" />
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-              <Table.Head>
-                <Table.HeadCell>Street address</Table.HeadCell>
-                <Table.HeadCell>City</Table.HeadCell>
-              </Table.Head>
-              <Table.Body>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    <input type="text" placeholder="your street adress" />
-                  </Table.Cell>
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    <input type="text" placeholder="your city" />
-                  </Table.Cell>
-                </Table.Row>
-              </Table.Body>
-              <Button className="mb-2 ml-3">Sumbit</Button>
-            </Table>
+          <input
+            id="address"
+            type="text"
+            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            {...register("address")}
+          />
+
+          <div className="mb-2 block">
+            <Label htmlFor="timeZone" value="Time Zone" />
           </div>
-        </Tabs.Item>
-      </Tabs>
-    </form>
+          <input
+            id="timeZone"
+            type="text"
+            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            {...register("timeZone")}
+          />
+          <div className="mb-2 block">
+            <Label htmlFor="employerId" value="Employer Id:" />
+          </div>
+          <input
+            id="employerId"
+            value={localStorage.getItem("id_owner")}
+            type="text"
+            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            {...register("employerId")}
+          />
+          <div className="mb-2 block">
+            <Label htmlFor="name" value="Name" />
+          </div>
+          <input
+            id="name"
+            type="text"
+            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            {...register("name")}
+          />
+          <div className="mb-2 block">
+            <Label htmlFor="phone" value="Phone" />
+          </div>
+          <input
+            id="phone"
+            type="text"
+            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            {...register("phone")}
+          />
+          <div className="mb-2 block">
+            <Label htmlFor="country" value="Country" />
+          </div>
+          <input
+            id="country"
+            type="text"
+            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            {...register("country")}
+          />
+          <div className="mb-2 block">
+            <Label htmlFor="city" value="City" />
+          </div>
+          <input
+            id="city"
+            type="text"
+            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+            {...register("city")}
+          />
+          <div className="mb-2 block">
+            <Label htmlFor="logo" value="Logo" />
+          </div>
+          <FileInput
+            id="logo"
+            className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+            {...register("logo")}
+            onChange={(e) => setImg(e.target.files[0])} // Faylni tanlaymiz
+          />
+          <Button type="submit">Submit</Button>
+        </form>
+      </Tabs.Item>
+    </Tabs>
   );
 }
 
