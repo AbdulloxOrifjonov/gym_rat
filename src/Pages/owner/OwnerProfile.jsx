@@ -14,6 +14,9 @@ function Profile() {
       navigate("/");
     }
   }, [navigate]);
+
+  const owner_name = localStorage.getItem("fullname_owner");
+
   return (
     <div>
       <Tabs aria-label="Tabs with underline" variant="underline">
@@ -22,7 +25,7 @@ function Profile() {
             <Table>
               <Table.Body>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white text-2xl">
-                  Ayubxon
+                  {owner_name}
                 </Table.Cell>
               </Table.Body>
               <Table.Body>
