@@ -86,8 +86,9 @@ function Saidbar({ allowedRole }) {
             </Sidebar.ItemGroup>
           ) : user === "admin" ? (
             <Sidebar.ItemGroup>
+              <Sidebar.Item>Admin</Sidebar.Item>
               <Link to="/admin/dashboard">
-                <Sidebar.Item icon={HiChartPie}>Admin</Sidebar.Item>
+                <Sidebar.Item icon={HiChartPie}>Admin Dashboard</Sidebar.Item>
               </Link>
               <Link to="admin/add/owner">
                 <Sidebar.Item icon={HiUserCircle}>Add Owner</Sidebar.Item>
