@@ -24,6 +24,15 @@ function Login() {
       });
       console.log(response.data);
       localStorage.setItem("token_owner", response.data.token);
+      // const owner_profile = {
+      //   id_owner: response.data._id,
+      //   fullname_owner: response.data.fullname,
+      //   phone_owner: response.data.phone,
+      // };
+      localStorage.setItem("id_owner", response.data.data._id);
+      localStorage.setItem("fullname_owner", response.data.data.fullname);
+      localStorage.setItem("phone_owner", response.data.data.phone);
+      
       navigate("/owner/dashboard");
       reset();
     } catch (error) {

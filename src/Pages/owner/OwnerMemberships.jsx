@@ -1,6 +1,6 @@
 /** @format */
 
-import { Datepicker, Table, Tabs } from "flowbite-react";
+import { Table, Tabs } from "flowbite-react";
 import React, { useEffect } from "react";
 import { HiUserCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,7 @@ function Memberships() {
                   {"Abdullox"}
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  puli yoq ekan
+                  Tekinga kevotti
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                   21/08/2024
