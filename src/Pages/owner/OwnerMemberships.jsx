@@ -1,4 +1,4 @@
-
+/** @format */
 
 import { Datepicker, Table, Tabs } from "flowbite-react";
 import React, { useEffect } from "react";
@@ -30,10 +30,10 @@ function Memberships() {
                   {"Abdullox"}
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  pulli yoq ekan
+                  puli yoq ekan
                 </Table.Cell>
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                  <Datepicker />
+                  21/08/2024
                 </Table.Cell>
                 <Table.Cell>
                   <div className="flex items-center gap-2">
