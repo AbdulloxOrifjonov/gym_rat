@@ -1,28 +1,91 @@
 /** @format */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
-import { Table } from "flowbite-react";
+import { Table, Pagination } from "flowbite-react";
 import { HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
-import { Button, Label, TextInput } from "flowbite-react";
+import { Button, Label, TextInput, Select } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 function Staff() {
+  const [gyms, setGyms] = useState(null);
+  const [employees, setEmployees] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (!localStorage.getItem("token_owner")) {
       navigate("/");
+    } else {
+      const getGyms = async () => {
+        try {
+          const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
+            headers: {
+              Authorization: `${localStorage.getItem("token_owner")}`,
+              "Content-Type": "application/json",
+            },
+          });
+          setGyms(response.data.data);
+        } catch (error) {
+          console.log(error.response.data);
+        }
+      };
+
+      const getStaffs = async () => {
+        try {
+          const response = await axios.get(
+            `https://gymrat.uz/api/v1/employee/pagination?page=${currentPage}&pageSize=10`,
+            {
+              headers: {
+                Authorization: `${localStorage.getItem("token_owner")}`,
+              },
+            },
+          );
+          console.log(response);
+          setEmployees(response.data.data);
+          // Check the totalPages value
+          const pages = response.data.employersCount;
+          setTotalPages(pages > 0 ? pages : 1); // Set totalPages to at least 1
+        } catch (error) {
+          console.error("Error fetching employees:", error);
+          setTotalPages(1); // Fallback to 1 in case of an error
+        }
+      };
+
+      getGyms();
+      getStaffs(); // Make sure the staff data is fetched on mount
     }
-  }, [navigate]);
+  }, [navigate, currentPage]);
+
+  const onPageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   const { register, reset, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    data.gymIds = [data.gymIds]; // gymIds ni array sifatida saqlayapmiz
     console.log(data);
-    reset();
+
+    try {
+      const response = await axios.post("https://gymrat.uz/api/v1/employee/register", data, {
+        headers: {
+          Authorization: `${localStorage.getItem("token_owner")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(response.data);
+      reset();
+    } catch (error) {
+      console.log(error.response.data);
+    }
   };
 
   return (
@@ -34,64 +97,45 @@ function Staff() {
               <Table.Head>
                 <Table.HeadCell>Fullname</Table.HeadCell>
                 <Table.HeadCell>Phone number</Table.HeadCell>
-                <Table.HeadCell>Gym name</Table.HeadCell>
-                <Table.HeadCell>Delete vs Edit</Table.HeadCell>
+                <Table.HeadCell>Actions</Table.HeadCell>
               </Table.Head>
               <Table.Body className="divide-y">
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    {"Abdullox"}
-                  </Table.Cell>
-                  <Table.Cell>+998330119901</Table.Cell>
-                  <Table.Cell>Anjumaniya</Table.Cell>
-                  <Table.Cell>
-                    <div className="flex items-center gap-2">
-                      <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                        Edit
-                      </button>
-                      <button className="font-medium text-red-600 hover:underline dark:text-red-500">
-                        Delete
-                      </button>
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Ayub
-                  </Table.Cell>
-                  <Table.Cell>+998900000000</Table.Cell>
-                  <Table.Cell>damolish</Table.Cell>
-                  <Table.Cell>
-                    <div className="flex items-center gap-2">
-                      <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                        Edit
-                      </button>
-                      <button className="font-medium text-red-600 hover:underline dark:text-red-500">
-                        Delete
-                      </button>
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-                    Rustam
-                  </Table.Cell>
-                  <Table.Cell>+998335544878</Table.Cell>
-                  <Table.Cell>Kok jiguli</Table.Cell>
-                  <Table.Cell>
-                    <div className="flex items-center gap-2">
-                      <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
-                        Edit
-                      </button>
-                      <button className="font-medium text-red-600 hover:underline dark:text-red-500">
-                        Delete
-                      </button>
-                    </div>
-                  </Table.Cell>
-                </Table.Row>
+                {employees ? (
+                  employees.map((employee) => (
+                    <Table.Row
+                      key={employee.id}
+                      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    >
+                      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+                        {employee.fullname}
+                      </Table.Cell>
+                      <Table.Cell>{employee.phone}</Table.Cell>
+                      <Table.Cell>
+                        <div className="flex items-center gap-2">
+                          <button className="font-medium text-cyan-600 hover:underline dark:text-cyan-500">
+                            Edit
+                          </button>
+                          <button className="font-medium text-red-600 hover:underline dark:text-red-500">
+                            Delete
+                          </button>
+                        </div>
+                      </Table.Cell>
+                    </Table.Row>
+                  ))
+                ) : (
+                  <div className="w-full pl-5 pb-5 pt-4">
+                    <h1 className="text-[30px] text-black">Loading . . .</h1>
+                  </div>
+                )}
               </Table.Body>
             </Table>
           </div>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages > 0 ? totalPages : 1}
+            onPageChange={onPageChange}
+            className="pagination"
+          />
         </Tabs.Item>
         <Tabs.Item title="Add Staff" icon={MdDashboard}>
           <div className="flex items-center justify-center w-full mt-10">
@@ -106,7 +150,9 @@ function Staff() {
                     id="employerId"
                     type="text"
                     placeholder="EmployerId"
+                    value={localStorage.getItem("id_owner")}
                     required
+                    readOnly
                   />
                 </div>
                 <div className="w-[48%]">
@@ -137,15 +183,15 @@ function Staff() {
                 </div>
                 <div className="w-[48%]">
                   <div className="mb-2 block">
-                    <Label htmlFor="gymIds" value="GymIds" />
+                    <Label htmlFor="gymIds" value="Select Gym" />
                   </div>
-                  <TextInput
-                    {...register("gymIds")}
-                    id="gymIds"
-                    type="text"
-                    placeholder="GymIds"
-                    required
-                  />
+                  <Select id="gymIds" {...register("gymIds")} required>
+                    {gyms?.map((gym) => (
+                      <option key={gym._id} value={gym._id}>
+                        {gym.name}
+                      </option>
+                    ))}
+                  </Select>
                 </div>
               </div>
               <div className="flex items-center justify-between">
