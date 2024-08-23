@@ -55,6 +55,7 @@ function OwnerGyms() {
     } catch (error) {
       console.log(error);
     }
+    reset();
   };
 
   return (
@@ -78,9 +79,9 @@ function OwnerGyms() {
                 </p>
                 <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
                 <div className="flex justify-between mt-4">
-                  <Link className="text-blue-600 dark:text-blue-400" to={`/edit/${gym._id}`}>
-                    Edit
-                  </Link>
+                  {/* <Link className="text-blue-600 dark:text-blue-400">Edit</Link> */}
+                  <Link className="text-red-700 ">Delete</Link>
+
                   {/* <Button color="failure" onClick={() => handleDelete(gym._id)}>
                     Delete
                   </Button> */}
