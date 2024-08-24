@@ -24,6 +24,7 @@ import Payment from "./Pages/owner/OwnerPayment";
 import Profile from "./Pages/owner/OwnerProfile";
 import AddOwner from "./Pages/admin/AddOwner";
 import OwnerGyms from "./Pages/owner/OwnerGyms";
+import OwnerAboutGym from "./Pages/owner/OwnerAboutGym";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
             <Route path="payment" element={<Payment />} />
             <Route path="profile" element={<Profile />} />
             <Route path="gyms" element={<OwnerGyms />} />
+            <Route path="about/gym" element={<OwnerAboutGym />} />
           </Route>
         </Route>
         <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
