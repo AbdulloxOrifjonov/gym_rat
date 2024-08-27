@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 function OwnerAboutGym() {
   const navigate = useNavigate();
   const [gym, setGym] = useState(null);
+  const [staffs, setStaffs] = useState([]);
 
   useEffect(() => {
     if (!localStorage.getItem("token_owner")) {
@@ -29,6 +30,20 @@ function OwnerAboutGym() {
           console.log(error.response.data);
         }
       };
+      const getStaffs = async () => {
+        try {
+          const response = await axios.get(`https://gymrat.uz/api/v1/employee/pagination`, {
+            headers: {
+              Authorization: `${localStorage.getItem("token_owner")}`,
+            },
+          });
+          console.log(response);
+          setStaffs(response.data.data);
+        } catch (error) {
+          console.error("Error fetching employees:", error);
+        }
+      };
+      getStaffs();
       getGym();
     }
   }, [navigate]);
@@ -55,6 +70,12 @@ function OwnerAboutGym() {
               <div className="text-gray-900 font-medium">{gym.timeFormat}</div>
               <div className="text-gray-700">Time Zone:</div>
               <div className="text-gray-900 font-medium">{gym.timeZone}</div>
+              <div className="text-gray-700">
+                {gym.employees.map((staff) => {
+                  const staffMember = staffs.find((st) => st._id === staff);
+                  return staffMember ? <h1 key={staff}>{staffMember.name}</h1> : null;
+                })}
+              </div>
             </div>
           </div>
         </div>

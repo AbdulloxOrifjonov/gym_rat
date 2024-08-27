@@ -7,6 +7,7 @@ import { Sidebar } from "flowbite-react";
 import { HiChartPie, HiShoppingBag } from "react-icons/hi";
 import { HiUserCircle } from "react-icons/hi";
 //HiAdjustments, HiCloudDownload,
+
 function Saidbar({ allowedRole }) {
   console.dir(allowedRole);
   const user = allowedRole.allowedRole;
@@ -19,115 +20,62 @@ function Saidbar({ allowedRole }) {
           {user === "owner" ? (
             <Sidebar.ItemGroup>
               <Sidebar.Item icon={HiChartPie}>Owner</Sidebar.Item>
-              <Link to="/owner/dashboard"></Link>
-              <Sidebar.Item>Dashboard</Sidebar.Item>
-              <Link to="/owner/market">
-                <Sidebar.Item>Bar</Sidebar.Item>
-              </Link>
-              <Link to={"/owner/payment"}>
-                <Sidebar.Item>Payments</Sidebar.Item>
-              </Link>
-              <Link to={"/owner/profile"}>
-                <Sidebar.Item>Profile</Sidebar.Item>
-              </Link>
-              <Link to={"/owner/gyms"}>
-                <Sidebar.Item>Gyms</Sidebar.Item>
-              </Link>
+              <Sidebar.Item as={Link} to="/owner/dashboard">
+                Dashboard
+              </Sidebar.Item>
+              <Sidebar.Item as={Link} to="/owner/market">
+                Bar
+              </Sidebar.Item>
+              <Sidebar.Item as={Link} to="/owner/payment">
+                Payments
+              </Sidebar.Item>
+              <Sidebar.Item as={Link} to="/owner/profile">
+                Profile
+              </Sidebar.Item>
+              <Sidebar.Item as={Link} to="/owner/gyms">
+                Gyms
+              </Sidebar.Item>
               <Sidebar.Item>Settings</Sidebar.Item>
-              {/* <Sidebar.Item>Profile options with rounded image</Sidebar.Item> */}
-              {/* <Sidebar.Item>Members</Sidebar.Item> */}
               <Sidebar.Collapse icon={HiShoppingBag} label="Members">
-                <Link to="/owner/add/member">
-                  <Sidebar.Item>Add Member</Sidebar.Item>
-                </Link>
-                <Link to="/owner/members">
-                  <Sidebar.Item>Members</Sidebar.Item>
-                </Link>
-                <Link to="/owner/checkIn">
-                  <Sidebar.Item>Check-in</Sidebar.Item>
-                </Link>
+                <Sidebar.Item as={Link} to="/owner/add/member">
+                  Add Member
+                </Sidebar.Item>
+                <Sidebar.Item as={Link} to="/owner/members">
+                  Members
+                </Sidebar.Item>
+                <Sidebar.Item as={Link} to="/owner/checkIn">
+                  Check-in
+                </Sidebar.Item>
               </Sidebar.Collapse>
 
               <Sidebar.Collapse icon={HiShoppingBag} label="Staff">
-                <Link to={"/owner/staffs"}>
-                  <Sidebar.Item>Staffs</Sidebar.Item>
-                </Link>
+                <Sidebar.Item as={Link} to="/owner/staffs">
+                  Staffs
+                </Sidebar.Item>
               </Sidebar.Collapse>
 
               <Sidebar.Collapse icon={HiUserCircle} label="Memberships">
-                <Link to={"add/membership"}>
-                  <Sidebar.Item>Add Membership</Sidebar.Item>
-                </Link>
-                <Link to={"memberships"}>
-                  <Sidebar.Item>Memberships List</Sidebar.Item>
-                </Link>
+                <Sidebar.Item as={Link} to="/owner/add/membership">
+                  Add Membership
+                </Sidebar.Item>
+                <Sidebar.Item as={Link} to="/owner/memberships">
+                  Memberships List
+                </Sidebar.Item>
               </Sidebar.Collapse>
-
-              {/* <Sidebar.Collapse icon={HiUserCircle} label="Memberships">
-                  <Sidebar.Item></Sidebar.Item>
-                </Sidebar.Collapse> */}
-
-              {/* <Link to="/owner/members">
-                  <Sidebar.Item>Members</Sidebar.Item>
-                </Link>
-                <Link to="/owner/checkIn">
-                  <Sidebar.Item>Check-in</Sidebar.Item>
-                </Link>
-                <Link to="/owner/add/member">
-                  <Sidebar.Item>Add Member</Sidebar.Item>
-                </Link>
-                <Sidebar.Item>Rosters</Sidebar.Item>
-                <Sidebar.Item>Documents</Sidebar.Item>
-                <Sidebar.Item>Content</Sidebar.Item>
-                <Sidebar.Item>Growth</Sidebar.Item>
-                <Sidebar.Item>Settings</Sidebar.Item> */}
-
-              {/* <Sidebar.Item icon={HiInbox}>Inbox</Sidebar.Item> */}
             </Sidebar.ItemGroup>
           ) : user === "admin" ? (
             <Sidebar.ItemGroup>
               <Sidebar.Item>Admin</Sidebar.Item>
-              <Link to="/admin/dashboard">
-                <Sidebar.Item icon={HiChartPie}>Admin Dashboard</Sidebar.Item>
-              </Link>
-              <Link to="admin/add/owner">
-                <Sidebar.Item icon={HiUserCircle}>Add Owner</Sidebar.Item>
-              </Link>
+              <Sidebar.Item as={Link} to="/admin/dashboard" icon={HiChartPie}>
+                Admin Dashboard
+              </Sidebar.Item>
+              <Sidebar.Item as={Link} to="/admin/add/owner" icon={HiUserCircle}>
+                Add Owner
+              </Sidebar.Item>
             </Sidebar.ItemGroup>
           ) : (
             ""
           )}
-          {/* <Sidebar.ItemGroup>
-            <Sidebar.Item icon={HiChartPie}>Dashboard</Sidebar.Item>
-            <Sidebar.Collapse icon={HiUser} label="Members">
-              <Link to="/owner/members">
-                <Sidebar.Item>Members</Sidebar.Item>
-              </Link>
-              <Link to="/owner/checkIn">
-                <Sidebar.Item>Check-in</Sidebar.Item>
-              </Link>
-              <Link to="/owner/add/member">
-                <Sidebar.Item>Add Member</Sidebar.Item>
-              </Link>
-              <Link to="/owner/bar">
-                <Sidebar.Item>Bar</Sidebar.Item>
-              </Link>
-              <Sidebar.Item>Memberships</Sidebar.Item>
-              <Sidebar.Item>Rosters</Sidebar.Item>
-              <Sidebar.Item>Documents</Sidebar.Item>
-              <Sidebar.Item>Content</Sidebar.Item>
-              <Sidebar.Item>Growth</Sidebar.Item>
-              <Sidebar.Item>Settings</Sidebar.Item>
-            </Sidebar.Collapse>
-            <Sidebar.Collapse icon={HiShoppingBag} label="Bar">
-              <Link to="/owner/market">
-                <Sidebar.Item>Market</Sidebar.Item>
-              </Link>
-              <Sidebar.Item>Products</Sidebar.Item>
-              <Sidebar.Item>Product Categories</Sidebar.Item>
-            </Sidebar.Collapse>
-            <Sidebar.Item icon={HiInbox}>Inbox</Sidebar.Item>
-          </Sidebar.ItemGroup> */}
         </Sidebar.Items>
       </Sidebar>
     </>
