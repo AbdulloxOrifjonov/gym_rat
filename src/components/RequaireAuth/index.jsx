@@ -1,5 +1,3 @@
-/** @format */
-
 import React from "react";
 import { Outlet } from "react-router-dom";
 // import { useAddLoginMutation } from "../../features/API/ApiSlice";

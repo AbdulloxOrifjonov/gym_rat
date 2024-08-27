@@ -1,5 +1,3 @@
-/** @format */
-
 import axios from "axios";
 import { Tabs, FileInput, Label, Button, Card, Checkbox } from "flowbite-react";
 import React, { useEffect, useState } from "react";
@@ -82,9 +80,13 @@ function OwnerGyms() {
     }
 
     try {
-      const response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
-        headers: { Authorization: localStorage.getItem("token_owner") },
-      });
+      const response = await axios.post(
+        "https://gymrat.uz/api/v1/gym",
+        formData,
+        {
+          headers: { Authorization: localStorage.getItem("token_owner") },
+        }
+      );
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -117,11 +119,15 @@ function OwnerGyms() {
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                   {gym.name}
                 </h5>
-                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
+                <p className="text-gray-700 dark:text-gray-400">
+                  {gym.address}
+                </p>
                 <p className="text-gray-700 dark:text-gray-400">
                   {gym.city}, {gym.country}
                 </p>
-                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
+                <p className="text-gray-700 dark:text-gray-400">
+                  Time Zone: {gym.timeZone}
+                </p>
                 <div className="flex justify-between mt-4">
                   <Link className="text-red-700 ">Delete</Link>
                 </div>
@@ -145,7 +151,6 @@ function OwnerGyms() {
             className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             {...register("address")}
           />
-
           <div className="mb-2 block">
             <Label htmlFor="timeFormat" value="Time Format" />
           </div>

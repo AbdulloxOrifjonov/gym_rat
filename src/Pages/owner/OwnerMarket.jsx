@@ -13,7 +13,7 @@ function Market() {
   }, [navigate]);
   return (
     <div className="flex flex-col">
-      <CartQuantity/>
+      <CartQuantity />
       <h1>Market</h1>
       <ProductCard />
     </div>
