@@ -28,6 +28,8 @@ import CartQuantity from "./components/Cart/CartQuantity";
 import CartItem from "./components/Cart/CartItem";
 import OwnerBarProduct from "./Pages/owner/OwnerBarProduct";
 import OwnerBarProductCategories from "./Pages/owner/OwnerBarProductCategories";
+import OwnerAboutGym from "./Pages/owner/OwnerAboutGym";
+
 
 function App() {
   return (
@@ -70,6 +72,7 @@ function App() {
             <Route path="payment" element={<Payment />} />
             <Route path="profile" element={<Profile />} />
             <Route path="gyms" element={<OwnerGyms />} />
+            <Route path="about/gym" element={<OwnerAboutGym />} />
           </Route>
         </Route>
         <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
