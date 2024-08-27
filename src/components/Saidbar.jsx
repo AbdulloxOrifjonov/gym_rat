@@ -14,16 +14,17 @@ function Saidbar({ allowedRole }) {
   console.log("user", user);
   return (
     <>
-      <Sidebar className="h-screen" aria-label="Sidebar with multi-level dropdown example">
+      <Sidebar
+        className="h-screen"
+        aria-label="Sidebar with multi-level dropdown example"
+      >
         <Sidebar.Items>
           {user === "owner" ? (
             <Sidebar.ItemGroup>
               <Sidebar.Item icon={HiChartPie}>Owner</Sidebar.Item>
               <Link to="/owner/dashboard"></Link>
               <Sidebar.Item>Dashboard</Sidebar.Item>
-              <Link to="/owner/market">
-                <Sidebar.Item>Bar</Sidebar.Item>
-              </Link>
+
               <Link to={"/owner/payment"}>
                 <Sidebar.Item>Payments</Sidebar.Item>
               </Link>
@@ -51,6 +52,17 @@ function Saidbar({ allowedRole }) {
               <Sidebar.Collapse icon={HiShoppingBag} label="Staff">
                 <Link to={"/owner/staffs"}>
                   <Sidebar.Item>Staffs</Sidebar.Item>
+                </Link>
+              </Sidebar.Collapse>
+              <Sidebar.Collapse icon={HiShoppingBag} label="Bar">
+                <Link to="/owner/market">
+                  <Sidebar.Item>Market</Sidebar.Item>
+                </Link>
+                <Link to="/owner/bar/product">
+                  <Sidebar.Item>Product</Sidebar.Item>
+                </Link>
+                <Link to="/owner/bar/product/categories">
+                  <Sidebar.Item>Product categories</Sidebar.Item>
                 </Link>
               </Sidebar.Collapse>
 

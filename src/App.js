@@ -24,6 +24,10 @@ import Payment from "./Pages/owner/OwnerPayment";
 import Profile from "./Pages/owner/OwnerProfile";
 import AddOwner from "./Pages/admin/AddOwner";
 import OwnerGyms from "./Pages/owner/OwnerGyms";
+import CartQuantity from "./components/Cart/CartQuantity";
+import CartItem from "./components/Cart/CartItem";
+import OwnerBarProduct from "./Pages/owner/OwnerBarProduct";
+import OwnerBarProductCategories from "./Pages/owner/OwnerBarProductCategories";
 
 function App() {
   return (
@@ -50,8 +54,15 @@ function App() {
             <Route path="add/member" element={<AddMember />} />
             <Route path="staff" element={<Staff />} />
             <Route path="market" element={<Market />} />
+            <Route path="cart" element={<CartQuantity />} />
             <Route path="staffs" element={<Staff />} />
             <Route path="market" element={<Market />} />
+            <Route path="cartItems" element={<CartItem />} />
+            <Route path="bar/product" element={<OwnerBarProduct />} />
+            <Route
+              path="bar/product/categories"
+              element={<OwnerBarProductCategories />}
+            />
             <Route path="cart" element={<Cart />} />
             <Route path="add/membership" element={<AddMembership />} />
             <Route path="product/:id" element={<CardPage />} />
