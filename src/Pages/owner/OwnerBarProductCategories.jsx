@@ -1,10 +1,12 @@
-import { Label, Table, Tabs, TextInput } from "flowbite-react";
+/** @format */
+
+import { Label, Tabs } from "flowbite-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
 
 const OwnerBarProductCategories = () => {
-    const { register } = useForm();
+  const { register } = useForm();
 
   return (
     <Tabs>

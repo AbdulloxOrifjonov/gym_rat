@@ -1,4 +1,6 @@
-import { FileInput, Label, Table, Tabs } from "flowbite-react";
+/** @format */
+
+import { FileInput, Label, Tabs } from "flowbite-react";
 import React from "react";
 import { HiUserCircle } from "react-icons/hi";
 
