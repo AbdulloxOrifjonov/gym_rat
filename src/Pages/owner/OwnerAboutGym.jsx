@@ -1,5 +1,3 @@
-/** @format */
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +23,7 @@ function OwnerAboutGym() {
             },
           );
           console.log(response);
-          setGym(response.data.data); // Update state with the fetched data
+          setGym(response.data.data); // Update state with the fetched 
         } catch (error) {
           console.log(error.response.data);
         }
