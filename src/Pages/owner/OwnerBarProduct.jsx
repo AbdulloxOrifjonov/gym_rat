@@ -1,8 +1,7 @@
+/** @format */
 
 import { Button, FileInput, Label, Select, Tabs } from "flowbite-react";
-import axios from "axios";
-import { FileInput, Label, Tabs } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { HiUserCircle } from "react-icons/hi";
 
