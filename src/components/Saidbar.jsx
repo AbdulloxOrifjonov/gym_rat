@@ -26,9 +26,6 @@ function Saidbar({ allowedRole }) {
             <Sidebar.Item as={Link} to="/owner/dashboard">
                 Dashboard
               </Sidebar.Item>
-              <Sidebar.Item as={Link} to="/owner/market">
-                Bar
-              </Sidebar.Item>
               <Sidebar.Item as={Link} to="/owner/payment">
                 Payments
               </Sidebar.Item>
