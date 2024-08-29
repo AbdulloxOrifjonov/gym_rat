@@ -1,16 +1,50 @@
-/** @format */
 
+import axios from "axios";
 import { FileInput, Label, Tabs } from "flowbite-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { HiUserCircle } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const OwnerBarProduct = () => {
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!localStorage.getItem("ownerBarProduct")) {
+      // navigate("/");
+    } else {
+      const getBarProduct = async () => {
+        try {
+          const response = await axios.get("/api/v1/product");
+          setProducts(response.data);
+        } catch (error) {
+          console.error("Failed to fetch products:", error);
+        }
+      };
+      getBarProduct();
+    }
+  }, [navigate]);
+
   return (
     <Tabs>
-      <Tabs.Item active title="Product List" icon={HiUserCircle}></Tabs.Item>
-      <Tabs.Item active title="Add Quantity" icon={HiUserCircle}>
+      <Tabs.Item active title="Product List" icon={HiUserCircle}>
         <div>
-          <form action="#">
+          {/* Render the list of products */}
+          {products.length > 0 ? (
+            <ul>
+              {products.map((product) => (
+                <li key={product.id}>{product.name}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No products available.</p>
+          )}
+        </div>
+      </Tabs.Item>
+
+      <Tabs.Item title="Add Quantity" icon={HiUserCircle}>
+        <div>
+          <form>
             <select>
               <option value="first">first</option>
               <option value="second">second</option>
@@ -36,9 +70,10 @@ const OwnerBarProduct = () => {
           </form>
         </div>
       </Tabs.Item>
-      <Tabs.Item active title="Add Product" icon={HiUserCircle}>
+
+      <Tabs.Item title="Add Product" icon={HiUserCircle}>
         <div>
-          <form action="#">
+          <form>
             <div className="mt-4 mb-2 block">
               <Label htmlFor="title" value="Title" />
             </div>
@@ -97,10 +132,11 @@ const OwnerBarProduct = () => {
           </form>
         </div>
       </Tabs.Item>
-      <Tabs.Item active title="Edit Product" icon={HiUserCircle}>
+
+      <Tabs.Item title="Edit Product" icon={HiUserCircle}>
         <div>
           <h1>Edit Product</h1>
-          <form action="#">
+          <form>
             <div className="mt-4 mb-2 block">
               <Label htmlFor="title" value="Title" />
             </div>
@@ -159,7 +195,10 @@ const OwnerBarProduct = () => {
           </form>
         </div>
       </Tabs.Item>
-      <Tabs.Item active title="Delete product" icon={HiUserCircle}></Tabs.Item>
+
+      <Tabs.Item title="Delete Product" icon={HiUserCircle}>
+        <div>{/* Delete product logic can be added here */}</div>
+      </Tabs.Item>
     </Tabs>
   );
 };

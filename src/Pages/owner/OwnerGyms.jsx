@@ -1,7 +1,7 @@
 /** @format */
 
 import axios from "axios";
-import { Tabs, FileInput, Label, Button, Card, Checkbox } from "flowbite-react";
+import { Tabs, FileInput, Label, Button, Card } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
@@ -10,11 +10,8 @@ import { Link, useNavigate } from "react-router-dom";
 function OwnerGyms() {
   const [img, setImg] = useState(null); // Faylni saqlash uchun `null` dan boshlash
   const [gyms, setGyms] = useState(null);
-  const [employees, setEmployees] = useState([]); // Xodimlarni saqlash uchun state
-  const [selectedEmployees, setSelectedEmployees] = useState([]); // Tanlangan xodimlar IDlari uchun state
 
   const navigate = useNavigate();
-
   useEffect(() => {
     if (!localStorage.getItem("token_owner")) {
       navigate("/");
@@ -32,34 +29,11 @@ function OwnerGyms() {
           console.log(error.response.data);
         }
       };
-
-      const getEmployees = async () => {
-        try {
-          const response = await axios.get(`https://gymrat.uz/api/v1/employee/pagination`, {
-            headers: {
-              Authorization: `${localStorage.getItem("token_owner")}`,
-            },
-          });
-          setEmployees(response.data.data); // Xodimlarni state ga saqlash
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      getEmployees();
       getGyms();
     }
   }, [navigate, img]);
 
   const { register, handleSubmit } = useForm();
-
-  const handleEmployeeSelect = () => {
-    const selectedValues = Array.from(
-      document.querySelectorAll('#employees input[type="checkbox"]:checked'), // checkbox-larni to'g'ri qidirish
-    ).map((cb) => cb.value);
-    setSelectedEmployees(selectedValues);
-    console.log(selectedValues); // Tanlangan xodimlar IDlarini tekshirish
-  };
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -70,17 +44,9 @@ function OwnerGyms() {
     formData.append("city", data.city);
     formData.append("address", data.address);
     formData.append("timeZone", data.timeZone);
-    formData.append("timeFormat", data.timeFormat);
-
-    // Tanlangan xodimlarni to'g'ri qo'shish
-    selectedEmployees.forEach((employeeId) => {
-      formData.append("employees[]", employeeId); // `employees[]` array sifatida qo'shiladi
-    });
-
     if (img) {
       formData.append("logo", img);
     }
-
     try {
       const response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
         headers: { Authorization: localStorage.getItem("token_owner") },
@@ -100,6 +66,7 @@ function OwnerGyms() {
     console.log(gym_id);
     console.log(localStorage.getItem("gym_id"));
     navigate("/owner/about/gym");
+
   };
 
   return (
@@ -108,7 +75,7 @@ function OwnerGyms() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {gyms ? (
             gyms.map((gym) => (
-              <Card key={gym._id} onClick={() => aboutGym(gym._id)} className="max-w-sm">
+              <Card key={gym._id} className="max-w-sm">
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
@@ -123,7 +90,12 @@ function OwnerGyms() {
                 </p>
                 <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
                 <div className="flex justify-between mt-4">
+                  {/* <Link className="text-blue-600 dark:text-blue-400">Edit</Link> */}
                   <Link className="text-red-700 ">Delete</Link>
+
+                  {/* <Button color="failure" onClick={() => handleDelete(gym._id)}>
+                    Delete
+                  </Button> */}
                 </div>
               </Card>
             ))
@@ -145,31 +117,6 @@ function OwnerGyms() {
             className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             {...register("address")}
           />
-          <div className="mb-2 block">
-            <Label htmlFor="timeFormat" value="Time Format" />
-          </div>
-          <div className="flex items-center mb-4">
-            <input
-              id="12-hour"
-              type="radio"
-              value="AM/PM"
-              {...register("timeFormat")}
-              className="mr-2"
-            />
-            <Label htmlFor="12-hour" className="text-gray-700 dark:text-gray-400">
-              AM/PM
-            </Label>
-            <input
-              id="24-hour"
-              type="radio"
-              value="PM"
-              {...register("timeFormat")}
-              className="mr-2 ml-4"
-            />
-            <Label htmlFor="24-hour" className="text-gray-700 dark:text-gray-400">
-              24-hour
-            </Label>
-          </div>
           <div className="mb-2 block">
             <Label htmlFor="timeZone" value="Time Zone" />
           </div>
@@ -225,32 +172,6 @@ function OwnerGyms() {
             className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
             {...register("city")}
           />
-          <div className="mb-2 block">
-            <Label htmlFor="employees" value="Employees" />
-          </div>
-          <div id="employees" className="space-y-2 mb-4">
-            <div id="employees" className="space-y-2 mb-4">
-              <div id="employees" className="space-y-2 mb-4">
-                {employees.map((employee) => (
-                  <div key={employee._id} className="flex items-center">
-                    <Checkbox
-                      id={`employee-${employee._id}`}
-                      value={employee._id}
-                      onClick={handleEmployeeSelect} // `onClick` yordamida sinab ko'ring
-                      className="mr-2"
-                    />
-
-                    <Label
-                      htmlFor={`employee-${employee._id}`}
-                      className="text-gray-700 dark:text-gray-400"
-                    >
-                      {employee.fullname}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
           <div className="mb-2 block">
             <Label htmlFor="logo" value="Logo" />
           </div>
