@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
 
 const OwnerBarProductCategories = () => {
-    const { register } = useForm();
+  const { register } = useForm();
 
   return (
     <Tabs>
