@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
 import { Table, Pagination } from "flowbite-react";
@@ -15,9 +13,7 @@ function Staff() {
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-
   const navigate = useNavigate();
-
   useEffect(() => {
     if (!localStorage.getItem("token_owner")) {
       navigate("/");
@@ -35,7 +31,6 @@ function Staff() {
           console.log(error.response.data);
         }
       };
-
       const getStaffs = async () => {
         try {
           const response = await axios.get(
@@ -44,7 +39,7 @@ function Staff() {
               headers: {
                 Authorization: `${localStorage.getItem("token_owner")}`,
               },
-            },
+            }
           );
           console.log(response);
           setEmployees(response.data.data);
@@ -75,12 +70,16 @@ function Staff() {
     console.log(data);
 
     try {
-      const response = await axios.post("https://gymrat.uz/api/v1/employee/register", data, {
-        headers: {
-          Authorization: `${localStorage.getItem("token_owner")}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        "https://gymrat.uz/api/v1/employee/register",
+        data,
+        {
+          headers: {
+            Authorization: `${localStorage.getItem("token_owner")}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
       console.log(response.data);
       reset();
     } catch (error) {
@@ -139,7 +138,10 @@ function Staff() {
         </Tabs.Item>
         <Tabs.Item title="Add Staff" icon={MdDashboard}>
           <div className="flex items-center justify-center w-full mt-10">
-            <form onSubmit={handleSubmit(onSubmit)} className="flex max-w-md flex-col gap-4 w-full">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="flex max-w-md flex-col gap-4 w-full"
+            >
               <div className="flex items-center justify-between">
                 <div className="w-[48%]">
                   <div className="mb-2 block">

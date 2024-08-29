@@ -1,4 +1,4 @@
-import { Label,  Tabs } from "flowbite-react";
+import { Label, Tabs } from "flowbite-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
