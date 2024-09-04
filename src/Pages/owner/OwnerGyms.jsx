@@ -59,8 +59,7 @@ function OwnerGyms() {
       console.log(error);
     }
 
-    // reset();
-    setSelectedEmployees([]); // Tanlangan xodimlarni tozalash
+    // reset(); // Agar siz react-hook-form'dan reset() funksiyasini ishlatmoqchi bo'lsangiz, uni aktivlash uchun react-hook-form dan import qiling.
   };
 
   const aboutGym = (gym_id) => {
@@ -78,6 +77,7 @@ function OwnerGyms() {
           {gyms ? (
             gyms.map((gym) => (
               <Card onClick={()=> aboutGym(gym._id)} key={gym._id} className="max-w-sm">
+
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
@@ -184,7 +184,7 @@ function OwnerGyms() {
           <FileInput
             id="logo"
             className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            {...register("logo")}
+            ref={register("logo").ref} // FileInput uchun ref qo'shildi
             onChange={(e) => setImg(e.target.files[0])} // Faylni tanlaymiz
           />
           <Button type="submit">Submit</Button>
