@@ -70,7 +70,7 @@ function OwnerAddProduct() {
                 </div>
                 <div className="flex gap-2">
                   <Button onClick={() => addToCart(listProduct)}>
-                    Add
+                    ADD
                   </Button>
                 </div>
               </div>
