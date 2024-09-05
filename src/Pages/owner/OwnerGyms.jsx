@@ -9,7 +9,7 @@ import { Link, useNavigate } from "react-router-dom";
 function OwnerGyms() {
   const [img, setImg] = useState(null); // Faylni saqlash uchun `null` dan boshlash
   const [gyms, setGyms] = useState(null);
-  const [selectedEmployees, setSelectedEmployees] = useState([]);
+  // const [selectedEmployees, setSelectedEmployees] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     if (!localStorage.getItem("token_owner")) {

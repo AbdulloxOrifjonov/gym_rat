@@ -1,20 +1,26 @@
+/** @format */
+
 import axios from "axios";
 import { Button, Card, FileInput, Label, Select, Tabs } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-
 import { HiUserCircle } from "react-icons/hi";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const OwnerBarProduct = () => {
   const [products, setProducts] = useState(null);
+  // eslint-disable-next-line
   const [employees, setEmployees] = useState([]);
+  // eslint-disable-next-line
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  // eslint-disable-next-line
   const [selectedEmployees, setSelectedEmployees] = useState([]);
-  const [img, setImg] = useState(null); 
+  // eslint-disable-next-line
+  const [img, setImg] = useState(null);
   const navigate = useNavigate();
+  // eslint-disable-next-line
   const { register, handleSubmit, reset } = useForm();
   useEffect(() => {
     if (!localStorage.getItem("token_owner")) {
@@ -41,46 +47,42 @@ const OwnerBarProduct = () => {
               headers: {
                 Authorization: `${localStorage.getItem("token_owner")}`,
               },
-            }
+            },
           );
           console.log(response);
           setEmployees(response.data.data);
-          
+
           const pages = response.data.employersCount;
-          setTotalPages(pages > 0 ? pages : 1); 
+          setTotalPages(pages > 0 ? pages : 1);
         } catch (error) {
           console.error("Error fetching employees:", error);
-          setTotalPages(1); 
+          setTotalPages(1);
         }
       };
 
       getProducts();
-      getStaffs(); 
+      getStaffs();
     }
   }, [navigate, currentPage, img]);
   const handleDelete = async (gym_id) => {
     try {
-      const response = await axios.delete(
-        `https://gymrat.uz/api/v1/gym/${gym_id}`,
-        {
-          headers: { Authorization: localStorage.getItem("token_owner") },
-        }
-      );
+      const response = await axios.delete(`https://gymrat.uz/api/v1/gym/${gym_id}`, {
+        headers: { Authorization: localStorage.getItem("token_owner") },
+      });
       console.log(response);
 
-      
       setProducts(products.filter((gym) => gym._id !== gym_id));
     } catch (error) {
       console.log("Error deleting product:", error);
     }
   };
-
+  // eslint-disable-next-line
   const onPageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
   };
-
+  // eslint-disable-next-line
   const handleEdit = async (gym_id) => {
     try {
     } catch (error) {
@@ -100,20 +102,15 @@ const OwnerBarProduct = () => {
       formData.append("logo", img);
     }
     try {
-      const response = await axios.post(
-        "https://gymrat.uz/api/v1/gym",
-        formData,
-        {
-          headers: { Authorization: localStorage.getItem("token_owner") },
-        }
-      );
+      const response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
+        headers: { Authorization: localStorage.getItem("token_owner") },
+      });
       console.log(response);
     } catch (error) {
       console.log(error);
     }
 
-    
-    setSelectedEmployees([]); 
+    setSelectedEmployees([]);
   };
 
   const aboutProduct = (gym_id) => {
@@ -129,11 +126,7 @@ const OwnerBarProduct = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {products ? (
             products.map((gym) => (
-              <Card
-                onClick={() => aboutProduct(gym._id)}
-                key={gym._id}
-                className="max-w-sm"
-              >
+              <Card onClick={() => aboutProduct(gym._id)} key={gym._id} className="max-w-sm">
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
@@ -142,15 +135,11 @@ const OwnerBarProduct = () => {
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                   {gym.name}
                 </h5>
-                <p className="text-gray-700 dark:text-gray-400">
-                  {gym.address}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
                 <p className="text-gray-700 dark:text-gray-400">
                   {gym.city}, {gym.country}
                 </p>
-                <p className="text-gray-700 dark:text-gray-400">
-                  Time Zone: {gym.timeZone}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
                 <div className="flex justify-between mt-4">
                   {/* <Link className="text-blue-600 dark:text-blue-400">Edit</Link> */}
                   <Button color="failure" onClick={() => handleDelete(gym._id)}>
@@ -267,11 +256,7 @@ const OwnerBarProduct = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {products ? (
             products.map((gym) => (
-              <Card
-                onClick={() => aboutProduct(gym._id)}
-                key={gym._id}
-                className="max-w-sm"
-              >
+              <Card onClick={() => aboutProduct(gym._id)} key={gym._id} className="max-w-sm">
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
@@ -280,15 +265,11 @@ const OwnerBarProduct = () => {
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                   {gym.name}
                 </h5>
-                <p className="text-gray-700 dark:text-gray-400">
-                  {gym.address}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
                 <p className="text-gray-700 dark:text-gray-400">
                   {gym.city}, {gym.country}
                 </p>
-                <p className="text-gray-700 dark:text-gray-400">
-                  Time Zone: {gym.timeZone}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
                 <div className="flex justify-between mt-4">
                   {/* <Link className="text-blue-600 dark:text-blue-400">Edit</Link> */}
                   <Button>Edit</Button>
@@ -320,15 +301,11 @@ const OwnerBarProduct = () => {
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                   {gym.name}
                 </h5>
-                <p className="text-gray-700 dark:text-gray-400">
-                  {gym.address}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
                 <p className="text-gray-700 dark:text-gray-400">
                   {gym.city}, {gym.country}
                 </p>
-                <p className="text-gray-700 dark:text-gray-400">
-                  Time Zone: {gym.timeZone}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
                 <div className="flex justify-between mt-4">
                   <Button color="failure" onClick={() => handleDelete(gym._id)}>
                     Delete
