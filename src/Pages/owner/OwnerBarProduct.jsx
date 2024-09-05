@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { HiUserCircle } from "react-icons/hi";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const OwnerBarProduct = () => {
   const [products, setProducts] = useState(null);
@@ -12,7 +12,7 @@ const OwnerBarProduct = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
-  const [img, setImg] = useState(null); 
+  const [img, setImg] = useState(null);
   const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm();
   useEffect(() => {
@@ -44,17 +44,17 @@ const OwnerBarProduct = () => {
           );
           console.log(response);
           setEmployees(response.data.data);
-          
+
           const pages = response.data.employersCount;
-          setTotalPages(pages > 0 ? pages : 1); 
+          setTotalPages(pages > 0 ? pages : 1);
         } catch (error) {
           console.error("Error fetching employees:", error);
-          setTotalPages(1); 
+          setTotalPages(1);
         }
       };
 
       getProducts();
-      getStaffs(); 
+      getStaffs();
     }
   }, [navigate, currentPage, img]);
   const handleDelete = async (gym_id) => {
@@ -67,7 +67,6 @@ const OwnerBarProduct = () => {
       );
       console.log(response);
 
-      
       setProducts(products.filter((gym) => gym._id !== gym_id));
     } catch (error) {
       console.log("Error deleting product:", error);
@@ -111,8 +110,7 @@ const OwnerBarProduct = () => {
       console.log(error);
     }
 
-    
-    setSelectedEmployees([]); 
+    setSelectedEmployees([]);
   };
 
   const aboutProduct = (gym_id) => {
@@ -128,11 +126,7 @@ const OwnerBarProduct = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {products ? (
             products.map((gym) => (
-              <Card
-                onClick={() => aboutProduct(gym._id)}
-                key={gym._id}
-                className="max-w-sm"
-              >
+              <Card key={gym._id} className="max-w-sm">
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
@@ -155,10 +149,6 @@ const OwnerBarProduct = () => {
                   <Button color="failure" onClick={() => handleDelete(gym._id)}>
                     Delete
                   </Button>
-
-                  {/* <Button color="failure" onClick={() => handleDelete(gym._id)}>
-                    Delete
-                  </Button> */}
                 </div>
               </Card>
             ))

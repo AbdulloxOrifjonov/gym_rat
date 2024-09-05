@@ -29,7 +29,7 @@ import CartItem from "./components/Cart/CartItem";
 import OwnerBarProduct from "./Pages/owner/OwnerBarProduct";
 import OwnerBarProductCategories from "./Pages/owner/OwnerBarProductCategories";
 import OwnerAboutGym from "./Pages/owner/OwnerAboutGym";
-
+import OwnerAddProduct from "./Pages/owner/OwnerAddProduct";
 
 function App() {
   return (
@@ -55,7 +55,7 @@ function App() {
             <Route path="members" element={<Members />} />
             <Route path="add/member" element={<AddMember />} />
             <Route path="staff" element={<Staff />} />
-            <Route path="market" element={<Market />} />
+            <Route path="market" element={<OwnerAddProduct />} />
             <Route path="cart" element={<CartQuantity />} />
             <Route path="staffs" element={<Staff />} />
             <Route path="market" element={<Market />} />
