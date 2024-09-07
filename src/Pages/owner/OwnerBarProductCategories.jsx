@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Label, Select, Tabs } from "flowbite-react";
+import { Label, Select, Tabs, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
@@ -40,13 +40,7 @@ const OwnerBarProductCategories = () => {
               value="Add product category"
             />
           </div>
-          <Select id="cotegoryIds" {...register("cotegoryIds")} required>
-            {categoryName?.map((cotegory) => (
-              <option key={cotegory._id} value={cotegory._id}>
-                {cotegory.name}
-              </option>
-            ))}
-          </Select>
+          <TextInput type="text" placeholder="cotegory" {...register("cotegory")} />
         </form>
       </Tabs.Item>
     </Tabs>

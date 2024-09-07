@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { Tabs, FileInput, Label, Button, Card } from "flowbite-react";
 import React, { useEffect, useState } from "react";
@@ -51,7 +50,10 @@ function OwnerGyms() {
         "https://gymrat.uz/api/v1/gym",
         formData,
         {
-          headers: { Authorization: localStorage.getItem("token_owner") },
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: localStorage.getItem("token_owner"),
+          },
         }
       );
       console.log(response);
@@ -77,7 +79,11 @@ function OwnerGyms() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {gyms ? (
             gyms.map((gym) => (
-              <Card onClick={()=> aboutGym(gym._id)} key={gym._id} className="max-w-sm">
+              <Card
+                onClick={() => aboutGym(gym._id)}
+                key={gym._id}
+                className="max-w-sm"
+              >
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
