@@ -1,3 +1,5 @@
+/** @format */
+
 import axios from "axios";
 import { Label, Select, Tabs, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
@@ -23,7 +25,7 @@ const OwnerBarProductCategories = () => {
           });
           setCategoryName(response.data.data);
         } catch (error) {
-          console.log(error.response.data);
+          console.log(error.response);
         }
       };
       getCategoryName();
@@ -35,10 +37,7 @@ const OwnerBarProductCategories = () => {
       <Tabs.Item active title="Add Product Cotegories" icon={HiUserCircle}>
         <form action="#">
           <div className="mb-2 block">
-            <Label
-              htmlFor="Add product category"
-              value="Add product category"
-            />
+            <Label htmlFor="Add product category" value="Add product category" />
           </div>
           <TextInput type="text" placeholder="cotegory" {...register("cotegory")} />
         </form>
