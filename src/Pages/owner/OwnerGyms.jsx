@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 function OwnerGyms() {
   const [img, setImg] = useState(null); // Faylni saqlash uchun `null` dan boshlash
   const [gyms, setGyms] = useState(null);
-  const [selectedEmployees, setSelectedEmployees] = useState([]);
+  // const [selectedEmployees, setSelectedEmployees] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     if (!localStorage.getItem("token_owner")) {
@@ -56,6 +56,7 @@ function OwnerGyms() {
           },
         }
       );
+
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -83,6 +84,7 @@ function OwnerGyms() {
                 key={gym._id}
                 className="max-w-sm"
               >
+
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
@@ -91,15 +93,11 @@ function OwnerGyms() {
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                   {gym.name}
                 </h5>
-                <p className="text-gray-700 dark:text-gray-400">
-                  {gym.address}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
                 <p className="text-gray-700 dark:text-gray-400">
                   {gym.city}, {gym.country}
                 </p>
-                <p className="text-gray-700 dark:text-gray-400">
-                  Time Zone: {gym.timeZone}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
                 <div className="flex justify-between mt-4">
                   {/* <Link className="text-blue-600 dark:text-blue-400">Edit</Link> */}
                   <Link className="text-red-700 ">Delete</Link>

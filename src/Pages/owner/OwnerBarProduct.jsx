@@ -1,3 +1,5 @@
+/** @format */
+
 import axios from "axios";
 import {
   Button,
@@ -17,14 +19,21 @@ import { useNavigate } from "react-router-dom";
 
 const OwnerBarProduct = () => {
   const [products, setProducts] = useState(null);
+  // eslint-disable-next-line
   const [employees, setEmployees] = useState([]);
+  // eslint-disable-next-line
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  // eslint-disable-next-line
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [img, setImg] = useState(null);
+  // eslint-disable-next-line
   const [editModalVisible, setEditModalVisible] = useState(false);
+  // eslint-disable-next-line
   const [selectedGym, setSelectedGym] = useState(null); // Selected product for editing
+  // eslint-disable-next-line
   const navigate = useNavigate();
+  // eslint-disable-next-line
   const { register, handleSubmit, reset, setValue } = useForm();
 
   useEffect(() => {
@@ -52,9 +61,10 @@ const OwnerBarProduct = () => {
               headers: {
                 Authorization: `${localStorage.getItem("token_owner")}`,
               },
-            }
+            },
           );
           setEmployees(response.data.data);
+
           const pages = response.data.employersCount;
           setTotalPages(pages > 0 ? pages : 1);
         } catch (error) {
@@ -70,13 +80,11 @@ const OwnerBarProduct = () => {
 
   const handleDelete = async (gym_id) => {
     try {
-      const response = await axios.delete(
-        `https://gymrat.uz/api/v1/gym/${gym_id}`,
-        {
-          headers: { Authorization: localStorage.getItem("token_owner") },
-        }
-      );
+      const response = await axios.delete(`https://gymrat.uz/api/v1/gym/${gym_id}`, {
+        headers: { Authorization: localStorage.getItem("token_owner") },
+      });
       console.log(response);
+
       setProducts(products.filter((gym) => gym._id !== gym_id));
     } catch (error) {
       console.log("Error deleting product:", error);
@@ -106,6 +114,20 @@ const OwnerBarProduct = () => {
     setEditModalVisible(false);
     setSelectedGym(null);
     reset(); // Reset form fields when closing the modal
+=======
+  // eslint-disable-next-line
+  const onPageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+  // eslint-disable-next-line
+  const handleEdit = async (gym_id) => {
+    try {
+    } catch (error) {
+      console.log("Error editing product:", error);
+    }
+
   };
 
   const handleEditSubmit = async (data) => {
@@ -129,6 +151,9 @@ const OwnerBarProduct = () => {
     } catch (error) {
       console.log("Error updating product:", error);
     }
+
+    setSelectedEmployees([]);
+
   };
 
   return (
@@ -321,6 +346,80 @@ const OwnerBarProduct = () => {
         </Modal.Body>
       </Modal>
     </>
+
+        </div>
+      </Tabs.Item>
+
+      <Tabs.Item title="Edit Product" icon={HiUserCircle}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {products ? (
+            products.map((gym) => (
+              <Card onClick={() => aboutProduct(gym._id)} key={gym._id} className="max-w-sm">
+                <img
+                  src={gym.logo || "https://via.placeholder.com/150"}
+                  alt={`${gym.name} logo`}
+                  className="rounded-t-lg"
+                />
+                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                  {gym.name}
+                </h5>
+                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
+                <p className="text-gray-700 dark:text-gray-400">
+                  {gym.city}, {gym.country}
+                </p>
+                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
+                <div className="flex justify-between mt-4">
+                  {/* <Link className="text-blue-600 dark:text-blue-400">Edit</Link> */}
+                  <Button>Edit</Button>
+                  {/* <Button color="failure" onClick={() => handleDelete(gym._id)}>
+                    Delete
+                  </Button> */}
+                </div>
+              </Card>
+            ))
+          ) : (
+            <div className="w-full pl-5 pb-5 pt-4">
+              <h1 className="text-[30px] text-black">Loading . . .</h1>
+            </div>
+          )}
+        </div>
+      </Tabs.Item>
+
+      <Tabs.Item title="Delete Product" icon={HiUserCircle}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {products ? (
+            products.map((gym) => (
+              <Card key={gym._id} className="max-w-sm">
+                <img
+                  onClick={() => aboutProduct(gym._id)}
+                  src={gym.logo || "https://via.placeholder.com/150"}
+                  alt={`${gym.name} logo`}
+                  className="rounded-t-lg"
+                />
+                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
+                  {gym.name}
+                </h5>
+                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
+                <p className="text-gray-700 dark:text-gray-400">
+                  {gym.city}, {gym.country}
+                </p>
+                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
+                <div className="flex justify-between mt-4">
+                  <Button color="failure" onClick={() => handleDelete(gym._id)}>
+                    Delete
+                  </Button>
+                </div>
+              </Card>
+            ))
+          ) : (
+            <div className="w-full pl-5 pb-5 pt-4">
+              <h1 className="text-[30px] text-black">Loading . . .</h1>
+            </div>
+          )}
+        </div>
+      </Tabs.Item>
+    </Tabs>
+
   );
 };
 
