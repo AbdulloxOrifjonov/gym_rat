@@ -1,3 +1,4 @@
+/** @format */
 
 import axios from "axios";
 import { Tabs, FileInput, Label, Button, Card } from "flowbite-react";
@@ -47,13 +48,12 @@ function OwnerGyms() {
       formData.append("logo", img);
     }
     try {
-      const response = await axios.post(
-        "https://gymrat.uz/api/v1/gym",
-        formData,
-        {
-          headers: { Authorization: localStorage.getItem("token_owner") },
-        }
-      );
+      const response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token_owner"),
+        },
+      });
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -76,8 +76,7 @@ function OwnerGyms() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {gyms ? (
             gyms.map((gym) => (
-              <Card onClick={()=> aboutGym(gym._id)} key={gym._id} className="max-w-sm">
-
+              <Card onClick={() => aboutGym(gym._id)} key={gym._id} className="max-w-sm">
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
@@ -86,15 +85,11 @@ function OwnerGyms() {
                 <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                   {gym.name}
                 </h5>
-                <p className="text-gray-700 dark:text-gray-400">
-                  {gym.address}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
                 <p className="text-gray-700 dark:text-gray-400">
                   {gym.city}, {gym.country}
                 </p>
-                <p className="text-gray-700 dark:text-gray-400">
-                  Time Zone: {gym.timeZone}
-                </p>
+                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
                 <div className="flex justify-between mt-4">
                   {/* <Link className="text-blue-600 dark:text-blue-400">Edit</Link> */}
                   <Link className="text-red-700 ">Delete</Link>
