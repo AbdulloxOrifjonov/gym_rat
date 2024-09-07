@@ -23,7 +23,7 @@ function OwnerAboutGym() {
             },
           );
           console.log(response);
-          setGym(response.data.data); // Update state with the fetched 
+          setGym(response.data.data); // Update state with the fetched data
         } catch (error) {
           console.log(error.response.data);
         }

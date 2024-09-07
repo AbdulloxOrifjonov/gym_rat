@@ -1,24 +1,46 @@
-import { Label, Tabs } from "flowbite-react";
-import React from "react";
+import axios from "axios";
+import { Label, Select, Tabs, TextInput } from "flowbite-react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const OwnerBarProductCategories = () => {
+  const [categoryName, setCategoryName] = useState(null);
   const { register } = useForm();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!localStorage.getItem("token_owner")) {
+      navigate("/");
+    } else {
+      const getCategoryName = async () => {
+        try {
+          const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
+            headers: {
+              Authorization: `${localStorage.getItem("token_owner")}`,
+              "Content-Type": "application/json",
+            },
+          });
+          setCategoryName(response.data.data);
+        } catch (error) {
+          console.log(error.response.data);
+        }
+      };
+      getCategoryName();
+    }
+  }, [navigate]);
 
   return (
     <Tabs>
       <Tabs.Item active title="Add Product Cotegories" icon={HiUserCircle}>
         <form action="#">
           <div className="mb-2 block">
-            <Label htmlFor="address" value="Address" />
+            <Label
+              htmlFor="Add product category"
+              value="Add product category"
+            />
           </div>
-          <input
-            id="address"
-            type="text"
-            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            {...register("address")}
-          />
+          <TextInput type="text" placeholder="cotegory" {...register("cotegory")} />
         </form>
       </Tabs.Item>
     </Tabs>
