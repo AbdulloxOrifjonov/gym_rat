@@ -11,7 +11,7 @@ import { Button, Table, Tabs } from "flowbite-react";
 import { HiUserCircle } from "react-icons/hi";
 function AboutOwner() {
   const [gyms, setGyms] = useState([]);
-  const { auth } = useContext(AuthContext);
+  const { auth, refreshToken } = useContext(AuthContext);
   const [owner, setOwner] = useState([]); // initial state null
   const { id } = useParams();
 
@@ -25,9 +25,11 @@ function AboutOwner() {
         },
       });
       setGyms(response?.data.data);
-      console.log(response);
     } catch (error) {
-      console.log(error.response);
+      console.error(error.response);
+      if (error.response.data.message === "Invalid token") {
+        refreshToken();
+      }
     }
   };
   // eslint-disable-next-line
@@ -39,10 +41,11 @@ function AboutOwner() {
         },
       });
       setOwner(response.data.data);
-      console.log(response.data);
-      console.log(owner);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      if (error.response.data.message === "Invalid token") {
+        refreshToken();
+      }
     }
   };
 
@@ -50,7 +53,6 @@ function AboutOwner() {
     if (id) {
       getOwner(id);
       getGyms(id);
-      console.log(gyms);
     }
   }, [id]);
   // eslint-disable-next-lineif (!owner) {

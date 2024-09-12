@@ -2,7 +2,7 @@
 
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import OwnerLogin from "./Pages/auth/Login";
+import Login from "./Pages/auth/Login";
 import AdminLogin from "./Pages/auth/AdminLogin";
 import MemberLogin from "./Pages/auth/MemberLogin";
 import AdminDashboard from "./Pages/admin/AdminDashboard";
@@ -38,15 +38,15 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={<Hero />} />
-        <Route path="/owner/login" element={<OwnerLogin />} />
-        <Route path="/owner/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/member/login" element={<MemberLogin />} />
         <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>
           <Route element={<BasicLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="add/employer" element={<AddOwner />} />
-            <Route path="dashboard/owner/:id" element={<AboutOwner />} />
+            <Route path="dashboard/employer/:id" element={<AboutOwner />} />
           </Route>
         </Route>
         <Route path="member" element={<RequaireAuth allowedRole={"member"} />}>

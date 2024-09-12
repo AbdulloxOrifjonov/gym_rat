@@ -39,6 +39,8 @@ function Login() {
       setAuth({ role: data.role, accessToken: response.data.accessToken });
       // localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
+      console.log(response);
+      localStorage.setItem(`${data.role}_id`, response.data.data._id)
       // localStorage.setItem("role", "owner");
       reset();
     } catch (error) {
