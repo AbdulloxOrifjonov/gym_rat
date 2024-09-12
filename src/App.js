@@ -45,7 +45,7 @@ function App() {
         <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>
           <Route element={<BasicLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="add/owner" element={<AddOwner />} />
+            <Route path="add/employer" element={<AddOwner />} />
             <Route path="dashboard/owner/:id" element={<AboutOwner />} />
           </Route>
         </Route>
