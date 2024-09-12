@@ -30,10 +30,11 @@ function AdminLogin() {
         withCredentials: true,
       });
       setAuth({ role: "admin", accessToken: response.data.accessToken });
+      localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
       localStorage.setItem("role", "admin");
-      setResponseData(response.data); // Save the response data to state
-      console.log(response.data); // Log the response data
+      console.log(response);
+      setResponseData(response.data);
       reset();
     } catch (error) {
       console.error("Error logging in:", error);

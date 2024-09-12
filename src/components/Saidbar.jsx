@@ -14,11 +14,11 @@ function Sidebar({ allowedRole }) {
       </div>
       <nav className="flex-1">
         <ul className="space-y-2">
-          {user === "owner" && (
+          {user === "employer" && (
             <>
               <li>
                 <Link
-                  to="/owner/dashboard"
+                  to="/employer/dashboard"
                   className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
                 >
                   <HiChartPie className="mr-3" />
@@ -27,7 +27,7 @@ function Sidebar({ allowedRole }) {
               </li>
               <li>
                 <Link
-                  to="/owner/payment"
+                  to="/employer/payment"
                   className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
                 >
                   <HiShoppingBag className="mr-3" />
@@ -36,7 +36,7 @@ function Sidebar({ allowedRole }) {
               </li>
               <li>
                 <Link
-                  to="/owner/profile"
+                  to="/employer/profile"
                   className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
                 >
                   <HiUserCircle className="mr-3" />
@@ -45,7 +45,7 @@ function Sidebar({ allowedRole }) {
               </li>
               <li>
                 <Link
-                  to="/owner/gyms"
+                  to="/employer/gyms"
                   className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
                 >
                   <HiChartPie className="mr-3" />
@@ -54,12 +54,12 @@ function Sidebar({ allowedRole }) {
               </li>
               <li>
                 <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
-                  <span className="mr-3">Members</span>
+                  <span className="mr-3 text-xl font-bold">Members</span>
                 </button>
                 <ul className="pl-4 space-y-2">
                   <li>
                     <Link
-                      to="/owner/add/member"
+                      to="/employer/add/member"
                       className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
                     >
                       Add Member
@@ -67,7 +67,7 @@ function Sidebar({ allowedRole }) {
                   </li>
                   <li>
                     <Link
-                      to="/owner/members"
+                      to="/employer/members"
                       className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
                     >
                       Members
@@ -75,7 +75,7 @@ function Sidebar({ allowedRole }) {
                   </li>
                   <li>
                     <Link
-                      to="/owner/checkIn"
+                      to="/employer/checkIn"
                       className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
                     >
                       Check-in
@@ -85,12 +85,12 @@ function Sidebar({ allowedRole }) {
               </li>
               <li>
                 <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
-                  <span className="mr-3">Staff</span>
+                  <span className="mr-3 text-xl font-bold">Staff</span>
                 </button>
                 <ul className="pl-4 space-y-2">
                   <li>
                     <Link
-                      to="/owner/staffs"
+                      to="/employer/staffs"
                       className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
                     >
                       Staffs
@@ -100,12 +100,12 @@ function Sidebar({ allowedRole }) {
               </li>
               <li>
                 <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
-                  <span className="mr-3">Bar</span>
+                  <span className="mr-3 text-xl font-bold">Bar</span>
                 </button>
                 <ul className="pl-4 space-y-2">
                   <li>
                     <Link
-                      to="/owner/market"
+                      to="/employer/market"
                       className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
                     >
                       Market
@@ -113,7 +113,7 @@ function Sidebar({ allowedRole }) {
                   </li>
                   <li>
                     <Link
-                      to="/owner/bar/product"
+                      to="/employer/bar/product"
                       className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
                     >
                       Product
@@ -121,7 +121,7 @@ function Sidebar({ allowedRole }) {
                   </li>
                   <li>
                     <Link
-                      to="/owner/bar/product/categories"
+                      to="/employer/bar/product/categories"
                       className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
                     >
                       Product Categories
@@ -131,12 +131,12 @@ function Sidebar({ allowedRole }) {
               </li>
               <li>
                 <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
-                  <span className="mr-3">Memberships</span>
+                  <span className="mr-3 text-xl font-bold">Memberships</span>
                 </button>
                 <ul className="pl-4 space-y-2">
                   <li>
                     <Link
-                      to="/owner/add/membership"
+                      to="/employer/add/membership"
                       className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
                     >
                       Add Membership
@@ -144,7 +144,7 @@ function Sidebar({ allowedRole }) {
                   </li>
                   <li>
                     <Link
-                      to="/owner/memberships"
+                      to="/employer/memberships"
                       className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
                     >
                       Memberships List
@@ -167,11 +167,11 @@ function Sidebar({ allowedRole }) {
               </li>
               <li>
                 <Link
-                  to="/admin/add/owner"
+                  to="/admin/add/employer"
                   className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
                 >
                   <HiUserCircle className="mr-3" />
-                  Add Owner
+                  Add employer
                 </Link>
               </li>
             </>

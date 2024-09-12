@@ -1,3 +1,5 @@
+/** @format */
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -10,24 +12,20 @@ function OwnerAddProduct() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    } else {
-      const getListProduct = async () => {
-        try {
-          const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
-            headers: {
-              Authorization: `${localStorage.getItem("token_owner")}`,
-              "Content-Type": "application/json",
-            },
-          });
-          setListProduct(response.data.data);
-        } catch (error) {
-          console.log(error.response.data);
-        }
-      };
-      getListProduct();
-    }
+    const getListProduct = async () => {
+      try {
+        const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
+          headers: {
+            Authorization: `${localStorage.getItem("token_owner")}`,
+            "Content-Type": "application/json",
+          },
+        });
+        setListProduct(response.data.data);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    };
+    getListProduct();
   }, [navigate]);
 
   const addToCart = (product) => {
@@ -35,9 +33,7 @@ function OwnerAddProduct() {
       const existingProduct = prevCart.find((item) => item._id === product._id);
       if (existingProduct) {
         return prevCart.map((item) =>
-          item._id === product._id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          item._id === product._id ? { ...item, quantity: item.quantity + 1 } : item,
         );
       } else {
         return [...prevCart, { ...product, quantity: 1 }];
@@ -62,16 +58,12 @@ function OwnerAddProduct() {
                     className="w-16 h-16 object-cover rounded-full"
                   />
                   <div className="ml-4">
-                    <h3 className="text-lg font-semibold">
-                      {listProduct.name}
-                    </h3>
+                    <h3 className="text-lg font-semibold">{listProduct.name}</h3>
                     <p className="text-gray-500">{listProduct.address}</p>
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button onClick={() => addToCart(listProduct)}>
-                    ADD
-                  </Button>
+                  <Button onClick={() => addToCart(listProduct)}>ADD</Button>
                 </div>
               </div>
             </div>

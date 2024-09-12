@@ -2,7 +2,7 @@
 
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import OwnerLogin from "./Pages/auth/OwnerLogin";
+import OwnerLogin from "./Pages/auth/Login";
 import AdminLogin from "./Pages/auth/AdminLogin";
 import MemberLogin from "./Pages/auth/MemberLogin";
 import AdminDashboard from "./Pages/admin/AdminDashboard";
@@ -54,8 +54,8 @@ function App() {
             <Route path="dashboard" element={<MemberDashboard />} />
           </Route>
         </Route>
-        <Route path="owner">
-          <Route element={<BasicLayout allowedRole={"owner"} />}>
+        <Route path="employer" element={<RequaireAuth allowedRole={"employer"} />}>
+          <Route element={<BasicLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="checkIn" element={<CheckIn />} />
             <Route path="members" element={<Members />} />
@@ -78,7 +78,7 @@ function App() {
             <Route path="about/gym" element={<OwnerAboutGym />} />
           </Route>
         </Route>
-        <Route path="staff" element={<RequaireAuth allowedRole={"staff"} />}>
+        <Route path="employee" element={<RequaireAuth allowedRole={"employee"} />}>
           <Route element={<BasicLayout allowedRole={"staff"} />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="checkIn" element={<CheckIn />} />

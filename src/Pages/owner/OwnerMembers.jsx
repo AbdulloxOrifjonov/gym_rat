@@ -9,11 +9,6 @@ import { useNavigate } from "react-router-dom";
 function Members() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    }
-  }, [navigate]);
   return (
     <div className="w-full p-3 rounded-xl bg-slate-200">
       <div className="flex flex-col gap-4 w-full p-3 ">

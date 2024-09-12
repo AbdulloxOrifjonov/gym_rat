@@ -48,7 +48,7 @@ function AboutOwner() {
       getGyms(id);
       console.log(gyms);
     }
-  }, [id, getGyms, getOwner, gyms]);
+  }, [id]);
   // eslint-disable-next-line
 
   if (!owner) {

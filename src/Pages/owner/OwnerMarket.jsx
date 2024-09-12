@@ -6,11 +6,6 @@ import { useNavigate } from "react-router-dom";
 function Market() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    }
-  }, [navigate]);
   return (
     <div className="flex flex-col">
       <CartQuantity />
