@@ -20,19 +20,13 @@ function Login() {
     console.log(data);
     try {
       const response = await axios.post("https://gymrat.uz/api/v1/employer/login", data, {
-        headers: "application/json",
+        headers: { "Content-Type": "application/json" },
       });
       console.log(response.data);
       localStorage.setItem("token_owner", response.data.token);
-      // const owner_profile = {
-      //   id_owner: response.data._id,
-      //   fullname_owner: response.data.fullname,
-      //   phone_owner: response.data.phone,
-      // };
       localStorage.setItem("id_owner", response.data.data._id);
       localStorage.setItem("fullname_owner", response.data.data.fullname);
       localStorage.setItem("phone_owner", response.data.data.phone);
-      
       navigate("/owner/dashboard");
       reset();
     } catch (error) {
@@ -41,30 +35,38 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center">
-      <div className="mt-10">
-        <form className="flex max-w-md flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Login to Your Account</h2>
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <div className="mb-2 block">
-              <Label htmlFor="email1" value="Your phone number" />
-            </div>
+            <Label htmlFor="phone" value="Your phone number" className="text-gray-700" />
             <TextInput
-              className="w-[440px]"
-              id="email1"
+              id="phone"
               type="tel"
               placeholder="+998-33-011-99-01"
               required
               {...register("phone")}
+              className="mt-2 p-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
             />
           </div>
           <div>
-            <div className="mb-2 block">
-              <Label htmlFor="password1" value="Your password" />
-            </div>
-            <TextInput {...register("password")} id="password1" type="password" required />
+            <Label htmlFor="password" value="Your password" className="text-gray-700" />
+            <TextInput
+              id="password"
+              type="password"
+              required
+              {...register("password")}
+              className="mt-2 p-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+            />
           </div>
-          <div className="flex items-center justify-between">
-            <Button type="submit">Submit</Button>
+          <div className="flex justify-center">
+            <Button
+              type="submit"
+              className="w-full bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-semibold py-2 px-4 rounded-lg"
+            >
+              Sign In
+            </Button>
           </div>
         </form>
       </div>

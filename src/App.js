@@ -2,7 +2,7 @@
 
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Login from "./Pages/auth/Login";
+import OwnerLogin from "./Pages/auth/OwnerLogin";
 import AdminLogin from "./Pages/auth/AdminLogin";
 import MemberLogin from "./Pages/auth/MemberLogin";
 import AdminDashboard from "./Pages/admin/AdminDashboard";
@@ -30,18 +30,24 @@ import OwnerBarProduct from "./Pages/owner/OwnerBarProduct";
 import OwnerBarProductCategories from "./Pages/owner/OwnerBarProductCategories";
 import OwnerAboutGym from "./Pages/owner/OwnerAboutGym";
 import OwnerAddProduct from "./Pages/owner/OwnerAddProduct";
+import Hero from "./Pages/hero/Hero";
+import AboutOwner from "./Pages/admin/AboutOwner";
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Hero />} />
+        <Route path="/owner/login" element={<OwnerLogin />} />
         <Route path="/owner/register" element={<Register />} />
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/member/login" element={<MemberLogin />} />
-        <Route element={<BasicLayout allowedRole={"admin"} />}>
-          <Route path="admin/dashboard" element={<AdminDashboard />} />
-          <Route path="admin/add/owner" element={<AddOwner />} />
+        <Route path="admin" element={<RequaireAuth allowedRole={"admin"} />}>
+          <Route element={<BasicLayout />}>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="add/owner" element={<AddOwner />} />
+            <Route path="dashboard/owner/:id" element={<AboutOwner />} />
+          </Route>
         </Route>
         <Route path="member" element={<RequaireAuth allowedRole={"member"} />}>
           <Route element={<BasicLayout allowedRole={"member"} />}>
@@ -61,10 +67,7 @@ function App() {
             <Route path="market" element={<Market />} />
             <Route path="cartItems" element={<CartItem />} />
             <Route path="bar/product" element={<OwnerBarProduct />} />
-            <Route
-              path="bar/product/categories"
-              element={<OwnerBarProductCategories />}
-            />
+            <Route path="bar/product/categories" element={<OwnerBarProductCategories />} />
             <Route path="cart" element={<Cart />} />
             <Route path="add/membership" element={<AddMembership />} />
             <Route path="product/:id" element={<CardPage />} />
