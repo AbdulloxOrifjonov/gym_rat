@@ -2,95 +2,184 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Sidebar } from "flowbite-react";
+import { HiChartPie, HiShoppingBag, HiUserCircle } from "react-icons/hi";
 
-import { HiChartPie, HiShoppingBag } from "react-icons/hi";
-import { HiUserCircle } from "react-icons/hi";
-//HiAdjustments, HiCloudDownload,
+function Sidebar({ allowedRole }) {
+  const user = allowedRole;
 
-function Saidbar({ allowedRole }) {
-  console.dir(allowedRole);
-  const user = allowedRole.allowedRole;
-
-  console.log("user", user);
   return (
-    <>
-      <Sidebar
-        className="h-screen"
-        aria-label="Sidebar with multi-level dropdown example"
-      >
-        <Sidebar.Items>
-          {user === "owner" ? (
-            <Sidebar.ItemGroup>
-              <Sidebar.Item icon={HiChartPie}>Owner</Sidebar.Item>
-            <Sidebar.Item as={Link} to="/owner/dashboard">
-                Dashboard
-              </Sidebar.Item>
-              <Sidebar.Item as={Link} to="/owner/payment">
-                Payments
-              </Sidebar.Item>
-              <Sidebar.Item as={Link} to="/owner/profile">
-                Profile
-              </Sidebar.Item>
-              <Sidebar.Item as={Link} to="/owner/gyms">
-                Gyms
-              </Sidebar.Item>
-              <Sidebar.Item>Settings</Sidebar.Item>
-              <Sidebar.Collapse icon={HiShoppingBag} label="Members">
-                <Sidebar.Item as={Link} to="/owner/add/member">
-                  Add Member
-                </Sidebar.Item>
-                <Sidebar.Item as={Link} to="/owner/members">
-                  Members
-                </Sidebar.Item>
-                <Sidebar.Item as={Link} to="/owner/checkIn">
-                  Check-in
-                </Sidebar.Item>
-              </Sidebar.Collapse>
-
-              <Sidebar.Collapse icon={HiShoppingBag} label="Staff">
-                <Sidebar.Item as={Link} to="/owner/staffs">
-                  Staffs
-                </Sidebar.Item>
-              </Sidebar.Collapse>
-              <Sidebar.Collapse icon={HiShoppingBag} label="Bar">
-                <Link to="/owner/market">
-                  <Sidebar.Item>Market</Sidebar.Item>
+    <div className="h-screen w-64 bg-gradient-to-b from-indigo-800 to-indigo-800 text-white flex flex-col">
+      <div className="p-4 text-xl font-semibold">
+        <h1>Gym Management</h1>
+      </div>
+      <nav className="flex-1">
+        <ul className="space-y-2">
+          {user === "owner" && (
+            <>
+              <li>
+                <Link
+                  to="/owner/dashboard"
+                  className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
+                >
+                  <HiChartPie className="mr-3" />
+                  Dashboard
                 </Link>
-                <Link to="/owner/bar/product">
-                  <Sidebar.Item>Product</Sidebar.Item>
+              </li>
+              <li>
+                <Link
+                  to="/owner/payment"
+                  className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
+                >
+                  <HiShoppingBag className="mr-3" />
+                  Payments
                 </Link>
-                <Link to="/owner/bar/product/categories">
-                  <Sidebar.Item>Product categories</Sidebar.Item>
+              </li>
+              <li>
+                <Link
+                  to="/owner/profile"
+                  className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
+                >
+                  <HiUserCircle className="mr-3" />
+                  Profile
                 </Link>
-              </Sidebar.Collapse>
-
-              <Sidebar.Collapse icon={HiUserCircle} label="Memberships">
-                <Sidebar.Item as={Link} to="/owner/add/membership">
-                  Add Membership
-                </Sidebar.Item>
-                <Sidebar.Item as={Link} to="/owner/memberships">
-                  Memberships List
-                </Sidebar.Item>
-              </Sidebar.Collapse>
-            </Sidebar.ItemGroup>
-          ) : user === "admin" ? (
-            <Sidebar.ItemGroup>
-              <Sidebar.Item>Admin</Sidebar.Item>
-              <Sidebar.Item as={Link} to="/admin/dashboard" icon={HiChartPie}>
-                Admin Dashboard
-              </Sidebar.Item>
-              <Sidebar.Item as={Link} to="/admin/add/owner" icon={HiUserCircle}>
-                Add Owner
-              </Sidebar.Item>
-            </Sidebar.ItemGroup>
-          ) : (
-            ""
+              </li>
+              <li>
+                <Link
+                  to="/owner/gyms"
+                  className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
+                >
+                  <HiChartPie className="mr-3" />
+                  Gyms
+                </Link>
+              </li>
+              <li>
+                <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
+                  <span className="mr-3">Members</span>
+                </button>
+                <ul className="pl-4 space-y-2">
+                  <li>
+                    <Link
+                      to="/owner/add/member"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Add Member
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/owner/members"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Members
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/owner/checkIn"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Check-in
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
+                  <span className="mr-3">Staff</span>
+                </button>
+                <ul className="pl-4 space-y-2">
+                  <li>
+                    <Link
+                      to="/owner/staffs"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Staffs
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
+                  <span className="mr-3">Bar</span>
+                </button>
+                <ul className="pl-4 space-y-2">
+                  <li>
+                    <Link
+                      to="/owner/market"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Market
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/owner/bar/product"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Product
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/owner/bar/product/categories"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Product Categories
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
+                  <span className="mr-3">Memberships</span>
+                </button>
+                <ul className="pl-4 space-y-2">
+                  <li>
+                    <Link
+                      to="/owner/add/membership"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Add Membership
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/owner/memberships"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Memberships List
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+            </>
           )}
-        </Sidebar.Items>
-      </Sidebar>
-    </>
+          {user === "admin" && (
+            <>
+              <li>
+                <Link
+                  to="/admin/dashboard"
+                  className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
+                >
+                  <HiChartPie className="mr-3" />
+                  Admin Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/admin/add/owner"
+                  className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
+                >
+                  <HiUserCircle className="mr-3" />
+                  Add Owner
+                </Link>
+              </li>
+            </>
+          )}
+        </ul>
+      </nav>
+    </div>
   );
 }
 
-export default Saidbar;
+export default Sidebar;
