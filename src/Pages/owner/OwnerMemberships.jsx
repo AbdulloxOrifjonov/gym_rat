@@ -8,11 +8,6 @@ import { useNavigate } from "react-router-dom";
 function Memberships() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    }
-  }, [navigate]);
   return (
     <Tabs aria-label="Tabs with underline" variant="underline">
       <Tabs.Item active title="Member Ship List" icon={HiUserCircle}>

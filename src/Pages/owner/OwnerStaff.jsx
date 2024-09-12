@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
 import { Table, Pagination } from "flowbite-react";
@@ -14,48 +16,42 @@ function Staff() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    } else {
-      const getGyms = async () => {
-        try {
-          const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
-            headers: {
-              Authorization: `${localStorage.getItem("token_owner")}`,
-              "Content-Type": "application/json",
-            },
-          });
-          setGyms(response.data.data);
-        } catch (error) {
-          console.log(error.response.data);
-        }
-      };
-      const getStaffs = async () => {
-        try {
-          const response = await axios.get(
-            `https://gymrat.uz/api/v1/employee/pagination?page=${currentPage}&pageSize=10`,
-            {
-              headers: {
-                Authorization: `${localStorage.getItem("token_owner")}`,
-              },
-            }
-          );
-          console.log(response);
-          setEmployees(response.data.data);
-          // Check the totalPages value
-          const pages = response.data.employersCount;
-          setTotalPages(pages > 0 ? pages : 1); // Set totalPages to at least 1
-        } catch (error) {
-          console.error("Error fetching employees:", error);
-          setTotalPages(1); // Fallback to 1 in case of an error
-        }
-      };
-
-      getGyms();
-      getStaffs(); // Make sure the staff data is fetched on mount
+  const getGyms = async () => {
+    try {
+      const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
+        headers: {
+          Authorization: `${localStorage.getItem("token_owner")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setGyms(response.data.data);
+    } catch (error) {
+      console.log(error.response.data);
     }
-  }, [navigate, currentPage]);
+  };
+  const getStaffs = async () => {
+    try {
+      const response = await axios.get(
+        `https://gymrat.uz/api/v1/employee/pagination?page=${currentPage}&pageSize=10`,
+        {
+          headers: {
+            Authorization: `${localStorage.getItem("token_owner")}`,
+          },
+        },
+      );
+      console.log(response);
+      setEmployees(response.data.data);
+      // Check the totalPages value
+      const pages = response.data.employersCount;
+      setTotalPages(pages > 0 ? pages : 1); // Set totalPages to at least 1
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+      setTotalPages(1); // Fallback to 1 in case of an error
+    }
+  };
+
+  getGyms();
+  getStaffs(); // Make sure the staff data is fetched on mount
 
   const onPageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -70,16 +66,12 @@ function Staff() {
     console.log(data);
 
     try {
-      const response = await axios.post(
-        "https://gymrat.uz/api/v1/employee/register",
-        data,
-        {
-          headers: {
-            Authorization: `${localStorage.getItem("token_owner")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("https://gymrat.uz/api/v1/employee/register", data, {
+        headers: {
+          Authorization: `${localStorage.getItem("token_owner")}`,
+          "Content-Type": "application/json",
+        },
+      });
       console.log(response.data);
       reset();
     } catch (error) {
@@ -138,10 +130,7 @@ function Staff() {
         </Tabs.Item>
         <Tabs.Item title="Add Staff" icon={MdDashboard}>
           <div className="flex items-center justify-center w-full mt-10">
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              className="flex max-w-md flex-col gap-4 w-full"
-            >
+            <form onSubmit={handleSubmit(onSubmit)} className="flex max-w-md flex-col gap-4 w-full">
               <div className="flex items-center justify-between">
                 <div className="w-[48%]">
                   <div className="mb-2 block">

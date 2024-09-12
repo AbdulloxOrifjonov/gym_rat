@@ -1,17 +1,64 @@
 /** @format */
 
-import React, { useContext, useEffect } from "react";
-import { Navigate, Outlet, useNavigate, useParams } from "react-router-dom";
+// /** @format */
+
+// import React, { useContext, useEffect } from "react";
+// import { Navigate, Outlet, useNavigate, useParams } from "react-router-dom";
+// import { AuthContext } from "../../context/AuthProvider";
+// import axios from "axios";
+
+// function RequaireAuth({ allowedRole }) {
+//   const { auth, setAuth } = useContext(AuthContext);
+//   const { path } = useParams(); // URL paramslarini olish
+
+//   const navigate = useNavigate();
+
+//   const refreshToken = async () => {
+//     try {
+//       const response = await axios.post(
+//         "https://gymrat.uz/api/v1/auth/refresh-token",
+//         {
+//           refreshToken: localStorage.getItem("refreshToken"),
+//         },
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           withCredentials: true,
+//         },
+//       );
+//       setAuth({ role: response.data.role, accessToken: response.data.accessToken });
+//       navigate(`/${response.data.role}/dashboard`)
+//     } catch (error) {
+//       console.log(error.response.status);
+//     }
+//   };
+
+//   useEffect(() => {
+//       if (!auth.accessToken) {
+//         refreshToken()
+//       }
+//   }, []);
+
+//   return auth.accessToken && auth.role === allowedRole ? (
+//     <Outlet />
+//   ) : (
+//     <Navigate to={"/unauthorized"} />
+//   );
+// }
+
+// export default RequaireAuth;
+
+/** @format */
+
+import React, { useContext, useEffect, useState } from "react";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import axios from "axios";
 
 function RequaireAuth({ allowedRole }) {
   const { auth, setAuth } = useContext(AuthContext);
-  const { path } = useParams(); // URL paramslarini olish
-  console.log("Allowed Role:", allowedRole, "Auth:", auth, "Params:", path);
-
-  console.log(allowedRole, auth);
-
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const refreshToken = async () => {
@@ -28,22 +75,29 @@ function RequaireAuth({ allowedRole }) {
           withCredentials: true,
         },
       );
-      setAuth({ role: "admin", accessToken: response.data.accessToken });
+      setAuth({ role: response.data.role, accessToken: response.data.accessToken });
+      navigate(`/${response.data.role}/dashboard`);
     } catch (error) {
-      console.log(error);
+      console.log(error.response?.status);
+      navigate("/unauthorized");
     }
   };
 
   useEffect(() => {
-    if (localStorage.getItem("refreshToken")) {
-      refreshToken();
-      console.log(auth.role);
+    const checkAuth = async () => {
+      if (!auth.accessToken) {
+        await refreshToken();
+      } else {
+        setLoading(false); // Agar accessToken mavjud bo'lsa, loading holatini to'xtatish
+      }
+    };
 
-      // const destination = `/admin/dashboard`;
-      // navigate(destination); // paramsdan kelgan yoki default yo'nalishni ishlatish
-    }
-    // eslint-disable-next-line
-  }, [navigate, path]);
+    checkAuth();
+  }, [auth.accessToken, navigate, setAuth]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Loading holatini ko'rsatish
+  }
 
   return auth.accessToken && auth.role === allowedRole ? (
     <Outlet />

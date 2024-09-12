@@ -12,24 +12,20 @@ const OwnerBarProductCategories = () => {
   const { register } = useForm();
   const navigate = useNavigate();
   useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    } else {
-      const getCategoryName = async () => {
-        try {
-          const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
-            headers: {
-              Authorization: `${localStorage.getItem("token_owner")}`,
-              "Content-Type": "application/json",
-            },
-          });
-          setCategoryName(response.data.data);
-        } catch (error) {
-          console.log(error.response);
-        }
-      };
-      getCategoryName();
-    }
+    const getCategoryName = async () => {
+      try {
+        const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
+          headers: {
+            Authorization: `${localStorage.getItem("token_owner")}`,
+            "Content-Type": "application/json",
+          },
+        });
+        setCategoryName(response.data.data);
+      } catch (error) {
+        console.log(error.response);
+      }
+    };
+    getCategoryName();
   }, [navigate]);
 
   return (

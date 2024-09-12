@@ -9,11 +9,6 @@ import { Link, useNavigate } from "react-router-dom";
 function Profile() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    }
-  }, [navigate]);
 
   const owner_name = localStorage.getItem("fullname_owner");
 

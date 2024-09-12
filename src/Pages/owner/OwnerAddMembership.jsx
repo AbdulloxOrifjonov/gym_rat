@@ -12,11 +12,6 @@ import { AutoComplete } from "primereact/autocomplete";
 function AddMembership() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    }
-  }, [navigate]);
 
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);

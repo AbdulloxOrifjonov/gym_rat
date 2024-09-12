@@ -6,11 +6,6 @@ import { useNavigate, useParams } from "react-router-dom";
 function CardPage() {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    }
-  }, [navigate]);
   const products = [
     {
       name: "iPhone 14 pro",

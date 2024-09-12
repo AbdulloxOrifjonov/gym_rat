@@ -24,7 +24,7 @@ function AdminDashboard() {
           `https://gymrat.uz/api/v1/employer/pagination?page=${currentPage}&pageSize=10`,
           {
             headers: {
-              authorization: `Bearer ${auth.accessToken}`,
+              authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             },
           },
         );

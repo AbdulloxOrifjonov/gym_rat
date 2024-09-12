@@ -1,36 +1,43 @@
+/** @format */
+
 import axios from "axios";
 import { Tabs, FileInput, Label, Button, Card } from "flowbite-react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
 
 function OwnerGyms() {
+  const { auth, setAuth } = useContext(AuthContext);
+
   const [img, setImg] = useState(null); // Faylni saqlash uchun `null` dan boshlash
   const [gyms, setGyms] = useState(null);
+
   // const [selectedEmployees, setSelectedEmployees] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    if (!localStorage.getItem("token_owner")) {
-      navigate("/");
-    } else {
-      const getGyms = async () => {
-        try {
-          const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
-            headers: {
-              Authorization: `${localStorage.getItem("token_owner")}`,
-              "Content-Type": "application/json",
-            },
-          });
-          setGyms(response.data.data);
-        } catch (error) {
-          console.log(error.response.data);
-        }
-      };
-      getGyms();
-    }
-  }, [navigate, img]);
 
+  useEffect(() => {
+    getGyms();
+  }, []);
+
+  const getGyms = async () => {
+    try {
+      const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      setGyms(response.data.data);
+    } catch (error) {
+      console.log(error.response.data);
+      if (error.response.data.status === 401) {
+        localStorage.removeItem("accessToken");
+      }
+    }
+  };
   const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
@@ -46,16 +53,12 @@ function OwnerGyms() {
       formData.append("logo", img);
     }
     try {
-      const response = await axios.post(
-        "https://gymrat.uz/api/v1/gym",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: localStorage.getItem("token_owner"),
-          },
-        }
-      );
+      const response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: localStorage.getItem("token_owner"),
+        },
+      });
 
       console.log(response);
     } catch (error) {
@@ -76,15 +79,10 @@ function OwnerGyms() {
   return (
     <Tabs aria-label="Tabs with underline" variant="underline">
       <Tabs.Item active title="Gyms" icon={HiUserCircle}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {gyms ? (
             gyms.map((gym) => (
-              <Card
-                onClick={() => aboutGym(gym._id)}
-                key={gym._id}
-                className="max-w-sm"
-              >
-
+              <Card onClick={() => aboutGym(gym._id)} key={gym._id} className="max-w-sm">
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
