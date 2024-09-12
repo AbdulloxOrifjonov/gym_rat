@@ -5,22 +5,17 @@ import { Tabs, FileInput, Label, Button, Card } from "flowbite-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 
 function OwnerGyms() {
-  const { auth, setAuth } = useContext(AuthContext);
-
-  const [img, setImg] = useState(null); // Faylni saqlash uchun `null` dan boshlash
+  const { auth, setAuth, refreshToken } = useContext(AuthContext);
+  const [img, setImg] = useState(null);
   const [gyms, setGyms] = useState(null);
-
-  // const [selectedEmployees, setSelectedEmployees] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    getGyms();
-  }, []);
-
+  const [loading, setLoading] = useState(false);
+  // Bu yerda getGyms funksiyasi e'lon qilinadi
   const getGyms = async () => {
     try {
       const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
@@ -33,11 +28,23 @@ function OwnerGyms() {
       setGyms(response.data.data);
     } catch (error) {
       console.log(error.response.data);
-      if (error.response.data.status === 401) {
-        localStorage.removeItem("accessToken");
+      if (error.response.data.message === "Invalid token") {
+        await resetAccess();
       }
     }
   };
+
+  const resetAccess = async () => {
+    setLoading(true);
+    await refreshToken();
+    setLoading(false);
+  };
+
+  // useEffect ichida getGyms chaqiriladi
+  useEffect(() => {
+    getGyms();
+  }, [loading]);
+
   const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
@@ -56,24 +63,21 @@ function OwnerGyms() {
       const response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: localStorage.getItem("token_owner"),
+          Authorization: `Bearer ${auth.accessToken}`,
         },
       });
-
       console.log(response);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      if (error.response.data.message === "Invalid token") {
+        await resetAccess();
+      }
     }
-
-    // reset(); // Agar siz react-hook-form'dan reset() funksiyasini ishlatmoqchi bo'lsangiz, uni aktivlash uchun react-hook-form dan import qiling.
   };
 
   const aboutGym = (gym_id) => {
-    alert(true);
     localStorage.setItem("gym_id", gym_id);
-    console.log(gym_id);
-    console.log(localStorage.getItem("gym_id"));
-    navigate("/owner/about/gym");
+    navigate("/employer/about/gym");
   };
 
   return (
@@ -82,27 +86,23 @@ function OwnerGyms() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
           {gyms ? (
             gyms.map((gym) => (
-              <Card onClick={() => aboutGym(gym._id)} key={gym._id} className="max-w-sm">
+              <Card
+                onClick={() => aboutGym(gym._id)}
+                key={gym._id}
+                className="max-w-sm bg-blue-900 border border-blue-700 rounded-lg shadow-lg transition-transform hover:scale-105"
+              >
                 <img
                   src={gym.logo || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
-                  className="rounded-t-lg"
+                  className="rounded-t-lg w-full h-48 object-cover"
                 />
-                <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                  {gym.name}
-                </h5>
-                <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
-                <p className="text-gray-700 dark:text-gray-400">
-                  {gym.city}, {gym.country}
-                </p>
-                <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
-                <div className="flex justify-between mt-4">
-                  {/* <Link className="text-blue-600 dark:text-blue-400">Edit</Link> */}
-                  <Link className="text-red-700 ">Delete</Link>
-
-                  {/* <Button color="failure" onClick={() => handleDelete(gym._id)}>
-                    Delete
-                  </Button> */}
+                <div className="p-4">
+                  <h5 className="text-xl font-semibold tracking-tight text-white">{gym.name}</h5>
+                  <p className="mt-2 text-blue-200">{gym.address}</p>
+                  <p className="text-blue-200">
+                    {gym.city}, {gym.country}
+                  </p>
+                  <p className="text-blue-200">Time Zone: {gym.timeZone}</p>
                 </div>
               </Card>
             ))
@@ -114,81 +114,94 @@ function OwnerGyms() {
         </div>
       </Tabs.Item>
       <Tabs.Item active title="Add Gyms" icon={HiUserCircle}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-2 block">
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-lg mx-auto">
+          <div>
             <Label htmlFor="address" value="Address" />
+            <input
+              id="address"
+              type="text"
+              className="block w-full p-3 border border-blue-600 rounded-lg bg-blue-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("address")}
+            />
           </div>
-          <input
-            id="address"
-            type="text"
-            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            {...register("address")}
-          />
-          <div className="mb-2 block">
+
+          <div>
             <Label htmlFor="timeZone" value="Time Zone" />
+            <input
+              id="timeZone"
+              type="text"
+              className="block w-full p-3 border border-blue-600 rounded-lg bg-blue-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("timeZone")}
+            />
           </div>
-          <input
-            id="timeZone"
-            type="text"
-            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            {...register("timeZone")}
-          />
-          <div className="mb-2 block">
-            <Label htmlFor="employerId" value="Employer Id:" />
+
+          <div>
+            <Label htmlFor="employerId" value="Employer Id" />
+            <input
+              id="employerId"
+              defaultValue={localStorage.getItem("employer_id") || ""}
+              type="text"
+              className="block w-full p-3 border border-blue-600 rounded-lg bg-blue-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("employerId")}
+            />
           </div>
-          <input
-            id="employerId"
-            value={localStorage.getItem("id_owner")}
-            type="text"
-            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            {...register("employerId")}
-          />
-          <div className="mb-2 block">
+
+          <div>
             <Label htmlFor="name" value="Name" />
+            <input
+              id="name"
+              type="text"
+              className="block w-full p-3 border border-blue-600 rounded-lg bg-blue-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("name")}
+            />
           </div>
-          <input
-            id="name"
-            type="text"
-            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            {...register("name")}
-          />
-          <div className="mb-2 block">
+
+          <div>
             <Label htmlFor="phone" value="Phone" />
+            <input
+              id="phone"
+              type="text"
+              className="block w-full p-3 border border-blue-600 rounded-lg bg-blue-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("phone")}
+            />
           </div>
-          <input
-            id="phone"
-            type="text"
-            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            {...register("phone")}
-          />
-          <div className="mb-2 block">
+
+          <div>
             <Label htmlFor="country" value="Country" />
+            <input
+              id="country"
+              type="text"
+              className="block w-full p-3 border border-blue-600 rounded-lg bg-blue-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("country")}
+            />
           </div>
-          <input
-            id="country"
-            type="text"
-            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            {...register("country")}
-          />
-          <div className="mb-2 block">
+
+          <div>
             <Label htmlFor="city" value="City" />
+            <input
+              id="city"
+              type="text"
+              className="block w-full p-3 border border-blue-600 rounded-lg bg-blue-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register("city")}
+            />
           </div>
-          <input
-            id="city"
-            type="text"
-            className="block w-full p-2.5 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            {...register("city")}
-          />
-          <div className="mb-2 block">
+
+          <div>
             <Label htmlFor="logo" value="Logo" />
+            <FileInput
+              id="logo"
+              className="block w-full text-sm text-gray-200 bg-blue-800 rounded-lg border border-blue-600 cursor-pointer focus:outline-none"
+              ref={register("logo").ref}
+              onChange={(e) => setImg(e.target.files[0])}
+            />
           </div>
-          <FileInput
-            id="logo"
-            className="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-            ref={register("logo").ref} // FileInput uchun ref qo'shildi
-            onChange={(e) => setImg(e.target.files[0])} // Faylni tanlaymiz
-          />
-          <Button type="submit">Submit</Button>
+
+          <Button
+            type="submit"
+            className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            Submit
+          </Button>
         </form>
       </Tabs.Item>
     </Tabs>

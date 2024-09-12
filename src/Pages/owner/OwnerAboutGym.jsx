@@ -1,45 +1,53 @@
 /** @format */
 
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
 
 function OwnerAboutGym() {
   const navigate = useNavigate();
   const [gym, setGym] = useState(null);
   const [staffs, setStaffs] = useState([]);
+  const { auth, refreshToken } = useContext(AuthContext);
+
+  const getGym = async () => {
+    try {
+      const response = await axios.get(
+        `https://gymrat.uz/api/v1/gym/${localStorage.getItem("gym_id")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+            "Content-Type": "application/json",
+          },
+        },
+      );
+      setGym(response.data.data); // Update state with the fetched data
+    } catch (error) {
+      console.error(error.response.data);
+      if (error.response.data.message === "Invalid token") {
+        refreshToken();
+      }
+    }
+  };
+  const getStaffs = async () => {
+    try {
+      const response = await axios.get(`https://gymrat.uz/api/v1/employee/pagination`, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setStaffs(response.data.data);
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+      if (error.response.data.message === "Invalid token") {
+        refreshToken();
+      }
+    }
+  };
 
   useEffect(() => {
-    const getGym = async () => {
-      try {
-        const response = await axios.get(
-          `https://gymrat.uz/api/v1/gym/${localStorage.getItem("gym_id")}`,
-          {
-            headers: {
-              Authorization: `${localStorage.getItem("token_owner")}`,
-              "Content-Type": "application/json",
-            },
-          },
-        );
-        console.log(response);
-        setGym(response.data.data); // Update state with the fetched data
-      } catch (error) {
-        console.log(error.response.data);
-      }
-    };
-    const getStaffs = async () => {
-      try {
-        const response = await axios.get(`https://gymrat.uz/api/v1/employee/pagination`, {
-          headers: {
-            Authorization: `${localStorage.getItem("token_owner")}`,
-          },
-        });
-        console.log(response);
-        setStaffs(response.data.data);
-      } catch (error) {
-        console.error("Error fetching employees:", error);
-      }
-    };
     getStaffs();
     getGym();
   }, [navigate]);

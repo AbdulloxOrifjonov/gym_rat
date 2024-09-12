@@ -25,7 +25,7 @@ function Hero() {
               Contact
             </li>
 
-            <Link to={"/owner/login"}>
+            <Link to={"/login"}>
               <button className="bg-indigo-600 text-white px-6 py-2 rounded-full font-semibold shadow-md hover:bg-indigo-700 transition duration-300 transform hover:scale-105">
                 Sign In
               </button>

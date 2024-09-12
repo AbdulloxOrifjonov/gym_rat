@@ -75,6 +75,7 @@ function RequaireAuth({ allowedRole }) {
           withCredentials: true,
         },
       );
+      console.log("Refreshing Token with Requaire Auth");
       setAuth({ role: response.data.role, accessToken: response.data.accessToken });
       navigate(`/${response.data.role}/dashboard`);
     } catch (error) {

@@ -8,14 +8,11 @@ import { AuthContext } from "../../context/AuthProvider";
 
 function AdminDashboard() {
   // eslint-disable-next-line
-  const { auth, setAuth } = useContext(AuthContext);
-
+  const { auth, setAuth, refreshToken } = useContext(AuthContext);
   const [owners, setOwners] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
-
-  console.log(auth);
   const fetchOwners = async () => {
     try {
       const response = await axios.get(
@@ -26,11 +23,14 @@ function AdminDashboard() {
           },
         },
       );
-      console.log(response.data.data);
+      // console.log(response.data.data);
       setOwners(response.data.data);
       setTotalPages(response.data.employersCount);
     } catch (error) {
-      console.error("Error fetching owners:", error);
+      console.error("Error fetching owners:", error.response.data.message);
+      if (error.response.data.message === "Invalid token") {
+        refreshToken();
+      }
     }
   };
 
@@ -45,8 +45,7 @@ function AdminDashboard() {
     }
   };
   const aboutOwner = (id) => {
-    console.log(id);
-    navigate(`owner/${id}`);
+    navigate(`employer/${id}`);
   };
 
   return (
