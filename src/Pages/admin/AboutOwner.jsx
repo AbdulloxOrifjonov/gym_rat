@@ -2,13 +2,17 @@
 
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { GoTrash } from "react-icons/go";
+import { CiEdit } from "react-icons/ci";
+import { Link, useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
-
+import gymOwner from "../../images/gym-owner.jpg";
+import { Button, Table, Tabs } from "flowbite-react";
+import { HiUserCircle } from "react-icons/hi";
 function AboutOwner() {
   const [gyms, setGyms] = useState([]);
   const { auth } = useContext(AuthContext);
-  const [owner, setOwner] = useState(null); // initial state null
+  const [owner, setOwner] = useState([]); // initial state null
   const { id } = useParams();
 
   // eslint-disable-next-line
@@ -20,10 +24,10 @@ function AboutOwner() {
           "Content-Type": "application/json",
         },
       });
-      setGyms(response.data.data);
-      console.log(response.data);
+      setGyms(response?.data.data);
+      console.log(response);
     } catch (error) {
-      console.log(error.response.data);
+      console.log(error.response);
     }
   };
   // eslint-disable-next-line
@@ -31,7 +35,7 @@ function AboutOwner() {
     try {
       const response = await axios.get(`https://gymrat.uz/api/v1/employer/${id}`, {
         headers: {
-          authorization: `Bearer ${auth.accessToken}`,
+          authorization: ` Bearer ${auth.accessToken}`,
         },
       });
       setOwner(response.data.data);
@@ -49,81 +53,99 @@ function AboutOwner() {
       console.log(gyms);
     }
   }, [id]);
-  // eslint-disable-next-line
-
-  if (!owner) {
-    return <div className="text-white text-center mt-10">Loading owner details...</div>;
-  }
+  // eslint-disable-next-lineif (!owner) {
 
   return (
-    <div className="flex justify-center items-center pt-10 text-white w-full">
-      <div className="bg-blue-800 p-6 rounded-lg shadow-lg max-w-md w-full">
-        <h1 className="text-3xl font-bold mb-4 text-center uppercase tracking-wider border-b-2 border-blue-600 pb-2">
-          Owner Details
-        </h1>
-        <div className="space-y-4 mb-6">
-          <div>
-            <h2 className="text-base font-semibold text-gray-300">Full Name</h2>
-            <p className="text-lg">{owner.fullname}</p>
+    <div className="flex">
+      <div className="h-screen w-80 bg-gradient-to-b from-indigo-800 to-indigo-800 text-white flex flex-col">
+        <div className="flex flex-col bg-cyan-600 h-screen">
+          <div className="flex justify-between items-center w-full px-4 py-2">
+            <Link to={"/admin/dashboard"}>
+              <Button className="bg-blue-600 text-white px-4  rounded-lg hover:bg-blue-700">
+                Back
+              </Button>
+            </Link>
+            <div className="bg-green-400 flex items-center justify-center w-24 h-10 rounded-full  hover:bg-green-700 shadow-lg">
+              <p className="text-white font-semibold">Active</p>
+            </div>
           </div>
-          <div>
-            <h2 className="text-base font-semibold text-gray-300">Contact Number</h2>
-            <p className="text-lg">{owner.phone}</p>
+          <div className="flex flex-col items-center w-full">
+            <div className="w-[100px] h-[100px] mt-4">
+              <img
+                src={gymOwner}
+                className="w-full h-full rounded-full object-cover"
+                alt="Gym Owner"
+              />
+            </div>
+            <div>
+              <p className="text-[20px]">{owner.fullname}</p>
+            </div>
           </div>
-        </div>
-
-        <div className="flex space-x-2">
-          <div className="w-1/3">
-            <label htmlFor="category" className="block text-sm font-semibold text-gray-300 mb-1">
-              Category
-            </label>
-            <select
-              id="category"
-              className="w-full p-2 bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option>Fitness</option>
-              <option>Wellness</option>
-              <option>Personal Training</option>
-            </select>
-          </div>
-
-          <div className="w-1/3">
-            <label htmlFor="membership" className="block text-sm font-semibold text-gray-300 mb-1">
-              Membership
-            </label>
-            <select
-              id="membership"
-              className="w-full p-2 bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option>Standard</option>
-              <option>Premium</option>
-              <option>VIP</option>
-            </select>
-          </div>
-
-          <div className="w-1/3">
-            <label htmlFor="status" className="block text-sm font-semibold text-gray-300 mb-1">
-              Status
-            </label>
-            <select
-              id="status"
-              className="w-full p-2 bg-blue-700 text-white rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option>Active</option>
-              <option>Inactive</option>
-              <option>Suspended</option>
-            </select>
+          <div className=" justify-start mt-4">
+            <p className="ml-3">PERSONAL DETAILS</p>
+            <div className=" h-[1px] mt-2 bg-slate-400 ml-3"></div>
+            <div className="mt-3">
+              <p className="flex justify-between pr-3 px-3">
+                <span className=""> Number</span>
+                <span>{owner.phone}</span>
+              </p>
+            </div>
           </div>
         </div>
+      </div>
+      <div className="p-3 w-full">
+        <Tabs className="w-full" aria-label="Default tabs" variant="default">
+          <Tabs.Item active title="Profile" icon={HiUserCircle}>
+            <Table className="w-full">
+              <Table.Head className="bg-blue-900  dark:bg-blue-900">
+                <Table.HeadCell>ID</Table.HeadCell>
+                <Table.HeadCell>FULLNAME</Table.HeadCell>
+                <Table.HeadCell>PHONE</Table.HeadCell>
+                <Table.HeadCell></Table.HeadCell>
+              </Table.Head>
+              <Table.Body className="bg-teal-400">
+                <Table.Row className=" items-center">
+                  <Table.Cell className="text-slate-200">1</Table.Cell>
+                  <Table.Cell className="text-slate-200">{owner.fullname}</Table.Cell>
+                  <Table.Cell className="text-slate-200">{owner.phone}</Table.Cell>
+                  <Table.Cell>
+                    <div className="flex space-x-4">
+                      <GoTrash className="text-2xl cursor-pointer text-slate-200" />
+                      <CiEdit className="text-2xl cursor-pointer text-slate-200" />
+                    </div>
+                  </Table.Cell>
+                </Table.Row>
+              </Table.Body>
+            </Table>
+          </Tabs.Item>
 
-        <div className="mt-6 flex justify-center">
-          <button className="bg-blue-700 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-md transition duration-300">
-            Get In Touch
-          </button>
-        </div>
+          <Tabs.Item title="Gyms" className="ml-3" icon={HiUserCircle}>
+            <Table className="w-full">
+              <Table.Head className="bg-blue-900  dark:bg-blue-900">
+                <Table.HeadCell>FULLNAME</Table.HeadCell>
+                <Table.HeadCell>Edit / Delete</Table.HeadCell>
+              </Table.Head>
+              {gyms?.map((gym) => (
+                <>
+                  <Table.Body key={gym._id} className="bg-teal-400">
+                    <Table.Row className=" items-center">
+                      <Table.Cell className="text-slate-200">{gym.name}</Table.Cell>
+                      <Table.Cell>
+                        <div className="flex space-x-4">
+                          <GoTrash className="text-2xl cursor-pointer text-slate-200" />
+                          <CiEdit className="text-2xl cursor-pointer text-slate-200" />
+                        </div>
+                      </Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
+                  <hr />
+                </>
+              ))}
+            </Table>
+          </Tabs.Item>
+        </Tabs>
       </div>
     </div>
   );
 }
-
 export default AboutOwner;
