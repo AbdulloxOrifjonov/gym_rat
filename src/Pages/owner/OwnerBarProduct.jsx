@@ -1,13 +1,9 @@
-/** @format */
-
 import axios from "axios";
-import { Button, Card, FileInput, Label, Select, Tabs, Modal, TextInput } from "flowbite-react";
+import { Button, Card, Tabs, Modal, TextInput } from "flowbite-react";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { HiUserCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
-
 const OwnerBarProduct = () => {
   const [products, setProducts] = useState(null);
   const [employees, setEmployees] = useState([]);
@@ -16,7 +12,7 @@ const OwnerBarProduct = () => {
   const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [img, setImg] = useState(null);
   const [editModalVisible, setEditModalVisible] = useState(false);
-  const [selectedGym, setSelectedGym] = useState(null); // Selected product for editing
+  const [selectedGym, setSelectedGym] = useState(null);
   const navigate = useNavigate();
   const { register, handleSubmit, reset, setValue } = useForm();
 
@@ -45,7 +41,7 @@ const OwnerBarProduct = () => {
               headers: {
                 Authorization: `${localStorage.getItem("token_owner")}`,
               },
-            },
+            }
           );
           setEmployees(response.data.data);
 
@@ -64,9 +60,12 @@ const OwnerBarProduct = () => {
 
   const handleDelete = async (gym_id) => {
     try {
-      const response = await axios.delete(`https://gymrat.uz/api/v1/gym/${gym_id}`, {
-        headers: { Authorization: localStorage.getItem("token_owner") },
-      });
+      const response = await axios.delete(
+        `https://gymrat.uz/api/v1/gym/${gym_id}`,
+        {
+          headers: { Authorization: localStorage.getItem("token_owner") },
+        }
+      );
       console.log(response);
 
       setProducts(products.filter((gym) => gym._id !== gym_id));
@@ -84,7 +83,6 @@ const OwnerBarProduct = () => {
     setSelectedGym(gym);
     setEditModalVisible(true);
 
-    // Pre-populate form values
     setValue("name", gym.name);
     setValue("phone", gym.phone);
     setValue("country", gym.country);
@@ -96,7 +94,7 @@ const OwnerBarProduct = () => {
   const handleModalClose = () => {
     setEditModalVisible(false);
     setSelectedGym(null);
-    reset(); // Reset form fields when closing the modal
+    reset();
   };
 
   const onPageChange = (page) => {
@@ -107,15 +105,21 @@ const OwnerBarProduct = () => {
 
   const handleEditSubmit = async (data) => {
     try {
-      const response = await axios.put(`https://gymrat.uz/api/v1/gym/${selectedGym._id}`, data, {
-        headers: { Authorization: localStorage.getItem("token_owner") },
-      });
+      const response = await axios.put(
+        `https://gymrat.uz/api/v1/gym/${selectedGym._id}`,
+        data,
+        {
+          headers: { Authorization: localStorage.getItem("token_owner") },
+        }
+      );
       console.log(response);
       setEditModalVisible(false);
       setSelectedGym(null);
-      // Refresh products after edit
+
       setProducts((prev) =>
-        prev.map((gym) => (gym._id === selectedGym._id ? { ...gym, ...data } : gym)),
+        prev.map((gym) =>
+          gym._id === selectedGym._id ? { ...gym, ...data } : gym
+        )
       );
     } catch (error) {
       console.log("Error updating product:", error);
@@ -141,13 +145,20 @@ const OwnerBarProduct = () => {
                   <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
                     {gym.name}
                   </h5>
-                  <p className="text-gray-700 dark:text-gray-400">{gym.address}</p>
+                  <p className="text-gray-700 dark:text-gray-400">
+                    {gym.address}
+                  </p>
                   <p className="text-gray-700 dark:text-gray-400">
                     {gym.city}, {gym.country}
                   </p>
-                  <p className="text-gray-700 dark:text-gray-400">Time Zone: {gym.timeZone}</p>
+                  <p className="text-gray-700 dark:text-gray-400">
+                    Time Zone: {gym.timeZone}
+                  </p>
                   <div className="flex justify-between mt-4">
-                    <Button color="failure" onClick={() => handleDelete(gym._id)}>
+                    <Button
+                      color="failure"
+                      onClick={() => handleDelete(gym._id)}
+                    >
                       Delete
                     </Button>
                     <Button onClick={() => handleEdit(gym)}>Edit</Button>
@@ -161,14 +172,19 @@ const OwnerBarProduct = () => {
             )}
           </div>
         </Tabs.Item>
-        {/* Other Tabs */}
       </Tabs>
 
       <Modal show={editModalVisible} onClose={handleModalClose}>
         <Modal.Header>Edit Product</Modal.Header>
         <Modal.Body>
           <form onSubmit={handleSubmit(handleEditSubmit)}>
-            <TextInput id="name" label="Name" placeholder="Name" {...register("name")} required />
+            <TextInput
+              id="name"
+              label="Name"
+              placeholder="Name"
+              {...register("name")}
+              required
+            />
             <TextInput
               id="phone"
               label="Phone"
@@ -183,7 +199,13 @@ const OwnerBarProduct = () => {
               {...register("country")}
               required
             />
-            <TextInput id="city" label="City" placeholder="City" {...register("city")} required />
+            <TextInput
+              id="city"
+              label="City"
+              placeholder="City"
+              {...register("city")}
+              required
+            />
             <TextInput
               id="address"
               label="Address"

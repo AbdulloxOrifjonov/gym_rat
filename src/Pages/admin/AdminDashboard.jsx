@@ -16,25 +16,25 @@ function AdminDashboard() {
   const navigate = useNavigate();
 
   console.log(auth);
-
-  useEffect(() => {
-    const fetchOwners = async () => {
-      try {
-        const response = await axios.get(
-          `https://gymrat.uz/api/v1/employer/pagination?page=${currentPage}&pageSize=10`,
-          {
-            headers: {
-              authorization: `Bearer ${auth.accessToken}`,
-            },
+  const fetchOwners = async () => {
+    try {
+      const response = await axios.get(
+        `https://gymrat.uz/api/v1/employer/pagination?page=${currentPage}&pageSize=10`,
+        {
+          headers: {
+            authorization: `Bearer ${auth.accessToken}`,
           },
-        );
-        console.log(response.data.data);
-        setOwners(response.data.data);
-        setTotalPages(response.data.employersCount);
-      } catch (error) {
-        console.error("Error fetching owners:", error);
-      }
-    };
+        },
+      );
+      console.log(response.data.data);
+      setOwners(response.data.data);
+      setTotalPages(response.data.employersCount);
+    } catch (error) {
+      console.error("Error fetching owners:", error);
+    }
+  };
+  useEffect(() => {
+   
 
     fetchOwners();
     // eslint-disable-next-line

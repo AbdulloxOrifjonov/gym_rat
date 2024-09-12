@@ -14,9 +14,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <ApiProvider api={loginApi}>
           <App />
-        </ApiProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,

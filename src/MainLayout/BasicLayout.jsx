@@ -12,7 +12,7 @@ function BasicLayout() {
       <div className="w-64 h-screen bg-gradient-to-b from-indigo-800 to-indigo-800">
         <Saidbar allowedRole={allowedRole} />
       </div>
-      <div className="flex-1 h-screen p-5 bg-white bg-gradient-to-b from-indigo-400 to-indigo-600">
+      <div className="flex-1 h-screen  bg-white bg-gradient-to-b from-indigo-400 to-indigo-600">
         <Outlet />
       </div>
     </div>
