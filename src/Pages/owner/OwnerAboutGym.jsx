@@ -11,6 +11,13 @@ function OwnerAboutGym() {
   const [staffs, setStaffs] = useState([]);
   const { auth, refreshToken } = useContext(AuthContext);
 
+  const [loading, setLoading] = useState(false);
+  const resetAccess = async () => {
+    setLoading(true);
+    await refreshToken();
+    setLoading(false);
+  };
+
   const getGym = async () => {
     try {
       const response = await axios.get(
@@ -26,7 +33,7 @@ function OwnerAboutGym() {
     } catch (error) {
       console.error(error.response.data);
       if (error.response.data.message === "Invalid token") {
-        refreshToken();
+        await resetAccess();
       }
     }
   };
@@ -42,7 +49,7 @@ function OwnerAboutGym() {
     } catch (error) {
       console.error("Error fetching employees:", error);
       if (error.response.data.message === "Invalid token") {
-        refreshToken();
+        await resetAccess();
       }
     }
   };
@@ -50,7 +57,7 @@ function OwnerAboutGym() {
   useEffect(() => {
     getStaffs();
     getGym();
-  }, [navigate]);
+  }, [navigate, loading]);
 
   return (
     <div className="flex justify-center mt-8">
