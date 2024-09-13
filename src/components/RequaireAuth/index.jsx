@@ -79,8 +79,12 @@ function RequaireAuth({ allowedRole }) {
       setAuth({ role: response.data.role, accessToken: response.data.accessToken });
       navigate(`/${response.data.role}/dashboard`);
     } catch (error) {
-      console.log(error.response?.status);
-      navigate("/unauthorized");
+      console.log(error.response);
+      if (error.response.data.message === "Invalid refresh token") {
+        navigate("/login");
+      } else {
+        navigate("/unauthorized");
+      }
     }
   };
 
