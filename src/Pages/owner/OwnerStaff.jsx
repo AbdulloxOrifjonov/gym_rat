@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Tabs } from "flowbite-react";
 import { Table, Pagination } from "flowbite-react";
 import { HiUserCircle } from "react-icons/hi";
@@ -9,6 +9,7 @@ import { Button, Label, TextInput, Select } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { AuthContext } from "../../context/AuthProvider";
 
 function Staff() {
   const [gyms, setGyms] = useState(null);
@@ -16,17 +17,25 @@ function Staff() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
+  const { auth, setAuth, refreshToken } = useContext(AuthContext);
+
+  // const resetAccess = async () => {
+  //   await refreshToken();
+  // };
+
   const getGyms = async () => {
     try {
       const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
         headers: {
-          Authorization: `${localStorage.getItem("token_owner")}`,
+          Authorization: `Bearer ${auth.accessToken}`,
           "Content-Type": "application/json",
         },
       });
       setGyms(response.data.data);
     } catch (error) {
-      console.log(error.response.data);
+      if (error.response.data.message === "Invalid token") {
+        await refreshToken();
+      }
     }
   };
   const getStaffs = async () => {
@@ -35,23 +44,28 @@ function Staff() {
         `https://gymrat.uz/api/v1/employee/pagination?page=${currentPage}&pageSize=10`,
         {
           headers: {
-            Authorization: `${localStorage.getItem("token_owner")}`,
+            Authorization: `Bearer ${auth.accessToken}`,
+            "Content-Type": "application/json",
           },
         },
       );
-      console.log(response);
       setEmployees(response.data.data);
       // Check the totalPages value
       const pages = response.data.employersCount;
       setTotalPages(pages > 0 ? pages : 1); // Set totalPages to at least 1
     } catch (error) {
       console.error("Error fetching employees:", error);
-      setTotalPages(1); // Fallback to 1 in case of an error
+      if (error.response.data.message === "Invalid token") {
+        await refreshToken();
+      }
+      setTotalPages(1);
     }
   };
 
-  getGyms();
-  getStaffs(); // Make sure the staff data is fetched on mount
+  useEffect(() => {
+    getGyms();
+    getStaffs();
+  }, []);
 
   const onPageChange = (page) => {
     if (page >= 1 && page <= totalPages) {
@@ -63,19 +77,20 @@ function Staff() {
 
   const onSubmit = async (data) => {
     data.gymIds = [data.gymIds]; // gymIds ni array sifatida saqlayapmiz
-    console.log(data);
 
     try {
       const response = await axios.post("https://gymrat.uz/api/v1/employee/register", data, {
         headers: {
-          Authorization: `${localStorage.getItem("token_owner")}`,
+          Authorization: `Bearer ${auth.accessToken}`,
           "Content-Type": "application/json",
         },
       });
-      console.log(response.data);
       reset();
     } catch (error) {
-      console.log(error.response.data);
+      console.error(error.response.data);
+      if (error.response.data.message === "Invalid token") {
+        await refreshToken();
+      }
     }
   };
 
@@ -141,7 +156,7 @@ function Staff() {
                     id="employerId"
                     type="text"
                     placeholder="EmployerId"
-                    value={localStorage.getItem("id_owner")}
+                    value={localStorage.getItem("employer_id")}
                     required
                     readOnly
                   />

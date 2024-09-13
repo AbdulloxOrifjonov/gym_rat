@@ -3,33 +3,33 @@
 import { Button, Table, TableHead, Tabs, TextInput } from "flowbite-react";
 import { HiUserCircle } from "react-icons/hi";
 import { HiMiniLockClosed } from "react-icons/hi2";
-import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 
-function Profile() {
-  const navigate = useNavigate();
-
-
+function EmployerProfile() {
   const owner_name = localStorage.getItem("fullname_owner");
 
   return (
-    <div>
-      <Tabs aria-label="Tabs with underline" variant="underline">
+    <div className="min-h-screen bg-dark-blue p-8">
+      <Tabs aria-label="Employer Profile Tabs" variant="underline" className="text-white">
         <Tabs.Item active title="General information" icon={HiUserCircle}>
           <div className="overflow-x-auto">
-            <Table>
+            {/* General Info Section */}
+            <Table className="bg-white rounded-lg shadow-md mb-6">
               <Table.Body>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white text-2xl">
-                  {owner_name}
+                <Table.Cell className="whitespace-nowrap font-semibold text-dark-blue text-2xl">
+                  {owner_name || "Employer Name"}
                 </Table.Cell>
               </Table.Body>
               <Table.Body>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white text-2xl">
+                <Table.Cell className="whitespace-nowrap font-semibold text-dark-blue text-2xl">
                   Login
                 </Table.Cell>
               </Table.Body>
             </Table>
-            <Table className="">
+
+            {/* Email and Password Reset Section */}
+            <Table className="bg-white rounded-lg shadow-md mb-6">
               <Table.Head>
                 <Table.HeadCell>Email</Table.HeadCell>
                 <TextInput
@@ -37,8 +37,7 @@ function Profile() {
                   placeholder="email"
                   required
                   type="email"
-                  color="dark"
-                  className="w-1/2"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
               </Table.Head>
               <div className="mt-3"></div>
@@ -49,29 +48,32 @@ function Profile() {
                   placeholder="password"
                   required
                   type="password"
-                  color="dark"
-                  className="w-1/2"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
-                <p className="">Leave blank unless you want to reset the password.</p>
+                <p className="text-sm text-gray-500 mt-1">
+                  Leave blank unless you want to reset the password.
+                </p>
               </Table.Head>
             </Table>
-            <Table className="mt-20">
+
+            {/* Personal Info Section */}
+            <Table className="bg-white rounded-lg shadow-md mb-6">
               <Table.Body>
-                <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white text-2xl">
+                <Table.Cell className="whitespace-nowrap font-semibold text-dark-blue text-2xl">
                   Personal Info
                 </Table.Cell>
               </Table.Body>
             </Table>
-            <Table>
+
+            {/* Personal Information Inputs */}
+            <Table className="bg-white rounded-lg shadow-md">
               <TableHead>
                 <Table.HeadCell>First Name</Table.HeadCell>
                 <TextInput
                   id="firstName"
-                  placeholder="fist name"
+                  placeholder="First name"
                   required
-                  type="text"
-                  color="dark"
-                  className="w-1/2"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
               </TableHead>
               <div className="mt-3"></div>
@@ -79,23 +81,22 @@ function Profile() {
                 <Table.HeadCell>Last Name</Table.HeadCell>
                 <TextInput
                   id="lastName"
-                  placeholder="last name"
+                  placeholder="Last name"
                   required
-                  type="text"
-                  color="dark"
-                  className="w-1/2"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
               </TableHead>
+
+              {/* Address and Phone Number */}
               <div className="mt-3"></div>
               <TableHead>
                 <Table.HeadCell>Address 1</Table.HeadCell>
                 <TextInput
                   id="address"
-                  placeholder="your address 1"
+                  placeholder="Your address 1"
                   required
                   type="text"
-                  color="dark"
-                  className="w-1/2"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
               </TableHead>
               <div className="mt-3"></div>
@@ -106,10 +107,11 @@ function Profile() {
                   placeholder="+998946170777"
                   required
                   type="number"
-                  color="dark"
-                  className="w-1/2"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
               </TableHead>
+
+              {/* More Address Details */}
               <div className="mt-3"></div>
               <TableHead>
                 <Table.HeadCell>Street address</Table.HeadCell>
@@ -117,9 +119,7 @@ function Profile() {
                   id="street_address"
                   placeholder="Street address"
                   required
-                  type="text"
-                  color="dark"
-                  className="w-1/2"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
               </TableHead>
               <div className="mt-3"></div>
@@ -129,9 +129,7 @@ function Profile() {
                   id="city"
                   placeholder="City"
                   required
-                  type="text"
-                  color="dark"
-                  className="w-1/2"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
               </TableHead>
               <div className="mt-3"></div>
@@ -141,52 +139,65 @@ function Profile() {
                   id="state"
                   placeholder="State"
                   required
-                  type="text"
-                  color="dark"
-                  className="w-1/2"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
               </TableHead>
-
+              <div className="mt-3"></div>
               <TableHead>
                 <Table.HeadCell>Country</Table.HeadCell>
                 <TextInput
                   id="country"
                   placeholder="Country"
                   required
-                  type="text"
-                  color="dark"
-                  className="w-1/2 mt-3"
+                  className="w-1/2 mt-2 shadow-sm focus:ring focus:ring-blue-500"
                 />
               </TableHead>
 
-              <Button className="mt-3">Submit</Button>
+              <Button className="mt-5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-md">
+                Submit
+              </Button>
             </Table>
           </div>
         </Tabs.Item>
-        <Tabs.Itemactive title="Change Password" icon={HiMiniLockClosed}>
-          <Table>
+
+        {/* Change Password Section */}
+        <Tabs.Item title="Change Password" icon={HiMiniLockClosed}>
+          <Table className="bg-white rounded-lg shadow-md">
             <Table.Head>
               <Table.HeadCell>
-                <TextInput type="password" placeholder="Old password" required />
-                <TextInput type="password" placeholder="New password" required className="mt-4" />
+                <TextInput
+                  type="password"
+                  placeholder="Old password"
+                  required
+                  className="w-full mt-2 shadow-sm focus:ring focus:ring-blue-500"
+                />
+                <TextInput
+                  type="password"
+                  placeholder="New password"
+                  required
+                  className="w-full mt-4 shadow-sm focus:ring focus:ring-blue-500"
+                />
                 <TextInput
                   type="password"
                   placeholder="Confirm password"
                   required
-                  className="mt-4"
+                  className="w-full mt-4 shadow-sm focus:ring focus:ring-blue-500"
                 />
                 <Link to="/forgetPassword">
                   <p className="text-end mt-3 cursor-pointer text-blue-500 hover:text-blue-800">
                     Forgot password?
                   </p>
                 </Link>
-                <Button className="mt-3">Submit</Button>
+                <Button className="mt-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg shadow-md">
+                  Submit
+                </Button>
               </Table.HeadCell>
             </Table.Head>
           </Table>
-        </Tabs.Itemactive>
+        </Tabs.Item>
       </Tabs>
     </div>
   );
 }
-export default Profile;
+
+export default EmployerProfile;

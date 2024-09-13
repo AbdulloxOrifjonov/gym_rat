@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
+import img_gym_2 from "../../images/gym_img_2.jpg";
+import img_gym_1 from "../../images/gym_img_1.jpg";
 
 function OwnerGyms() {
   const { auth, setAuth, refreshToken } = useContext(AuthContext);
@@ -15,7 +17,12 @@ function OwnerGyms() {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
-  // Bu yerda getGyms funksiyasi e'lon qilinadi
+  const resetAccess = async () => {
+    setLoading(true);
+    await refreshToken();
+    setLoading(false);
+  };
+
   const getGyms = async () => {
     try {
       const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
@@ -32,12 +39,6 @@ function OwnerGyms() {
         await resetAccess();
       }
     }
-  };
-
-  const resetAccess = async () => {
-    setLoading(true);
-    await refreshToken();
-    setLoading(false);
   };
 
   // useEffect ichida getGyms chaqiriladi
@@ -92,17 +93,12 @@ function OwnerGyms() {
                 className="max-w-sm bg-blue-900 border border-blue-700 rounded-lg shadow-lg transition-transform hover:scale-105"
               >
                 <img
-                  src={gym.logo || "https://via.placeholder.com/150"}
+                  src={img_gym_1 || "https://via.placeholder.com/150"}
                   alt={`${gym.name} logo`}
                   className="rounded-t-lg w-full h-48 object-cover"
                 />
                 <div className="p-4">
                   <h5 className="text-xl font-semibold tracking-tight text-white">{gym.name}</h5>
-                  <p className="mt-2 text-blue-200">{gym.address}</p>
-                  <p className="text-blue-200">
-                    {gym.city}, {gym.country}
-                  </p>
-                  <p className="text-blue-200">Time Zone: {gym.timeZone}</p>
                 </div>
               </Card>
             ))
