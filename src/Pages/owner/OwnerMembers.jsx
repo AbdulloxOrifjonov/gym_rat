@@ -87,22 +87,26 @@ function Members() {
                 <Table.Cell>Monthly full</Table.Cell>
                 <Table.Cell></Table.Cell>
                 <Table.Cell>540.000</Table.Cell>
-                {members ? (
-                  members.map((member) => (
-                    <div>
-                      <div key={member.id}>
-                        <p>
-                          {member.first_name} {member.last_name}
-                        </p>
-                        <p>{member.phone}</p>
+              </Table.Row>
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                  {members ? (
+                    members.map((member) => (
+                      <div>
+                        <div key={member.id}>
+                          <p>
+                            {member.first_name} {member.last_name}
+                          </p>
+                          <p>{member.phone}</p>
+                        </div>
                       </div>
+                    ))
+                  ) : (
+                    <div>
+                      <p>Loading ...</p>
                     </div>
-                  ))
-                ) : (
-                  <div>
-                    <p>Loading ...</p>
-                  </div>
-                )}
+                  )}
+                </Table.Cell>
               </Table.Row>
             </Table.Body>
           </Table>
