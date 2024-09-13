@@ -94,6 +94,7 @@ function RequaireAuth({ allowedRole }) {
         await refreshToken();
       } else {
         setLoading(false); // Agar accessToken mavjud bo'lsa, loading holatini to'xtatish
+        console.log("Hello world!");
       }
     };
 
