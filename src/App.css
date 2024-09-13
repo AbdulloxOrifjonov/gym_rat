@@ -2,3 +2,15 @@
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  border-radius: 8px;
+  /* background: rgb(100, 57, 255); */
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background: rgb(60, 54, 255);
+}
