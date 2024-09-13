@@ -77,7 +77,7 @@ function RequaireAuth({ allowedRole }) {
       );
       console.log("Refreshing Token with Requaire Auth");
       setAuth({ role: response.data.role, accessToken: response.data.accessToken });
-      navigate(`/${response.data.role}/dashboard`);
+      // navigate(`/${response.data.role}/dashboard`);
     } catch (error) {
       console.log(error.response);
       if (error.response.data.message === "Invalid refresh token") {
