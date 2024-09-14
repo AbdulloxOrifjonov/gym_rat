@@ -24,6 +24,11 @@ function AddMember() {
 
   const getGyms = async () => {
     try {
+      // auth.accessToken mavjudligini tekshirish
+      if (!auth?.accessToken) {
+        throw new Error("Access token mavjud emas.");
+      }
+
       const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
@@ -33,8 +38,10 @@ function AddMember() {
       setGyms(response.data.data);
     } catch (error) {
       console.log(error);
-      if (error.response.data.message === "Invalid token") {
+      if (error.response?.data?.message === "Invalid token") {
         await resetAccess();
+      } else {
+        console.error("Gymlarni olishda xato:", error.message);
       }
     }
   };
@@ -53,15 +60,17 @@ function AddMember() {
   };
 
   const onSubmit = async (data) => {
-    const formData = new FormData();
-    let imageBase64 = "";
-    if (img) {
-      try {
-        imageBase64 = await fileToBase64(img);
-      } catch (error) {
-        console.error("Error converting image to base64:", error);
-      }
+    if (data.gymId === "loading" || !data.gymId) {
+      alert("Please select a valid gym");
+      return;
     }
+
+    const formData = new FormData();
+    // Img holatida base64 format saqlanganini tekshiramiz
+    if (img) {
+      formData.append("image", img); // Bu yerda img base64 bo'lishi kerak
+    }
+
     formData.append("type", data.type);
     formData.append("fullname", data.fullname);
     formData.append("email", data.email);
@@ -72,7 +81,7 @@ function AddMember() {
     formData.append("password", data.password);
     formData.append("employee_id", localStorage.getItem("employee_id"));
     formData.append("gymId", data.gymId);
-    formData.append("image", imageBase64);
+
     try {
       const response = await axios.post("https://gymrat.uz/api/v1/member/register", formData, {
         headers: {
@@ -240,10 +249,10 @@ function AddMember() {
             <div className="flex items-center justify-between">
               <div className="w-[47%]">
                 <div className="mb-2 block">
-                  <Label htmlFor="streetAddress" value="STREET ADDRESS" />
+                  <Label htmlFor="street" value="STREET ADDRESS" />
                 </div>
                 <TextInput
-                  {...register("address", { required: true })}
+                  {...register("address")}
                   id="street"
                   type="text"
                   placeholder="Address"
@@ -259,15 +268,24 @@ function AddMember() {
           <div>
             <h2>Photo</h2>
           </div>
-          <div className="w-[451px] flex flex-col gap-4">
-            <div className="mb-2 block">
-              <Label htmlFor="file-upload" value="Upload file" />
+          <div className="photo p-6 rounded-xl flex items-start bg-slate-200 justify-start gap-[105px] mt-5">
+            <div>
+              <h2>Photo</h2>
             </div>
-            <FileInput
-              id="file-upload"
-              {...register("image")}
-              onChange={(e) => setImg(e.target.files[0])}
-            />
+            <div className="w-[451px] flex flex-col gap-4">
+              <div className="mb-2 block">
+                <label htmlFor="file-upload" className="text-sm font-medium text-gray-700">
+                  Upload File
+                </label>
+              </div>
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImg(e.target.files[0])}
+                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
+              />
+            </div>
           </div>
         </div>
 
