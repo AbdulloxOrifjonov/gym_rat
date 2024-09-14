@@ -11,15 +11,15 @@ import MemberDashboard from "./Pages/member/MemberDashboard";
 import Dashboard from "./Pages/owner/OwnerDashboard";
 import BasicLayout from "./MainLayout/BasicLayout";
 import CheckIn from "./Pages/owner/OwnerCheckIn";
-import Members from "./Pages/owner/OwnerMembers";
-import AddMember from "./Pages/owner/OwnerAddMember";
+import Members from "./Pages/staff/Members";
+import AddMember from "./Pages/staff/AddMember";
 import Staff from "./Pages/owner/OwnerStaff";
 import Market from "./Pages/owner/OwnerMarket";
 import Cart from "./Pages/owner/OwnerCart";
-import AddMembership from "./Pages/owner/OwnerAddMembership";
+import AddMembership from "./Pages/staff/AddMembership";
 import Register from "./Pages/auth/Register";
 import CardPage from "./Pages/owner/OwnerCardPage";
-import Memberships from "./Pages/owner/OwnerMemberships";
+import Memberships from "./Pages/staff/Memberships";
 import Payment from "./Pages/owner/OwnerPayment";
 import Profile from "./Pages/owner/OwnerProfile";
 import AddOwner from "./Pages/admin/AddOwner";
@@ -58,8 +58,7 @@ function App() {
           <Route element={<BasicLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="checkIn" element={<CheckIn />} />
-            <Route path="members" element={<Members />} />
-            <Route path="add/member" element={<AddMember />} />
+
             <Route path="staff" element={<Staff />} />
             <Route path="market" element={<OwnerAddProduct />} />
             <Route path="cart" element={<CartQuantity />} />
@@ -69,9 +68,9 @@ function App() {
             <Route path="bar/product" element={<OwnerBarProduct />} />
             <Route path="bar/product/categories" element={<OwnerBarProductCategories />} />
             <Route path="cart" element={<Cart />} />
-            <Route path="add/membership" element={<AddMembership />} />
+
             <Route path="product/:id" element={<CardPage />} />
-            <Route path="memberships" element={<Memberships />} />
+
             <Route path="payment" element={<Payment />} />
             <Route path="profile" element={<Profile />} />
             <Route path="gyms" element={<OwnerGyms />} />
@@ -87,7 +86,7 @@ function App() {
             <Route path="market" element={<Market />} />
             <Route path="add/membership" element={<AddMembership />} />
             <Route path="memberships" element={<Memberships />} />
-            <Route path="`payment`" element={<Payment />} />
+            <Route path="payment" element={<Payment />} />
           </Route>
         </Route>
         <Route path="*" element={<div>Page not found</div>} />
