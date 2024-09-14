@@ -33,7 +33,7 @@ function AddMember() {
       setGyms(response.data.data);
     } catch (error) {
       console.log(error);
-      if (error.message === "Invalid token") {
+      if (error.response.data.message === "Invalid token") {
         await resetAccess();
       }
     }
@@ -41,7 +41,7 @@ function AddMember() {
 
   useEffect(() => {
     getGyms();
-  }, []);
+  }, [auth]);
 
   const fileToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -54,8 +54,6 @@ function AddMember() {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-
-    // Convert image to base64 string
     let imageBase64 = "";
     if (img) {
       try {
@@ -64,30 +62,30 @@ function AddMember() {
         console.error("Error converting image to base64:", error);
       }
     }
-
-    formData.append("type", data.type); // Add type to FormData
+    formData.append("type", data.type);
     formData.append("fullname", data.fullname);
     formData.append("email", data.email);
     formData.append("phone", data.phone);
     formData.append("gender", data.gender);
     formData.append("address", data.address);
     formData.append("birthdate", data.birthdate);
-    formData.append("password", data.password); // Password qo’shildi
-    formData.append("employee_id", localStorage.getItem("employee_id")); // employeeId kiritish kerak
-    formData.append("gymId", data.gymId); // gymId kiritish kerak
-    formData.append("image", imageBase64); // Add base64 image string to FormData
-
+    formData.append("password", data.password);
+    formData.append("employee_id", localStorage.getItem("employee_id"));
+    formData.append("gymId", data.gymId);
+    formData.append("image", imageBase64);
     try {
       const response = await axios.post("https://gymrat.uz/api/v1/member/register", formData, {
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
-          "Content-Type": "multipart/form-data", // Correct content type for file uploads
+          "Content-Type": "multipart/form-data",
         },
       });
       console.log(response.data);
-      // reset();
+      reset();
     } catch (error) {
-      console.error("A'zoni qo’shishda xato:", error.response?.data?.message || error.message);
+      const errorMessage = error.response?.data?.message || error.message;
+      console.error("A'zoni qo’shishda xato:", errorMessage);
+
       if (error.response?.data?.message === "Invalid token") {
         await resetAccess();
       }
@@ -136,11 +134,15 @@ function AddMember() {
                         Gymni tanlang
                       </option>{" "}
                       {/* Bo'sh qiymat tanlamaslik uchun */}
-                      {gyms?.map((gym) => (
-                        <option key={gym._id} value={gym._id}>
-                          {gym.name}
-                        </option>
-                      ))}
+                      {gyms ? (
+                        gyms?.map((gym) => (
+                          <option key={gym._id} value={gym._id}>
+                            {gym.name}
+                          </option>
+                        ))
+                      ) : (
+                        <option value="loading">Loading . . .</option>
+                      )}
                     </Select>
                   </div>
                   <div>
