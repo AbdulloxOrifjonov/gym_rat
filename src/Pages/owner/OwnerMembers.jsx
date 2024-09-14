@@ -1,14 +1,42 @@
-/** @format */
-
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Label, TextInput } from "flowbite-react";
 import { Button } from "flowbite-react";
 import { Table } from "flowbite-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider";
+import axios from "axios";
 
 function Members() {
   const navigate = useNavigate();
-
+  const [members, setMembers] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [img, setImg] = useState(null);
+  const { auth, setAuth, refreshToken } = useContext(AuthContext);
+  useEffect(() => {
+    getMembers();
+  }, []);
+  const resetAccess = async () => {
+    setLoading(false);
+    await refreshToken();
+    setLoading(true);
+  };
+  const getMembers = async () => {
+    try {
+      const response = await axios.get("https://gymrat.uz/api/v1/gym/members", {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+      setMembers(response.data.data);
+    } catch (error) {
+      console.log(error.response.data);
+      if (error.response.data.status === "Invalid token") {
+        resetAccess();
+      }
+    }
+  };
   return (
     <div className="w-full p-3 rounded-xl bg-slate-200">
       <div className="flex flex-col gap-4 w-full p-3 ">
@@ -23,9 +51,11 @@ function Members() {
             color="success"
             className="w-80"
           />
-          <Button className="w-52" type="submit">
-            ADD MEMBER
-          </Button>
+          <Link to={"/employer/add/member"} className="flex">
+            <Button className="w-52" type="submit">
+              ADD MEMBER
+            </Button>
+          </Link>
           <Button color="dark">INVITE</Button>
         </div>
       </div>
@@ -57,6 +87,26 @@ function Members() {
                 <Table.Cell>Monthly full</Table.Cell>
                 <Table.Cell></Table.Cell>
                 <Table.Cell>540.000</Table.Cell>
+              </Table.Row>
+              <Table.Row className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
+                  {members ? (
+                    members.map((member) => (
+                      <div>
+                        <div key={member.id}>
+                          <p>
+                            {member.first_name} {member.last_name}
+                          </p>
+                          <p>{member.phone}</p>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div>
+                      <p>Loading ...</p>
+                    </div>
+                  )}
+                </Table.Cell>
               </Table.Row>
             </Table.Body>
           </Table>
