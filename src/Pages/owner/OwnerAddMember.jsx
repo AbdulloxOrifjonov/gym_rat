@@ -166,8 +166,7 @@ function AddMember() {
           </div>
         </div>
 
-        {/* Address */}
-        <div className="address p-6 rounded-b-xl mt-1 flex items-start bg-slate-200 justify-start gap-[90px]">
+        <div className="address p-6 rounded-b-xl x-1 flex items-start bg-slate-200 justify-start gap-[90px]">
           <div>
             <h2>Address</h2>
           </div>

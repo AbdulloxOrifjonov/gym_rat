@@ -50,6 +50,7 @@ function Login() {
     } catch (error) {
       alert(error.response.data.message);
       console.error("Error fetching data:", error);
+      console.log("Hello world");
     }
   };
 
