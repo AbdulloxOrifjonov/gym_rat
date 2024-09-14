@@ -17,11 +17,11 @@ function Login() {
   } = useForm();
   const { auth, setAuth } = useContext(AuthContext);
 
-  useEffect(() => {
-    if (auth?.accessToken) {
-      navigate(`/${auth.role}/dashboard`);
-    }
-  }, [auth, navigate]);
+  // useEffect(() => {
+  //   if (auth?.accessToken) {
+  //     navigate(`/${auth.role}/dashboard`);
+  //   }
+  // }, [auth, navigate]);
 
   const onSubmit = async (data) => {
     try {
@@ -37,10 +37,14 @@ function Login() {
         },
       );
       setAuth({ role: data.role, accessToken: response.data.accessToken });
+
       // localStorage.setItem("accessToken", response.data.accessToken);
       localStorage.setItem("refreshToken", response.data.refreshToken);
       console.log(response);
-      localStorage.setItem(`${data.role}_id`, response.data.data._id)
+      localStorage.setItem(`${data.role}_id`, response.data.data._id);
+      // if (auth?.accessToken) {
+      navigate(`/${auth.role}/dashboard`);
+
       // localStorage.setItem("role", "owner");
       reset();
     } catch (error) {
