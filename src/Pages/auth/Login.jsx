@@ -42,6 +42,7 @@ function Login() {
       localStorage.setItem(`${data.role}_id`, response.data.data._id);
       localStorage.setItem("role", `${data.role}`);
       navigate(`/${localStorage.getItem("role")}/dashboard`);
+      console.log("aa");
       reset();
     } catch (error) {
       alert(error.response.data.message);
