@@ -83,11 +83,11 @@ function Members() {
             <Table.Head>
               <Table.HeadCell>Member</Table.HeadCell>
               <Table.HeadCell>Contact</Table.HeadCell>
-              <Table.HeadCell>Age</Table.HeadCell>
-              <Table.HeadCell>Rank / Level</Table.HeadCell>
+              <Table.HeadCell>Gender</Table.HeadCell>
+              {/* <Table.HeadCell>Rank / Level</Table.HeadCell>
               <Table.HeadCell>MEMBERSHIP</Table.HeadCell>
               <Table.HeadCell>LAST VISIT</Table.HeadCell>
-              <Table.HeadCell>BILLING STATUS</Table.HeadCell>
+              <Table.HeadCell>BILLING STATUS</Table.HeadCell> */}
             </Table.Head>
             <Table.Body className="divide-y">
               {members ? (
@@ -100,11 +100,11 @@ function Members() {
                       {member.fullname}
                     </Table.Cell>
                     <Table.Cell>{member.phone}</Table.Cell>
-                    <Table.Cell>{member.age}</Table.Cell>
-                    <Table.Cell>{member.rank || "No Ranking"}</Table.Cell>
+                    <Table.Cell>{member.gender}</Table.Cell>
+                    {/* <Table.Cell>{member.rank || "No Ranking"}</Table.Cell>
                     <Table.Cell>{member.membership || "Monthly full"}</Table.Cell>
                     <Table.Cell>{member.lastVisit || ""}</Table.Cell>
-                    <Table.Cell>{member.billingStatus || "540.000"}</Table.Cell>
+                    <Table.Cell>{member.billingStatus || "540.000"}</Table.Cell> */}
                   </Table.Row>
                 ))
               ) : (
