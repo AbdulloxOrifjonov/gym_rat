@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useContext, useEffect, useState } from "react";
 import { Label, TextInput } from "flowbite-react";
 import { Button } from "flowbite-react";
@@ -29,6 +31,7 @@ function Members() {
         },
         withCredentials: true,
       });
+      console.log(response);
       setMembers(response.data.data);
     } catch (error) {
       console.log(error.response.data);
@@ -92,13 +95,9 @@ function Members() {
                 <Table.Cell className="whitespace-nowrap font-medium text-gray-900">
                   {members ? (
                     members.map((member) => (
-                      <div>
-                        <div key={member.id}>
-                          <p>
-                            {member.first_name} {member.last_name}
-                          </p>
-                          <p>{member.phone}</p>
-                        </div>
+                      <div key={member._id}>
+                        <p>{member.fullname}</p>
+                        <p>{member.phone}</p>
                       </div>
                     ))
                   ) : (

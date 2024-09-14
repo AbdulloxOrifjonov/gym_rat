@@ -1,3 +1,5 @@
+/** @format */
+
 import React, { useContext, useState } from "react";
 import { Button, Label, TextInput, FileInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
@@ -8,45 +10,43 @@ import axios from "axios";
 function AddMember() {
   const navigate = useNavigate();
   const { register, handleSubmit, reset, watch } = useForm();
-  const { auth } = useContext(AuthContext);
+  const { auth, refreshToken } = useContext(AuthContext);
+
+  const [loading, setLoading] = useState(false);
+  const resetAccess = async () => {
+    setLoading(true);
+    await refreshToken();
+    setLoading(false);
+  };
   const [img, setImg] = useState(null);
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-    formData.append("firstName", data.firstName);
-    formData.append("lastName", data.lastName);
+    formData.append("fullname", data.fullname);
     formData.append("email", data.email);
     formData.append("phone", data.phone);
     formData.append("gender", data.gender);
-    formData.append("address", data.streetAddress);
-    formData.append("city", data.city);
-    formData.append("country", data.country);
-    formData.append("state", data.state);
-    formData.append("dateOfBirth", data.dateOfBirth);
+    formData.append("address", data.address);
+    formData.append("birthdate", data.birthdate);
     if (img) {
-      formData.append("profileImage", img);
+      formData.append("image", img);
     }
     try {
-      const response = await axios.post(
-        "https://gymrat.uz/api/v1/member/register",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post("https://gymrat.uz/api/v1/member/register", formData, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       console.log(response.data);
-      // A'zo muvaffaqiyatli qo'shilgandan so'ng reset qilish
-      reset();
+      // reset();
     } catch (error) {
       console.error("A'zoni qo'shishda xato:", error);
+      if (error.message === "Invalid token") {
+        await resetAccess();
+      }
     }
   };
-
-  // Parolni tasdiqlash
-  const password = watch("password");
 
   return (
     <div className="flex justify-center items-center">
@@ -60,21 +60,11 @@ function AddMember() {
             <div className="flex items-center justify-start gap-10">
               <h2>Member Details</h2>
               <div className="flex items-center gap-2">
-                <input
-                  {...register("membershipType")}
-                  type="radio"
-                  value="Visitor"
-                  id="visitor"
-                />
+                <input {...register("type")} type="radio" value="Visitor" id="visitor" />
                 <label htmlFor="visitor">Visitor</label>
               </div>
               <div className="flex items-center gap-2">
-                <input
-                  {...register("membershipType")}
-                  type="radio"
-                  value="Member"
-                  id="member"
-                />
+                <input {...register("type")} type="radio" value="Member" id="member" />
                 <label htmlFor="member">Member</label>
               </div>
             </div>
@@ -85,38 +75,21 @@ function AddMember() {
                 <div className="flex items-center justify-center gap-5">
                   <div>
                     <div className="mb-2 block">
-                      <Label htmlFor="firstName" value="* FIRST NAME" />
+                      <Label htmlFor="fullname" value="* FIRST NAME" />
                     </div>
                     <TextInput
-                      {...register("firstName", { required: true })}
-                      id="firstName"
+                      {...register("fullname", { required: true })}
+                      id="fullname"
                       type="text"
                       placeholder="First Name"
                       required
                     />
                   </div>
-                  <div>
-                    <div className="mb-2 block">
-                      <Label htmlFor="lastName" value="* LAST NAME" />
-                    </div>
-                    <TextInput
-                      {...register("lastName", { required: true })}
-                      id="lastName"
-                      type="text"
-                      placeholder="Last Name"
-                      required
-                    />
-                  </div>
                   <div className="w-32">
                     <div className="mb-2 block">
-                      <Label htmlFor="gender" value="* GENDER" />
+                      <Label htmlFor="gender" value="gender " />
                     </div>
-                    <select
-                      {...register("gender")}
-                      id="gender"
-                      required
-                      className="form-select"
-                    >
+                    <select {...register("gender")} id="gender" required className="form-select">
                       <option value="Male">Erkak</option>
                       <option value="Female">Ayol</option>
                       <option value="Other">Bilmayman</option>
@@ -127,7 +100,7 @@ function AddMember() {
                 <div className="flex items-center justify-center gap-5">
                   <div>
                     <div className="mb-2 block">
-                      <Label htmlFor="phone" value="PHONE NUMBER" />
+                      <Label htmlFor="phone" value="phone" />
                     </div>
                     <TextInput
                       {...register("phone")}
@@ -153,7 +126,7 @@ function AddMember() {
                       <Label htmlFor="dateOfBirth" value="DATE OF BIRTH" />
                     </div>
                     <TextInput
-                      {...register("dateOfBirth", { required: true })}
+                      {...register("birthdate", { required: true })}
                       id="dateOfBirth"
                       type="date"
                       placeholder="Date of Birth"
@@ -178,48 +151,10 @@ function AddMember() {
                   <Label htmlFor="streetAddress" value="STREET ADDRESS" />
                 </div>
                 <TextInput
-                  {...register("streetAddress", { required: true })}
+                  {...register("address", { required: true })}
                   id="street"
                   type="text"
-                  placeholder="Street Address"
-                  required
-                />
-              </div>
-              <div className="w-[47%]">
-                <div className="mb-2 block">
-                  <Label htmlFor="city" value="City" />
-                </div>
-                <TextInput
-                  {...register("city", { required: true })}
-                  id="city"
-                  type="text"
-                  placeholder="City"
-                  required
-                />
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="w-[47%]">
-                <div className="mb-2 block">
-                  <Label htmlFor="state" value="State" />
-                </div>
-                <TextInput
-                  {...register("state", { required: true })}
-                  id="state"
-                  type="text"
-                  placeholder="State"
-                  required
-                />
-              </div>
-              <div className="w-[47%]">
-                <div className="mb-2 block">
-                  <Label htmlFor="country" value="COUNTRY" />
-                </div>
-                <TextInput
-                  {...register("country", { required: true })}
-                  id="country"
-                  type="text"
-                  placeholder="Country"
+                  placeholder="Address"
                   required
                 />
               </div>
@@ -238,56 +173,13 @@ function AddMember() {
             </div>
             <FileInput
               id="file-upload"
-              {...register("photo")}
+              {...register("image")}
               onChange={(e) => setImg(e.target.files[0])}
             />
           </div>
         </div>
 
         {/* Password */}
-        <div className="password p-6 rounded-xl flex items-center bg-slate-200 justify-center gap-[25px] mt-5">
-          <div>
-            <h2 className="text-[15px]">Account Password</h2>
-          </div>
-          <div className="flex items-center justify-between w-[448px] gap-4">
-            <div className="w-[47%] flex flex-col">
-              <div className="mb-2 block">
-                <Label
-                  htmlFor="password"
-                  value="PASSWORD (MINIMUM 8 CHARACTERS)"
-                />
-              </div>
-              <TextInput
-                id="password"
-                type="password"
-                {...register("password", { required: true, minLength: 8 })}
-                placeholder="Password"
-                required
-              />
-            </div>
-            <div className="w-[47%] flex flex-col">
-              <div className="mb-2 block">
-                <Label htmlFor="confirm_password" value="CONFIRM PASSWORD" />
-              </div>
-              <TextInput
-                id="confirm_password"
-                type="password"
-                {...register("confirm_password", {
-                  required: true,
-                  validate: (value) =>
-                    value === password || "Passwords do not match",
-                })}
-                placeholder="Confirm Password"
-                required
-              />
-              {/* Parol mos kelmasa xabar ko'rsatish */}
-              {watch("confirm_password") &&
-                watch("confirm_password") !== password && (
-                  <p className="text-red-500">Passwords do not match</p>
-                )}
-            </div>
-          </div>
-        </div>
 
         <div className="mt-5 mb-5">
           <Button type="submit">Submit</Button>

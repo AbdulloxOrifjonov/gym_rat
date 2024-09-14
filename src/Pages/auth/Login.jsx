@@ -36,16 +36,12 @@ function Login() {
           withCredentials: true,
         },
       );
-      setAuth({ role: data.role, accessToken: response.data.accessToken });
-
-      // localStorage.setItem("accessToken", response.data.accessToken);
-      localStorage.setItem("refreshToken", response.data.refreshToken);
       console.log(response);
+      setAuth({ role: data.role, accessToken: response.data.accessToken });
+      localStorage.setItem("refreshToken", response.data.refreshToken);
       localStorage.setItem(`${data.role}_id`, response.data.data._id);
-      // if (auth?.accessToken) {
-      navigate(`/${auth.role}/dashboard`);
-
-      // localStorage.setItem("role", "owner");
+      localStorage.setItem("role", `${data.role}`);
+      navigate(`/${localStorage.getItem("role")}/dashboard`);
       reset();
     } catch (error) {
       alert(error.response.data.message);
