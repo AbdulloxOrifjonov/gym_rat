@@ -54,25 +54,9 @@ function Sidebar({ allowedRole }) {
               </li>
               <li>
                 <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
-                  <span className="mr-3 text-xl font-bold">Members</span>
+                  <span className="mr-3 text-xl font-bold">Check-in</span>
                 </button>
                 <ul className="pl-4 space-y-2">
-                  <li>
-                    <Link
-                      to="/employer/add/member"
-                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
-                    >
-                      Add Member
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/employer/members"
-                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
-                    >
-                      Members
-                    </Link>
-                  </li>
                   <li>
                     <Link
                       to="/employer/checkIn"
@@ -173,6 +157,65 @@ function Sidebar({ allowedRole }) {
                   <HiUserCircle className="mr-3" />
                   Add employer
                 </Link>
+              </li>
+            </>
+          )}
+          {user === "employee" && (
+            <>
+              <li>
+                <Link
+                  to="/employee/dashboard"
+                  className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
+                >
+                  <HiChartPie className="mr-3" />
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
+                  <span className="mr-3 text-xl font-bold">Members</span>
+                </button>
+                <ul className="pl-4 space-y-2">
+                  <li>
+                    <Link
+                      to="/employee/add/member"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Add Member
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/employee/members"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Members
+                    </Link>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
+                  <span className="mr-3 text-xl font-bold">Memberships</span>
+                </button>
+                <ul className="pl-4 space-y-2">
+                  <li>
+                    <Link
+                      to="/employee/add/membership"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Add Membership
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/employee/memberships"
+                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
+                    >
+                      Memberships List
+                    </Link>
+                  </li>
+                </ul>
               </li>
             </>
           )}
