@@ -12,21 +12,12 @@ import { AutoComplete } from "primereact/autocomplete";
 function AddMembership() {
   const navigate = useNavigate();
 
-
   const [value, setValue] = useState("");
   const [items, setItems] = useState([]);
 
   const search = (event) => {
     setItems([...Array(10).keys()].map((item) => event.query + "-" + item));
   };
-
-  //   const [m, setM] = useState(false);
-  //   const [t, setT] = useState(false);
-  //   const [w, setW] = useState(false);
-  //   const [tt, setTT] = useState(false);
-  //   const [f, setF] = useState(false);
-  //   const [s, setS] = useState(false);
-  //   const [ss, setSS] = useState(false);
 
   const [limit, setLimit] = useState(true);
 
@@ -35,124 +26,123 @@ function AddMembership() {
       <Tabs aria-label="Default tabs" variant="default">
         <Tabs.Item active title="Profile" icon={HiUserCircle}>
           <div className="flex w-full items-center justify-center flex-col">
+            {/* Header */}
             <div className="w-[800px] rounded-t-xl bg-blue-800 flex items-center justify-center h-14">
               <h2 className="text-white font-semibold text-lg">Add Membership Option</h2>
             </div>
-            <div className="w-[800px] bg-gray-200 p-7">
-              <form className="flex items-start flex-col justify-center w-full gap-4">
-                <div className="flex items-start justify-center w-full gap-4">
-                  <div className="w-[426px]">
-                    <div className="w-full">
-                      <h2 className="text-lg font-bold">Limit:</h2>
-                      <div className="flex items-center justify-start gap-[10px] w-[340px] flex-col">
-                        <div className="flex items-center justify-start gap-[10px] w-full">
-                          <label
-                            className="w-[40px] h-[40px] rounded-full bg-slate-700 flex items-center justify-center text-white"
-                            htmlFor="1"
-                          >
-                            M
-                          </label>
-                          <label
-                            className="w-[40px] h-[40px] rounded-full bg-slate-700 flex items-center justify-center text-white"
-                            htmlFor="2"
-                          >
-                            T
-                          </label>
-                          <label
-                            className="w-[40px] h-[40px] rounded-full bg-slate-700 flex items-center justify-center text-white"
-                            htmlFor="3"
-                          >
-                            W
-                          </label>
-                          <label
-                            className="w-[40px] h-[40px] rounded-full bg-slate-700 flex items-center justify-center text-white"
-                            htmlFor="4"
-                          >
-                            T
-                          </label>
-                          <label
-                            className="w-[40px] h-[40px] rounded-full bg-slate-700 flex items-center justify-center text-white"
-                            htmlFor="5"
-                          >
-                            F
-                          </label>
-                          <label
-                            className="w-[40px] h-[40px] rounded-full bg-slate-700 flex items-center justify-center text-white"
-                            htmlFor="6"
-                          >
-                            S
-                          </label>
-                          <label
-                            className="w-[40px] h-[40px] rounded-full bg-slate-700 flex items-center justify-center text-white"
-                            htmlFor="7"
-                          >
-                            S
-                          </label>
-                        </div>
-                        <div className="flex items-start justify-center gap-[35px] w-[340px]">
-                          <input className="" type="checkbox" id="1" name="" />
-                          <input className="" type="checkbox" id="2" name="" />
-                          <input className="" type="checkbox" id="3" name="" />
-                          <input className="" type="checkbox" id="4" name="" />
-                          <input className="" type="checkbox" id="5" name="" />
-                          <input className="" type="checkbox" id="6" name="" />
-                          <input className="" type="checkbox" id="7" name="" />
-                        </div>
-                      </div>
-                    </div>
+
+            {/* Form Container */}
+            <div className="w-[800px] bg-gray-200 p-7 shadow-md rounded-b-xl">
+              <form className="flex items-start flex-col justify-center w-full gap-6">
+                {/* Member ID and Gym ID */}
+                <div className="flex w-full gap-6">
+                  {/* Member ID Input */}
+                  <div className="w-1/2">
+                    <label className="block text-gray-700 font-medium mb-2">Member ID</label>
+                    <input
+                      id="memberId"
+                      type="text"
+                      placeholder="Enter Member ID"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
                   </div>
-                  <div className="flex gap-[5px] items-start flex-col w-[300px] pt-[30px]">
-                    <div className="flex gap-[5px] items-start justify-start w-[300px]">
-                      <div className="w-[97px]">
-                        <Select id="limit" required onChange={(e) => setLimit(!limit)}>
-                          <option>Limited</option>
-                          <option>Un Limited</option>
-                        </Select>
-                      </div>
-                      <div className="w-[190px]">
-                        {limit === true ? (
-                          <input type="text" className="w-[190px]" placeholder="Enter a limit" />
-                        ) : (
-                          <h2>un limited</h2>
-                        )}
-                      </div>
-                    </div>
-                    <div>
-                      <TextInput id="search" type="text" placeholder="Enter a payment" required />
-                    </div>
+
+                  {/* Gym ID Input */}
+                  <div className="w-1/2">
+                    <label className="block text-gray-700 font-medium mb-2">Gym ID</label>
+                    <input
+                      id="gymId"
+                      type="text"
+                      placeholder="Enter Gym ID"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
                   </div>
                 </div>
-                <div className="flex items-center justify-between w-full">
-                  <div>
-                    <h2>FROM</h2>
+
+                {/* Limit and Payment Amount */}
+                <div className="flex w-full gap-6">
+                  {/* Limit Select */}
+                  <div className="w-1/2">
+                    <label className="block text-gray-700 font-medium mb-2">Limit</label>
+                    <select
+                      id="limit"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      onChange={(e) => setLimit(!limit)}
+                      required
+                    >
+                      <option>Limited</option>
+                      <option>Un Limited</option>
+                    </select>
+
+                    {/* Time Limit Inputs */}
+                    {limit === true ? (
+                      <div className="flex items-center gap-3 mt-4">
+                        <input
+                          type="time"
+                          className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="Enter a limit"
+                        />
+                        <input
+                          type="time"
+                          className="w-1/2 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          placeholder="Enter a limit"
+                        />
+                      </div>
+                    ) : (
+                      <h2 className="mt-4 text-gray-500">Unlimited</h2>
+                    )}
+                  </div>
+
+                  {/* Payment Amount */}
+                  <div className="w-1/2">
+                    <label className="block text-gray-700 font-medium mb-2">Payment Amount</label>
+                    <input
+                      id="paymentAmount"
+                      type="number"
+                      placeholder="Enter Payment Amount"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Duration Inputs */}
+                <div className="flex w-full gap-6">
+                  <div className="w-1/2">
+                    <label className="block text-gray-700 font-medium mb-2">From</label>
                     <Datepicker
+                      id="durationFrom"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       weekStart={1} // Monday
                     />
                   </div>
-                  <div>
-                    <h2>TO</h2>
+                  <div className="w-1/2">
+                    <label className="block text-gray-700 font-medium mb-2">To</label>
                     <Datepicker
-                      weekStart={1} // Monday
-                    />
-                  </div>
-                  <div className="w-[300px]">
-                    <h2>STARTING DATE</h2>
-                    <Datepicker
+                      id="durationTo"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       weekStart={1} // Monday
                     />
                   </div>
                 </div>
-                <div className="w-full flex items-center justify-between">
+
+                {/* Submit Button */}
+                <div className="w-full flex items-center justify-between mt-6">
                   <div className="card w-[200px] flex justify-center items-center">
                     <AutoComplete
                       value={value}
                       suggestions={items}
                       completeMethod={search}
                       onChange={(e) => setValue(e.value)}
-                      className="z-50 bg-white"
+                      className="z-50 bg-white px-3 py-2 border border-gray-300 rounded-md"
                     />
                   </div>
-                  <button type="submit" className="w-28 h-11 rounded-xl text-white bg-blue-700">
+                  <button
+                    type="submit"
+                    className="w-28 h-11 rounded-xl text-white bg-blue-700 hover:bg-blue-600 transition duration-200"
+                  >
                     Submit
                   </button>
                 </div>
@@ -160,33 +150,6 @@ function AddMembership() {
             </div>
           </div>
         </Tabs.Item>
-        {/* <Tabs.Item title="Dashboard" icon={MdDashboard}>
-          This is{" "}
-          <span className="font-medium text-gray-800 dark:text-white">
-            Dashboard tab's associated content
-          </span>
-          . Clicking another tab will toggle the visibility of this one for the next. The tab
-          JavaScript swaps classes to control the content visibility and styling.
-        </Tabs.Item>
-        <Tabs.Item title="Settings" icon={HiAdjustments}>
-          This is{" "}
-          <span className="font-medium text-gray-800 dark:text-white">
-            Settings tab's associated content
-          </span>
-          . Clicking another tab will toggle the visibility of this one for the next. The tab
-          JavaScript swaps classes to control the content visibility and styling.
-        </Tabs.Item>
-        <Tabs.Item title="Contacts" icon={HiClipboardList}>
-          This is{" "}
-          <span className="font-medium text-gray-800 dark:text-white">
-            Contacts tab's associated content
-          </span>
-          . Clicking another tab will toggle the visibility of this one for the next. The tab
-          JavaScript swaps classes to control the content visibility and styling.
-        </Tabs.Item>
-        <Tabs.Item disabled title="Disabled">
-          Disabled content
-        </Tabs.Item> */}
       </Tabs>
     </div>
   );
