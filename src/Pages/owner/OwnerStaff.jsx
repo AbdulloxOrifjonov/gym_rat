@@ -14,6 +14,8 @@ function Staff() {
   const [employees, setEmployees] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { auth, setAuth, refreshToken } = useContext(AuthContext);
 
@@ -52,6 +54,39 @@ function Staff() {
         await refreshToken();
       }
       setTotalPages(1);
+    }
+  };
+
+  const getOnlyStaff = async (id) => {
+    try {
+      const response = await axios.get(`https://gymrat.uz/api/v1/employee/${id}`, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setSelectedEmployee(response.data.data);
+      setIsModalOpen(true);
+    } catch (error) {
+      if (error.response.data.message === "Invalid token") {
+        await refreshToken();
+      }
+    }
+  };
+  const deleteEmployee = async (id) => {
+    try {
+      await axios.delete(`https://gymrat.uz/api/v1/employee/${id}`, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
+      setIsModalOpen(false);
+      getStaffs(); // Refresh staff list
+    } catch (error) {
+      if (error.response.data.message === "Invalid token") {
+        await refreshToken();
+      }
     }
   };
 
@@ -102,7 +137,8 @@ function Staff() {
                   employees.map((employee) => (
                     <Table.Row
                       key={employee._id}
-                      className="bg-blue-900 dark:bg-blue-800 hover:bg-blue-800 dark:hover:bg-blue-700 transition duration-300"
+                      onClick={() => getOnlyStaff(employee._id)}
+                      className="bg-blue-900 cursor-pointer dark:bg-blue-800 hover:bg-blue-800 dark:hover:bg-blue-700 transition duration-300"
                     >
                       <Table.Cell className="font-medium text-white dark:text-gray-200">
                         {employee.fullname}
@@ -225,6 +261,61 @@ function Staff() {
           </div>
         </Tabs.Item>
       </Tabs>
+
+      {/*//! Modal */}
+      {isModalOpen && selectedEmployee && (
+        <div className="fixed inset-0 bg-gray-800 bg-opacity-60 flex items-center justify-center p-4">
+          <div className="bg-blue-900 p-6 rounded-lg w-full max-w-lg shadow-lg">
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-semibold text-white">Employee Details</h2>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="text-white text-2xl font-semibold hover:text-gray-300"
+              >
+                &times;
+              </button>
+            </div>
+            <div className="space-y-4 mb-6">
+              <p className="text-white text-lg">
+                <strong>Fullname:</strong> {selectedEmployee.fullname}
+              </p>
+              <h3>GYM:</h3>
+              {selectedEmployee.gymIds.map((gym) => (
+                <div key={gym._id} className="p-4 bg-blue-800 rounded-lg shadow-md">
+                  <div className="flex items-center mb-4">
+                    <img
+                      src={gym.logo}
+                      alt="Gym Logo"
+                      className="w-12 h-12 object-cover rounded-full mr-4"
+                    />
+                    <h3 className="text-xl font-semibold text-white">{gym.name}</h3>
+                  </div>
+                  <p className="text-white">
+                    <strong>Phone:</strong> {gym.phone} <br />
+                    <strong>Country:</strong> {gym.country} <br />
+                    <strong>Address:</strong> {gym.address} <br />
+                    <strong>City:</strong> {gym.city}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-end space-x-4">
+              <Button
+                onClick={() => deleteEmployee(selectedEmployee._id)}
+                className="bg-red-600 hover:bg-red-400 text-white"
+              >
+                Delete
+              </Button>
+              <Button
+                onClick={() => setIsModalOpen(false)}
+                className="bg-gray-600 hover:bg-gray-400 text-white"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
