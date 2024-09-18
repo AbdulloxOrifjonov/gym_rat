@@ -46,6 +46,10 @@ function Members() {
     }
   };
 
+  const aboutMember = (id) => {
+    navigate(`member/${id}`);
+  };
+
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
@@ -94,7 +98,8 @@ function Members() {
                 members.map((member) => (
                   <Table.Row
                     key={member.id}
-                    className="bg-white dark:border-gray-700 dark:bg-gray-800"
+                    onClick={() => aboutMember(member._id)}
+                    className="bg-white cursor-pointer dark:border-gray-700 dark:bg-gray-800"
                   >
                     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
                       {member.fullname}

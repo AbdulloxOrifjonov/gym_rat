@@ -24,11 +24,6 @@ function AddMember() {
 
   const getGyms = async () => {
     try {
-      // auth.accessToken mavjudligini tekshirish
-      if (!auth?.accessToken) {
-        throw new Error("Access token mavjud emas.");
-      }
-
       const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
         headers: {
           Authorization: `Bearer ${auth.accessToken}`,
@@ -70,6 +65,8 @@ function AddMember() {
     if (img) {
       formData.append("image", img); // Bu yerda img base64 bo'lishi kerak
     }
+
+    
 
     formData.append("type", data.type);
     formData.append("fullname", data.fullname);

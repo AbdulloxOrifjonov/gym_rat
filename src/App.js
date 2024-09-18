@@ -19,7 +19,6 @@ import Cart from "./Pages/owner/OwnerCart";
 import AddMembership from "./Pages/staff/AddMembership";
 import Register from "./Pages/auth/Register";
 import CardPage from "./Pages/owner/OwnerCardPage";
-import Memberships from "./Pages/staff/Memberships";
 import Payment from "./Pages/owner/OwnerPayment";
 import Profile from "./Pages/owner/OwnerProfile";
 import AddOwner from "./Pages/admin/AddOwner";
@@ -32,6 +31,7 @@ import OwnerAboutGym from "./Pages/owner/OwnerAboutGym";
 import OwnerAddProduct from "./Pages/owner/OwnerAddProduct";
 import Hero from "./Pages/hero/Hero";
 import AboutOwner from "./Pages/admin/AboutOwner";
+import AboutMember from "./Pages/staff/AboutMember";
 
 function App() {
   return (
@@ -85,8 +85,8 @@ function App() {
             <Route path="add/member" element={<AddMember />} />
             <Route path="market" element={<Market />} />
             <Route path="add/membership" element={<AddMembership />} />
-            <Route path="memberships" element={<Memberships />} />
             <Route path="payment" element={<Payment />} />
+            <Route path="members/member/:id" element={<AboutMember />} />
           </Route>
         </Route>
         <Route path="*" element={<div>Page not found</div>} />

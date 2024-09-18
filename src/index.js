@@ -6,18 +6,18 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import { ApiProvider } from "@reduxjs/toolkit/query/react";
-import { loginApi } from "./features/API/ApiSlice";
+import { gymRat } from "./features/API/ApiSlice";
 import AuthProvider from "./context/AuthProvider";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <AuthProvider>
-        <ApiProvider api={loginApi}>
+      <ApiProvider api={gymRat}>
+        <AuthProvider>
           <App />
-        </ApiProvider>
-      </AuthProvider>
+        </AuthProvider>
+      </ApiProvider>
     </BrowserRouter>
   </React.StrictMode>,
 );
