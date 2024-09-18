@@ -1,23 +1,27 @@
+/** @format */
+
+// api/gymRat.js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const loginApi = createApi({
-  reducerPath: "login",
+export const gymRat = createApi({
+  reducerPath: "gymRatApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://5b12-178-218-201-17.ngrok-free.app",
+    baseUrl: "https://gymrat.uz/api/v1/",
+    credentials: "include", // Bu withCredentials: true ekvivalenti
   }),
   tagTypes: ["admin"],
   endpoints: (builder) => ({
     addLogin: builder.mutation({
-      query: (login) => ({
-        url: "/api/v1/admin/login",
+      query: (loginData) => ({
+        url: "admin/login",
         method: "POST",
-        body: login,
+        body: loginData,
+        headers: {
+          "Content-Type": "application/json",
+        },
       }),
     }),
-    getLogin: builder.query({
-      query: () => "/"
-    })
   }),
 });
 
-export const { useAddLoginMutation } = loginApi;
+export const { useAddLoginMutation } = gymRat;

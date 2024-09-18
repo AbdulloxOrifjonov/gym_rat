@@ -207,14 +207,6 @@ function Sidebar({ allowedRole }) {
                       Add Membership
                     </Link>
                   </li>
-                  <li>
-                    <Link
-                      to="/employee/memberships"
-                      className="flex items-center p-2 hover:bg-indigo-800 transition-colors duration-200"
-                    >
-                      Memberships List
-                    </Link>
-                  </li>
                 </ul>
               </li>
             </>

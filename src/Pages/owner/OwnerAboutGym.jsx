@@ -29,6 +29,7 @@ function OwnerAboutGym() {
           },
         },
       );
+      console.log(response);
       setGym(response.data.data); // Update state with the fetched data
     } catch (error) {
       console.error(error.response.data);
@@ -81,12 +82,7 @@ function OwnerAboutGym() {
               <div className="text-gray-900 font-medium">{gym.timeFormat}</div>
               <div className="text-gray-700">Time Zone:</div>
               <div className="text-gray-900 font-medium">{gym.timeZone}</div>
-              <div className="text-gray-700">
-                {gym.employees.map((staff) => {
-                  const staffMember = staffs.find((st) => st._id === staff);
-                  return staffMember ? <h1 key={staff}>{staffMember.name}</h1> : null;
-                })}
-              </div>
+              
             </div>
           </div>
         </div>

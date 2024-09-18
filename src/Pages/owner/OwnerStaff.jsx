@@ -46,6 +46,7 @@ function Staff() {
           },
         },
       );
+      console.log(response);
       setEmployees(response.data.data);
       const pages = response.data.employersCount;
       setTotalPages(pages > 0 ? pages : 1);

@@ -82,7 +82,7 @@ function AddMembership() {
     }
 
     if (limitAttendance) {
-      membershipData.attendanceCount = Number(data.attendanceCount) || 0; // Agar qiymat bo'lmasa, 0 ga o'rnatiladi
+      membershipData.attendanceCount = Number(data.attendanceCount) || 0;
       membershipData.attendanceType = data.attendanceType || "Limited";
     }
 

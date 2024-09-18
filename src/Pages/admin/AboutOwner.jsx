@@ -24,6 +24,7 @@ function AboutOwner() {
           "Content-Type": "application/json",
         },
       });
+      console.log(response);
       setGyms(response?.data.data);
     } catch (error) {
       console.error(error.response);
