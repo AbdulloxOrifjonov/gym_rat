@@ -15,7 +15,7 @@ function BasicLayout() {
       <div className="w-[max-with] h-screen overflow-y-scroll overflow-x-hidden bg-gradient-to-b from-indigo-800 to-indigo-800">
         <Saidbar allowedRole={allowedRole} />
       </div>
-      <div className="flex-1 h-screen overflow-y-scroll p-5 bg-white bg-gradient-to-b from-indigo-400 to-indigo-600">
+      <div className="flex-1 h-screen overflow-y-scroll  bg-white bg-gradient-to-b from-indigo-400 to-indigo-600">
         <Outlet />
       </div>
     </div>
