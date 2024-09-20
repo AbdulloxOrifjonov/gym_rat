@@ -56,9 +56,9 @@ function OwnerGyms() {
     formData.append("city", data.city);
     formData.append("address", data.address);
     formData.append("timeZone", data.timeZone);
-    ["66e56a9b820ae6553e241b19", "66eb1342b77c35573d45e930"].forEach((item) => {
-      formData.append("employees[]", item);
-    });
+    // ["66e56a9b820ae6553e241b19", "66eb1342b77c35573d45e930"].forEach((item) => {
+    //   formData.append("employees[]", item);
+    // });
     if (img) {
       formData.append("logo", img);
     }
