@@ -1,7 +1,7 @@
 /** @format */
 
 import axios from "axios";
-import { Tabs, FileInput, Label, Button, Card } from "flowbite-react";
+import { Tabs, FileInput, Label, Button, Card, Modal } from "flowbite-react";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { HiUserCircle } from "react-icons/hi";
@@ -14,7 +14,38 @@ function OwnerGyms() {
   const { auth, resetAccess, setAuth, refreshToken } = useContext(AuthContext);
   const [img, setImg] = useState(null);
   const [gyms, setGyms] = useState(null);
+  const [editGymId, setEditGymId] = useState(null); // Track the gym being edited
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const { register, handleSubmit, reset, setValue } = useForm();
+
+  const resetAccess = async () => {
+    setLoading(true);
+    await refreshToken();
+    setLoading(false);
+  };
+
+  const deleteGym = async (gym_id) => {
+    try {
+      const response = await axios.delete(
+        `https://gymrat.uz/api/v1/gym/${gym_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        }
+      );
+      console.log(response);
+      setGyms(gyms.filter((gym) => gym._id !== gym_id));
+    } catch (error) {
+      console.error(error);
+      if (error.response.data.message === "Invalid token") {
+        await resetAccess();
+      }
+    }
+  };
+
 
   const getGyms = async () => {
     try {
@@ -34,11 +65,24 @@ function OwnerGyms() {
       }
     }
   };
+
   useEffect(() => {
     getGyms();
   }, []);
 
-  const { register, handleSubmit } = useForm();
+  // Function to edit a gym
+  const editGym = (gym) => {
+    setEditGymId(gym._id); // Set the ID of the gym being edited
+
+    // Pre-populate the form fields with the selected gym's data
+    setValue("employerId", gym.employerId);
+    setValue("name", gym.name);
+    setValue("phone", gym.phone);
+    setValue("country", gym.country);
+    setValue("city", gym.city);
+    setValue("address", gym.address);
+    setValue("timeZone", gym.timeZone);
+  };
 
   const onSubmit = async (data) => {
     const formData = new FormData();
@@ -49,20 +93,39 @@ function OwnerGyms() {
     formData.append("city", data.city);
     formData.append("address", data.address);
     formData.append("timeZone", data.timeZone);
-    // ["66e56a9b820ae6553e241b19", "66eb1342b77c35573d45e930"].forEach((item) => {
-    //   formData.append("employees[]", item);
-    // });
+
     if (img) {
       formData.append("logo", img);
     }
+
     try {
-      const response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-      });
+      let response;
+      if (editGymId) {
+        // If editing an existing gym, send a PUT request
+        response = await axios.put(
+          `https://gymrat.uz/api/v1/gym/${editGymId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${auth.accessToken}`,
+            },
+          }
+        );
+      } else {
+        // If adding a new gym, send a POST request
+        response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
+      }
+
       console.log(response);
+      getGyms();
+      reset();
+      setEditGymId(null); // Reset the editGymId after successful submission
     } catch (error) {
       console.error(error);
       if (error.response.data.message === "Invalid token") {
@@ -83,7 +146,6 @@ function OwnerGyms() {
           {gyms ? (
             gyms.map((gym) => (
               <Card
-                onClick={() => aboutGym(gym._id)}
                 key={gym._id}
                 className="max-w-sm bg-blue-900 border border-blue-700 rounded-lg shadow-lg transition-transform hover:scale-105"
               >
@@ -93,7 +155,17 @@ function OwnerGyms() {
                   className="rounded-t-lg w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <h5 className="text-xl font-semibold tracking-tight text-white">{gym.name}</h5>
+                  <h5 className="text-xl font-semibold tracking-tight text-white">
+                    {gym.name}
+                  </h5>
+                </div>
+                <div className="flex justify-between">
+                  <Button color="failure" onClick={() => deleteGym(gym._id)}>
+                    Delete
+                  </Button>
+                  <Button color="success" onClick={() => editGym(gym)}>
+                    Edit
+                  </Button>
                 </div>
               </Card>
             ))
@@ -104,8 +176,12 @@ function OwnerGyms() {
           )}
         </div>
       </Tabs.Item>
+      <Modal></Modal>
       <Tabs.Item active title="Add Gyms" icon={HiUserCircle}>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-lg mx-auto">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4 max-w-lg mx-auto"
+        >
           <div>
             <Label htmlFor="address" value="Address" />
             <input
@@ -181,9 +257,8 @@ function OwnerGyms() {
             <Label htmlFor="logo" value="Logo" />
             <FileInput
               id="logo"
-              className="block w-full text-sm text-gray-200 bg-blue-800 rounded-lg border border-blue-600 cursor-pointer focus:outline-none"
-              ref={register("logo").ref}
               onChange={(e) => setImg(e.target.files[0])}
+              helperText="Gym logo"
             />
           </div>
 
@@ -191,7 +266,7 @@ function OwnerGyms() {
             type="submit"
             className="w-full p-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
-            Submit
+            {editGymId ? "Update Gym" : "Submit"}
           </Button>
         </form>
       </Tabs.Item>
