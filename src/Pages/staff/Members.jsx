@@ -27,7 +27,9 @@ function Members() {
   const getMembers = async () => {
     try {
       const response = await axios.get(
-        `https://gymrat.uz/api/v1/member/pagination?page=${currentPage}`,
+        `https://gymrat.uz/api/v1/member/pagination?page=${currentPage}&gymId=${localStorage.getItem(
+          "activeGym",
+        )}`,
         {
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,

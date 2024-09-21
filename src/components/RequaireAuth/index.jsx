@@ -57,7 +57,7 @@ import { AuthContext } from "../../context/AuthProvider";
 import axios from "axios";
 
 function RequaireAuth({ allowedRole }) {
-  const { auth, setAuth } = useContext(AuthContext);
+  const { auth, setAuth, setGyms } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -77,6 +77,7 @@ function RequaireAuth({ allowedRole }) {
       );
       console.log("Refreshing Token with Requaire Auth");
       setAuth({ role: response.data.role, accessToken: response.data.accessToken });
+      // setGyms(response.data.gymIds);
       // navigate(`/${response.data.role}/dashboard`);
     } catch (error) {
       console.log(error.response);

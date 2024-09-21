@@ -1,11 +1,15 @@
 /** @format */
 
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { HiChartPie, HiShoppingBag, HiUserCircle } from "react-icons/hi";
+import { Label, Select, TextInput } from "flowbite-react";
+import { AuthContext } from "../context/AuthProvider";
+import { useGetGymsQuery } from "../features/API/ApiSlice";
 
 function Sidebar({ allowedRole }) {
   const user = allowedRole;
+  const { gyms, setActiveGym, activeGym } = useContext(AuthContext);
 
   return (
     <div className="h-screen w-64 bg-gradient-to-b from-indigo-800 to-indigo-800 text-white flex flex-col">
@@ -208,6 +212,32 @@ function Sidebar({ allowedRole }) {
                     </Link>
                   </li>
                 </ul>
+              </li>
+              <li>
+                <div className="flex pr-3 pl-3 items-center justify-center gap-5">
+                  <div className="flex flex-col gap-3">
+                    <Label
+                      htmlFor="gymIds"
+                      className="text-white font-medium text-2xl"
+                      value="Select Gym"
+                    />
+                    <Select
+                      id="gymIds"
+                      required
+                      onChange={(e) => setActiveGym(e.target.value)}
+                      value={activeGym}
+                    >
+                      <option value="" disabled>
+                        Gymni tanlang
+                      </option>
+                      {gyms.map((gym) => (
+                        <option key={gym._id} value={gym._id}>
+                          {gym.name}
+                        </option>
+                      ))}
+                    </Select>
+                  </div>
+                </div>
               </li>
             </>
           )}
