@@ -58,7 +58,6 @@ function App() {
           <Route element={<BasicLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="checkIn" element={<CheckIn />} />
-
             <Route path="staff" element={<Staff />} />
             <Route path="market" element={<OwnerAddProduct />} />
             <Route path="cart" element={<CartQuantity />} />
@@ -68,9 +67,7 @@ function App() {
             <Route path="bar/product" element={<OwnerBarProduct />} />
             <Route path="bar/product/categories" element={<OwnerBarProductCategories />} />
             <Route path="cart" element={<Cart />} />
-
             <Route path="product/:id" element={<CardPage />} />
-
             <Route path="payment" element={<Payment />} />
             <Route path="profile" element={<Profile />} />
             <Route path="gyms" element={<OwnerGyms />} />
