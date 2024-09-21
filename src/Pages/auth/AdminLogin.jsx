@@ -109,7 +109,7 @@ function AdminLogin() {
     try {
       const response = await addLogin(data).unwrap();
       setAuth({ role: "admin", accessToken: response.accessToken });
-      localStorage.setItem("accessToken", response.accessToken);
+      // localStorage.setItem("accessToken", response.accessToken);
       localStorage.setItem("refreshToken", response.refreshToken);
       localStorage.setItem("role", "admin");
       console.log(response);

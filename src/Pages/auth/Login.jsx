@@ -1,12 +1,11 @@
 /** @format */
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Button, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
-
+import { useRoleLoginMutation } from "../../features/API/ApiSlice";
 function Login() {
   const navigate = useNavigate();
   const {
@@ -15,39 +14,30 @@ function Login() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { auth, setAuth } = useContext(AuthContext);
+  const { setAuth, setGyms, setActiveGym } = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   if (auth?.accessToken) {
-  //     navigate(`/${auth.role}/dashboard`);
-  //   }
-  // }, [auth, navigate]);
+  const [roleLogin, { isLoading, error }] = useRoleLoginMutation();
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(
-        `https://gymrat.uz/api/v1/${data.role}/login`,
-        {
-          phone: data.phone,
-          password: data.password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
-        },
-      );
+      const response = await roleLogin({
+        phone: data.phone,
+        password: data.password,
+        role: data.role,
+      }).unwrap();
+
+      setAuth({ role: data.role, accessToken: response.accessToken });
+      setGyms(response.data.gymIds);
+      console.log(response.data.gymIds._id);
       console.log(response);
-      setAuth({ role: data.role, accessToken: response.data.accessToken });
-      localStorage.setItem("refreshToken", response.data.refreshToken);
-      localStorage.setItem(`${data.role}_id`, response.data.data._id);
+      localStorage.setItem("refreshToken", response.refreshToken);
+      localStorage.setItem(`${data.role}_id`, response.data._id);
       localStorage.setItem("role", `${data.role}`);
       navigate(`/${localStorage.getItem("role")}/dashboard`);
-      console.log("aa");
       reset();
     } catch (error) {
-      alert(error.response.data.message);
+      alert(error?.data?.message || "Something went wrong");
       console.error("Error fetching data:", error);
-      console.log("Hello world");
     }
   };
 
@@ -98,10 +88,12 @@ function Login() {
             <Button
               type="submit"
               className="w-full bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-300 font-semibold py-2 px-4 rounded-lg"
+              disabled={isLoading}
             >
-              Sign In
+              {isLoading ? "Signing In..." : "Sign In"}
             </Button>
           </div>
+          {error && <p className="text-red-500 text-center mt-2">Error: {error.data?.message}</p>}
         </form>
       </div>
     </div>

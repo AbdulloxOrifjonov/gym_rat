@@ -11,7 +11,7 @@ import img_gym_2 from "../../images/gym_img_2.jpg";
 import img_gym_1 from "../../images/gym_img_1.jpg";
 
 function OwnerGyms() {
-  const { auth, setAuth, refreshToken } = useContext(AuthContext);
+  const { auth, resetAccess, setAuth, refreshToken } = useContext(AuthContext);
   const [img, setImg] = useState(null);
   const [gyms, setGyms] = useState(null);
   const [editGymId, setEditGymId] = useState(null); // Track the gym being edited
@@ -46,6 +46,7 @@ function OwnerGyms() {
     }
   };
 
+
   const getGyms = async () => {
     try {
       const response = await axios.get("https://gymrat.uz/api/v1/gym/all", {
@@ -67,7 +68,7 @@ function OwnerGyms() {
 
   useEffect(() => {
     getGyms();
-  }, [loading]);
+  }, []);
 
   // Function to edit a gym
   const editGym = (gym) => {

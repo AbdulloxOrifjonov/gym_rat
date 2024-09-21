@@ -12,7 +12,7 @@ import { useForm } from "react-hook-form";
 function AddMembership() {
   const navigate = useNavigate();
   const { register, handleSubmit, reset, watch } = useForm();
-  const { auth, refreshToken } = useContext(AuthContext);
+  const { auth, refreshToken, activeGym } = useContext(AuthContext);
   const [members, setMembers] = useState([]);
   const [gyms, setGyms] = useState([]);
   const [limit, setLimit] = useState(true); // Limit uchun holat
@@ -48,13 +48,16 @@ function AddMembership() {
 
   const getMembers = async () => {
     try {
-      const response = await axios.get(`https://gymrat.uz/api/v1/member/pagination`, {
-        headers: {
-          Authorization: `Bearer ${auth.accessToken}`,
-          "Content-Type": "application/json",
+      const response = await axios.get(
+        `https://gymrat.uz/api/v1/member/pagination?gymId=${localStorage.getItem("activeGym")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
         },
-        withCredentials: true,
-      });
+      );
       setMembers(response.data.data);
     } catch (error) {
       if (error.response?.data?.message === "Invalid token") {
@@ -66,7 +69,7 @@ function AddMembership() {
   const onSubmit = async (data) => {
     const membershipData = {
       memberId: data.memberId,
-      gymId: data.gymId,
+      gymId: activeGym,
       duration: {
         from: data.durationFrom,
         to: data.durationTo,
@@ -133,7 +136,7 @@ function AddMembership() {
                     </Select>
                   </div>
 
-                  <div className="w-1/2">
+                  {/* <div className="w-1/2">
                     <label className="block text-gray-700 font-medium mb-2">Gym ID</label>
                     <Select id="gymId" {...register("gymId", { required: true })}>
                       {gyms.map((gym) => (
@@ -142,7 +145,7 @@ function AddMembership() {
                         </option>
                       ))}
                     </Select>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div className="flex w-full gap-6">
