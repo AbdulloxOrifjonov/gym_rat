@@ -11,7 +11,7 @@ import img_gym_2 from "../../images/gym_img_2.jpg";
 import img_gym_1 from "../../images/gym_img_1.jpg";
 
 function OwnerGyms() {
-  const { auth, resetAccess, setAuth, refreshToken } = useContext(AuthContext);
+  const { auth, setAuth, refreshToken } = useContext(AuthContext);
   const [img, setImg] = useState(null);
   const [gyms, setGyms] = useState(null);
   const [editGymId, setEditGymId] = useState(null); // Track the gym being edited
@@ -45,7 +45,6 @@ function OwnerGyms() {
       }
     }
   };
-
 
   const getGyms = async () => {
     try {
