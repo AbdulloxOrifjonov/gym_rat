@@ -28,7 +28,6 @@ function Login() {
 
       setAuth({ role: data.role, accessToken: response.accessToken });
       setGyms(response.data.gymIds);
-      console.log(response.data.gymIds._id);
       console.log(response);
       localStorage.setItem("refreshToken", response.refreshToken);
       localStorage.setItem(`${data.role}_id`, response.data._id);
