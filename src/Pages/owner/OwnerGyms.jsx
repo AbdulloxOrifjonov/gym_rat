@@ -17,7 +17,6 @@ function OwnerGyms() {
   const [editGymId, setEditGymId] = useState(null); // Track the gym being edited
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-
   const { register, handleSubmit, reset, setValue } = useForm();
 
   const resetAccess = async () => {
@@ -28,14 +27,11 @@ function OwnerGyms() {
 
   const deleteGym = async (gym_id) => {
     try {
-      const response = await axios.delete(
-        `https://gymrat.uz/api/v1/gym/${gym_id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
-          },
-        }
-      );
+      const response = await axios.delete(`https://gymrat.uz/api/v1/gym/${gym_id}`, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+        },
+      });
       console.log(response);
       setGyms(gyms.filter((gym) => gym._id !== gym_id));
     } catch (error) {
@@ -101,16 +97,12 @@ function OwnerGyms() {
       let response;
       if (editGymId) {
         // If editing an existing gym, send a PUT request
-        response = await axios.put(
-          `https://gymrat.uz/api/v1/gym/${editGymId}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${auth.accessToken}`,
-            },
-          }
-        );
+        response = await axios.put(`https://gymrat.uz/api/v1/gym/${editGymId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        });
       } else {
         // If adding a new gym, send a POST request
         response = await axios.post("https://gymrat.uz/api/v1/gym", formData, {
@@ -146,6 +138,7 @@ function OwnerGyms() {
             gyms.map((gym) => (
               <Card
                 key={gym._id}
+                onClick={() => aboutGym(gym._id)}
                 className="max-w-sm bg-blue-900 border border-blue-700 rounded-lg shadow-lg transition-transform hover:scale-105"
               >
                 <img
@@ -154,9 +147,7 @@ function OwnerGyms() {
                   className="rounded-t-lg w-full h-48 object-cover"
                 />
                 <div className="p-4">
-                  <h5 className="text-xl font-semibold tracking-tight text-white">
-                    {gym.name}
-                  </h5>
+                  <h5 className="text-xl font-semibold tracking-tight text-white">{gym.name}</h5>
                 </div>
                 <div className="flex justify-between">
                   <Button color="failure" onClick={() => deleteGym(gym._id)}>
@@ -175,12 +166,8 @@ function OwnerGyms() {
           )}
         </div>
       </Tabs.Item>
-      <Modal></Modal>
       <Tabs.Item active title="Add Gyms" icon={HiUserCircle}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="space-y-4 max-w-lg mx-auto"
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-lg mx-auto">
           <div>
             <Label htmlFor="address" value="Address" />
             <input

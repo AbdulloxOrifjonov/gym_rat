@@ -1,3 +1,5 @@
+/** @format */
+
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { GoTrash } from "react-icons/go";
@@ -11,7 +13,7 @@ import { HiUserCircle } from "react-icons/hi";
 function AboutOwner() {
   const [gyms, setGyms] = useState([]);
   const { auth, refreshToken } = useContext(AuthContext);
-  const [owner, setOwner] = useState({});
+  const [owner, setOwner] = useState({ fullname: "", phone: "" });
   const { id } = useParams();
 
   const [isOwnerModalOpen, setOwnerModalOpen] = useState(false);
@@ -20,15 +22,12 @@ function AboutOwner() {
 
   const getGyms = async (ownerId) => {
     try {
-      const response = await axios.get(
-        `https://gymrat.uz/api/v1/gym/all?employerId=${ownerId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${auth.accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.get(`https://gymrat.uz/api/v1/gym/all?employerId=${ownerId}`, {
+        headers: {
+          Authorization: `Bearer ${auth.accessToken}`,
+          "Content-Type": "application/json",
+        },
+      });
       setGyms(response?.data.data);
     } catch (error) {
       console.error(error.response);
@@ -40,14 +39,11 @@ function AboutOwner() {
 
   const getOwner = async (id) => {
     try {
-      const response = await axios.get(
-        `https://gymrat.uz/api/v1/employer/${id}`,
-        {
-          headers: {
-            authorization: `Bearer ${auth.accessToken}`,
-          },
-        }
-      );
+      const response = await axios.get(`https://gymrat.uz/api/v1/employer/${id}`, {
+        headers: {
+          authorization: `Bearer ${auth.accessToken}`,
+        },
+      });
       setOwner(response.data.data);
     } catch (error) {
       console.error(error);
@@ -100,7 +96,7 @@ function AboutOwner() {
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,
           },
-        }
+        },
       );
       setOwnerModalOpen(false);
     } catch (error) {
@@ -119,7 +115,7 @@ function AboutOwner() {
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,
           },
-        }
+        },
       );
       setGymModalOpen(false);
     } catch (error) {
@@ -187,12 +183,8 @@ function AboutOwner() {
               <Table.Body className="bg-teal-400">
                 <Table.Row className="items-center">
                   <Table.Cell className="text-slate-200">1</Table.Cell>
-                  <Table.Cell className="text-slate-200">
-                    {owner.fullname}
-                  </Table.Cell>
-                  <Table.Cell className="text-slate-200">
-                    {owner.phone}
-                  </Table.Cell>
+                  <Table.Cell className="text-slate-200">{owner.fullname}</Table.Cell>
+                  <Table.Cell className="text-slate-200">{owner.phone}</Table.Cell>
                   <Table.Cell>
                     <div className="flex space-x-4">
                       <GoTrash
@@ -219,9 +211,7 @@ function AboutOwner() {
               {gyms?.map((gym) => (
                 <Table.Body key={gym._id} className="bg-teal-400">
                   <Table.Row className="items-center">
-                    <Table.Cell className="text-slate-200">
-                      {gym.name}
-                    </Table.Cell>
+                    <Table.Cell className="text-slate-200">{gym.name}</Table.Cell>
                     <Table.Cell>
                       <div className="flex space-x-4">
                         <GoTrash
@@ -242,6 +232,7 @@ function AboutOwner() {
         </Tabs>
       </div>
 
+      {/* Edit Owner Modal */}
       <Modal show={isOwnerModalOpen} onClose={() => setOwnerModalOpen(false)}>
         <Modal.Header>Edit Owner</Modal.Header>
         <Modal.Body>
@@ -260,25 +251,28 @@ function AboutOwner() {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleSaveOwner}>Save</Button>
+          <Button color="gray" onClick={() => setOwnerModalOpen(false)}>
+            Cancel
+          </Button>
         </Modal.Footer>
       </Modal>
 
+      {/* Edit Gym Modal */}
       <Modal show={isGymModalOpen} onClose={() => setGymModalOpen(false)}>
         <Modal.Header>Edit Gym</Modal.Header>
         <Modal.Body>
-          {selectedGym && (
-            <TextInput
-              id="gymName"
-              placeholder="Gym Name"
-              value={selectedGym.name}
-              onChange={(e) =>
-                setSelectedGym({ ...selectedGym, name: e.target.value })
-              }
-            />
-          )}
+          <TextInput
+            id="gymName"
+            placeholder="Gym Name"
+            value={selectedGym?.name || ""}
+            onChange={(e) => setSelectedGym({ ...selectedGym, name: e.target.value })}
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleSaveGym}>Save</Button>
+          <Button color="gray" onClick={() => setGymModalOpen(false)}>
+            Cancel
+          </Button>
         </Modal.Footer>
       </Modal>
     </div>
