@@ -20,7 +20,7 @@ function Sidebar({ allowedRole }) {
         <ul className="space-y-2">
           {user === "employer" && (
             <>
-              <li>
+              {/* <li>
                 <Link
                   to="/employer/dashboard"
                   className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
@@ -28,8 +28,8 @@ function Sidebar({ allowedRole }) {
                   <HiChartPie className="mr-3" />
                   Dashboard
                 </Link>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <Link
                   to="/employer/payment"
                   className="flex items-center p-4 hover:bg-indigo-700 transition-colors duration-200"
@@ -37,7 +37,7 @@ function Sidebar({ allowedRole }) {
                   <HiShoppingBag className="mr-3" />
                   Payments
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link
                   to="/employer/profile"
@@ -86,7 +86,7 @@ function Sidebar({ allowedRole }) {
                   </li>
                 </ul>
               </li>
-              <li>
+              {/* <li>
                 <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
                   <span className="mr-3 text-xl font-bold">Bar</span>
                 </button>
@@ -116,8 +116,8 @@ function Sidebar({ allowedRole }) {
                     </Link>
                   </li>
                 </ul>
-              </li>
-              <li>
+              </li> */}
+              {/* <li>
                 <button className="w-full text-left p-4 hover:bg-indigo-700 transition-colors duration-200">
                   <span className="mr-3 text-xl font-bold">Memberships</span>
                 </button>
@@ -139,7 +139,7 @@ function Sidebar({ allowedRole }) {
                     </Link>
                   </li>
                 </ul>
-              </li>
+              </li> */}
             </>
           )}
           {user === "admin" && (
