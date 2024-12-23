@@ -16,6 +16,7 @@ export const gymRat = createApi({
     headers.set("Content-Type", "application/json");
     return headers;
   },
+
   tagTypes: ["admin", "login"],
   endpoints: (builder) => ({
     addLogin: builder.mutation({

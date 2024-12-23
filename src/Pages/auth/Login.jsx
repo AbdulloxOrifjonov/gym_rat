@@ -1,5 +1,3 @@
-/** @format */
-
 import React, { useContext } from "react";
 import { Button, Label, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
@@ -19,19 +17,20 @@ function Login() {
   const [roleLogin, { isLoading, error }] = useRoleLoginMutation();
 
   const onSubmit = async (data) => {
+    console.log(data);
     try {
       const response = await roleLogin({
         phone: data.phone,
         password: data.password,
         role: data.role,
-      }).unwrap();
+      });
 
       setAuth({ role: data.role, accessToken: response.accessToken });
-      setGyms(response.data.gymIds);
       console.log(response);
-      localStorage.setItem("refreshToken", response.refreshToken);
-      localStorage.setItem(`${data.role}_id`, response.data._id);
+      localStorage.setItem("refreshToken", response.data.refreshToken);
+      localStorage.setItem(`${data.role}_id`, response.data.data._id);
       localStorage.setItem("role", `${data.role}`);
+      setGyms(response.data.data.gymIds);
       navigate(`/${localStorage.getItem("role")}/dashboard`);
       reset();
     } catch (error) {
